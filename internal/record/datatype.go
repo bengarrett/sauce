@@ -1,3 +1,5 @@
+// Type of data. SAUCE supports 8 different types and an undefined value.
+// See http://www.acid.org/info/sauce/sauce.htm
 package record
 
 import (
@@ -6,14 +8,13 @@ import (
 	"fmt"
 )
 
-//TypesOfData
-// Datas both the SAUCE DataType value and name.
+// Datas is both the SAUCE DataType value and name.
 type Datas struct {
 	Type TypeOfData `json:"type" xml:"type"`
 	Name string     `json:"name" xml:"name"`
 }
 
-// DataType is the data type (SAUCE DataType).
+// TypeOfData is the data type (SAUCE DataType).
 type TypeOfData uint
 
 const (

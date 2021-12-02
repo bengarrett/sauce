@@ -12,6 +12,7 @@ func TestDataType_String(t *testing.T) {
 		d    record.TypeOfData
 		want string
 	}{
+		{"out of range", 999, ""},
 		{"none", record.Nones, "undefined"},
 		{"executable", record.Executables, "executable"},
 	}

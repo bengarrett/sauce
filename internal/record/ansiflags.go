@@ -15,9 +15,9 @@ import (
 
 var ErrInvalid = errors.New("invalid value")
 
-// NoPref is a legacy value used by Letter-spacing and Aspect Ratio.
+// Unsupported is a legacy value used by Letter-spacing and Aspect Ratio.
 // It acts as an unsupported placeholder for SAUCE versions prior to v00.5 from Nov 2013.
-const NoPref = "no preference"
+const Unsupported = "no preference"
 
 // Flags is the SAUCE Flags field.
 type Flags uint8
@@ -38,13 +38,13 @@ func (a *ANSIFlags) String() string {
 	}
 	b, ls, ar := a.B.Info, a.LS.Info, a.AR.Info
 	l := []string{}
-	if b != NoPref {
+	if b != Unsupported {
 		l = append(l, b)
 	}
-	if ls != NoPref {
+	if ls != Unsupported {
 		l = append(l, ls)
 	}
-	if ar != NoPref {
+	if ar != Unsupported {
 		l = append(l, ar)
 	}
 	if strings.TrimSpace(strings.Join(l, "")) == "" {
@@ -92,7 +92,7 @@ func (ls LsBit) String() string {
 	const none, eight, nine = "00", "01", "10"
 	switch ls {
 	case none:
-		return NoPref
+		return Unsupported
 	case eight:
 		return "select 8 pixel font"
 	case nine:
@@ -114,7 +114,7 @@ func (ar ArBit) String() string {
 	const none, strect, square = "00", "01", "10"
 	switch ar {
 	case none:
-		return NoPref
+		return Unsupported
 	case strect:
 		return "stretch pixels"
 	case square:

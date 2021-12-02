@@ -20,7 +20,7 @@ func TestFlags_parse(t *testing.T) {
 		invalid = record.ErrInvalid.Error()
 		blink   = record.BBit("0").String()
 		noBlink = record.BBit("1").String()
-		noPref  = record.NoPref
+		noPref  = record.Unsupported
 		stretch = record.ArBit(one).String()
 		square  = record.ArBit(two).String()
 		px8     = record.LsBit(one).String()
@@ -68,7 +68,7 @@ func Test_LsBit_String(t *testing.T) {
 		want string
 	}{
 		{"empty", null, record.ErrInvalid.Error()},
-		{"00", zero, record.NoPref},
+		{"00", zero, record.Unsupported},
 		{"8px", one, "select 8 pixel font"},
 		{"9px", two, "select 9 pixel font"},
 		{"err", three, record.ErrInvalid.Error()},
@@ -89,7 +89,7 @@ func Test_ArBit_String(t *testing.T) {
 		want string
 	}{
 		{"empty", null, record.ErrInvalid.Error()},
-		{"00", zero, record.NoPref},
+		{"00", zero, record.Unsupported},
 		{"8px", one, "stretch pixels"},
 		{"9px", two, "square pixels"},
 		{"err", three, record.ErrInvalid.Error()},
