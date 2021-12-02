@@ -8,10 +8,11 @@ import (
 )
 
 const (
-	null = ""
-	zero = "00"
-	one  = "01"
-	two  = "10"
+	null  = ""
+	zero  = "00"
+	one   = "01"
+	two   = "10"
+	three = "11" // SAUCE v00.5: Not currently a valid value.
 )
 
 func TestFlags_parse(t *testing.T) {
@@ -70,6 +71,7 @@ func Test_LsBit_String(t *testing.T) {
 		{"00", zero, record.NoPref},
 		{"8px", one, "select 8 pixel font"},
 		{"9px", two, "select 9 pixel font"},
+		{"err", three, record.ErrInvalid.Error()},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -90,6 +92,7 @@ func Test_ArBit_String(t *testing.T) {
 		{"00", zero, record.NoPref},
 		{"8px", one, "stretch pixels"},
 		{"9px", two, "square pixels"},
+		{"err", three, record.ErrInvalid.Error()},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
