@@ -5,7 +5,7 @@ package record
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
+	"log"
 )
 
 // Datas is both the SAUCE DataType value and name.
@@ -58,7 +58,7 @@ func unsignedBinary1(b [1]byte) (value uint8) {
 	buf := bytes.NewReader(b[:])
 	err := binary.Read(buf, binary.LittleEndian, &value)
 	if err != nil {
-		fmt.Println("unsigned 1 byte, LE binary failed:", err)
+		log.Println("unsigned 1 byte, LE binary failed:", err)
 	}
 	return value
 }

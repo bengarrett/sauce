@@ -9,11 +9,16 @@ import (
 )
 
 func Test_data_dates(t *testing.T) {
+	var (
+		empty   record.Date
+		empties record.Dates
+	)
 	tests := []struct {
 		name string
 		date record.Date
 		want record.Dates
 	}{
+		{"empty", empty, empties},
 		{"example", exampleData().Date, record.Dates{
 			Value: "20161126",
 			Time:  time.Date(2016, 11, 26, 0, 0, 0, 0, time.UTC),

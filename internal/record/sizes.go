@@ -3,7 +3,7 @@ package record
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
+	"log"
 
 	"github.com/bengarrett/sauce/humanize"
 	"golang.org/x/text/language"
@@ -29,7 +29,7 @@ func unsignedBinary4(b [4]byte) (value uint16) {
 	buf := bytes.NewReader(b[:])
 	err := binary.Read(buf, binary.LittleEndian, &value)
 	if err != nil {
-		fmt.Println("unsigned 4 byte, LE binary failed:", err)
+		log.Println("unsigned 4 byte, LE binary failed:", err)
 	}
 	return value
 }

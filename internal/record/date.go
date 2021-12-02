@@ -1,13 +1,20 @@
+// The date the file was created. The format for the date is CCYYMMDD (century, year, month, day).
+// Example: 4 May 2013 would be stored as "20130504".
+// See http://www.acid.org/info/sauce/sauce.htm
 package record
 
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 )
 
-var ErrDate = errors.New("parse date to integer conversion")
+var (
+	ErrParseDate = errors.New("parse date to integer conversion")
+	ErrSauceDate = errors.New("sauce date error")
+)
 
 // Dates in multiple output formats.
 type Dates struct {
@@ -19,7 +26,8 @@ type Dates struct {
 func (d *Data) Dates() Dates {
 	t, err := d.parseDate()
 	if err != nil {
-		fmt.Printf("sauce date error: %s\n", err)
+		log.Printf("%s: %s\n", ErrSauceDate, err)
+		return Dates{}
 	}
 	u := t.Unix()
 	return Dates{
@@ -33,15 +41,15 @@ func (d *Data) parseDate() (t time.Time, err error) {
 	da := d.Date
 	dy, err := strconv.Atoi(string(da[0:4]))
 	if err != nil {
-		return t, fmt.Errorf("year failed: %v: %w", dy, ErrDate)
+		return t, fmt.Errorf("year failed: %v: %w", dy, ErrParseDate)
 	}
 	dm, err := strconv.Atoi(string(da[4:6]))
 	if err != nil {
-		return t, fmt.Errorf("month failed: %v: %w", dm, ErrDate)
+		return t, fmt.Errorf("month failed: %v: %w", dm, ErrParseDate)
 	}
 	dd, err := strconv.Atoi(string(da[6:8]))
 	if err != nil {
-		return t, fmt.Errorf("day failed: %v: %w", dd, ErrDate)
+		return t, fmt.Errorf("day failed: %v: %w", dd, ErrParseDate)
 	}
 	return time.Date(dy, time.Month(dm), dd, 0, 0, 0, 0, time.UTC), nil
 }

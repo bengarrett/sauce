@@ -3,7 +3,7 @@ package record
 import (
 	"bytes"
 	"encoding/binary"
-	"fmt"
+	"log"
 )
 
 // TypeInfos
@@ -94,7 +94,7 @@ func unsignedBinary2(b [2]byte) (value uint16) {
 	buf := bytes.NewReader(b[:])
 	err := binary.Read(buf, binary.LittleEndian, &value)
 	if err != nil {
-		fmt.Println("unsigned 2 bytes, LE binary failed:", err)
+		log.Println("unsigned 2 bytes, LE binary failed:", err)
 	}
 	return value
 }
