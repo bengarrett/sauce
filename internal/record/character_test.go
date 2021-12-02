@@ -9,9 +9,10 @@ import (
 func TestCharacter_String(t *testing.T) {
 	tests := []struct {
 		name string
-		c    record.CharacterBase
+		c    record.Character
 		want string
 	}{
+		{"out of range", 999, ""},
 		{"first", record.Ascii, "ASCII text"},
 		{"last", record.TundraDraw, "TundraDraw color text"},
 	}
@@ -27,14 +28,18 @@ func TestCharacter_String(t *testing.T) {
 func TestCharacter_Desc(t *testing.T) {
 	tests := []struct {
 		name string
-		c    record.CharacterBase
+		c    record.Character
+		want string
 	}{
-		{"first", record.Ascii},
-		{"last", record.TundraDraw},
+		{"out of range", 999, ""},
+		{"first", record.Ascii,
+			"ASCII text file with no formatting codes or color codes."},
+		{"last", record.TundraDraw,
+			"TundraDraw files, like ANSI, but with a custom palette."},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.c.Desc(); got == "" {
+			if got := tt.c.Desc(); got != tt.want {
 				t.Errorf("Character.Desc() = %q", got)
 			}
 		})
@@ -51,6 +56,7 @@ func Test_data_description(t *testing.T) {
 		fields fields
 		wantS  string
 	}{
+		{"out of range", fields{[1]byte{255}, [1]byte{255}}, ""},
 		{"none", fields{[1]byte{0}, [1]byte{0}}, ""},
 		{"pc board", fields{[1]byte{1}, [1]byte{4}}, record.PCBoard.Desc()},
 	}

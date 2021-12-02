@@ -77,7 +77,7 @@ func (d *Data) InfoType() Infos {
 }
 
 func (ti *Infos) character(ft uint8) {
-	switch CharacterBase(ft) {
+	switch Character(ft) {
 	case Ascii, Ansi, AnsiMation, PCBoard, Avatar, TundraDraw:
 		ti.Info1.Info = chrw
 		ti.Info2.Info = nol

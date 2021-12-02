@@ -16,7 +16,7 @@ func (d *Data) FileType() Files {
 		n := None(file)
 		return Files{TypeOfFile(n), n.String()}
 	case Characters:
-		c := CharacterBase(file)
+		c := Character(file)
 		return Files{TypeOfFile(c), c.String()}
 	case Bitmaps:
 		b := Bitmap(file)

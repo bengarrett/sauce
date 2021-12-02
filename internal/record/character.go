@@ -1,10 +1,13 @@
+// A character based file. These files are typically interpreted sequentially.
+// Also known as streams.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package record
 
-// CharacterBase files more commonly referred as text files.
-type CharacterBase uint
+// Character files more commonly referred as text files.
+type Character uint
 
 const (
-	Ascii CharacterBase = iota
+	Ascii Character = iota
 	Ansi
 	AnsiMation
 	RipScript
@@ -15,7 +18,10 @@ const (
 	TundraDraw
 )
 
-func (c CharacterBase) String() string {
+func (c Character) String() string {
+	if c > TundraDraw {
+		return ""
+	}
 	return [...]string{
 		"ASCII text",
 		"ANSI color text",
@@ -30,7 +36,10 @@ func (c CharacterBase) String() string {
 }
 
 // Desc is the character description.
-func (c CharacterBase) Desc() string {
+func (c Character) Desc() string {
+	if c > TundraDraw {
+		return ""
+	}
 	return [...]string{
 		"ASCII text file with no formatting codes or color codes.",
 		"ANSI text file with coloring codes and cursor positioning.",
@@ -43,11 +52,11 @@ func (c CharacterBase) Desc() string {
 		"TundraDraw files, like ANSI, but with a custom palette.",
 	}[c]
 }
-func (d *Data) Description() (s string) {
+func (d *Data) Description() string {
 	dt, ft := unsignedBinary1(d.Datatype), unsignedBinary1(d.Filetype)
-	c := CharacterBase(ft)
+	c := Character(ft)
 	if TypeOfData(dt) != Characters {
-		return s
+		return ""
 	}
 	switch c {
 	case Ascii,
@@ -61,5 +70,5 @@ func (d *Data) Description() (s string) {
 		TundraDraw:
 		return c.Desc()
 	}
-	return s
+	return ""
 }
