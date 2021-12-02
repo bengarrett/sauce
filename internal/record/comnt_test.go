@@ -7,29 +7,33 @@ import (
 	"github.com/bengarrett/sauce/internal/record"
 )
 
-// func Test_record_comnt(t *testing.T) {
-// 	type args struct {
-// 		count      comments
-// 		sauceIndex int
-// 	}
-// 	tests := []struct {
-// 		name       string
-// 		r          record
-// 		args       args
-// 		wantLength int
-// 	}{
-// 		{"example", record(raw()), args{count: [1]byte{1}, sauceIndex: sauceIndex()}, 1 * comntLineSize},
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			if gotBlock := tt.r.comnt(tt.args.count, tt.args.sauceIndex); !reflect.DeepEqual(gotBlock.length, tt.wantLength) {
-// 				t.Errorf("record.comnt() = %v, want %v", gotBlock.length, tt.wantLength)
-// 			}
-// 		})
-// 	}
-// }
+func sauceIndex() int {
+	return record.Scan(raw()...)
+}
+func Test_record_Comnt(t *testing.T) {
+	type args struct {
+		count      record.Comments
+		sauceIndex int
+	}
+	tests := []struct {
+		name       string
+		r          record.Record
+		args       args
+		wantLength int
+	}{
+		{"example", record.Record(raw()),
+			args{count: [1]byte{1}, sauceIndex: sauceIndex()}, 1 * record.ComntLineSize},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotBlock := tt.r.Comnt(tt.args.count, tt.args.sauceIndex); !reflect.DeepEqual(gotBlock.Length, tt.wantLength) {
+				t.Errorf("record.Comnt() = %v, want %v", gotBlock.Length, tt.wantLength)
+			}
+		})
+	}
+}
 
-func Test_data_comment(t *testing.T) {
+func Test_data_CommentBlock(t *testing.T) {
 	tests := []struct {
 		name string
 		data record.Data

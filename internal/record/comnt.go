@@ -1,3 +1,8 @@
+// A SAUCE comment block is an optional, variable sized structure that holds up to 255 lines
+// of additional information, each line 64 characters wide. There are as many comment lines
+// as is mentioned in the Comments field of the SAUCE record.
+// If the Comments field is set to 0, there should not be a comment block at all.
+// See http://www.acid.org/info/sauce/sauce.htm
 package record
 
 import (
@@ -54,7 +59,7 @@ func CommentByLine(b []byte) (lines []string) {
 	for _, c := range b {
 		l++
 		s += string(c)
-		if l == comntLineSize {
+		if l == ComntLineSize {
 			lines = append(lines, s)
 			resetLine()
 		}

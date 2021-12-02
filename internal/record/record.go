@@ -9,8 +9,8 @@ import (
 const (
 	comntID       string = "COMNT"
 	sauceID       string = "SAUCE00"
-	comntLineSize int    = 64
-	comntMaxLines int    = 255
+	ComntLineSize int    = 64
+	ComntMaxLines int    = 255
 )
 
 type (
@@ -151,7 +151,7 @@ func (r Record) Extract() Data {
 		TInfoS:   r.TInfoS(i),
 	}
 	d.Comments = r.comments(i)
-	d.Comnt = r.comnt(d.Comments, i)
+	d.Comnt = r.Comnt(d.Comments, i)
 	return d
 }
 
@@ -171,7 +171,7 @@ func (r Record) comments(i int) Comments {
 	return Comments{r[i+104]}
 }
 
-func (r Record) comnt(count Comments, sauceIndex int) (block Comnt) {
+func (r Record) Comnt(count Comments, sauceIndex int) (block Comnt) {
 	block = Comnt{
 		Count: count,
 	}
@@ -184,11 +184,11 @@ func (r Record) comnt(count Comments, sauceIndex int) (block Comnt) {
 	}
 	// search for the id sequence in b
 	for i := range r {
-		if i > comntLineSize*comntMaxLines {
+		if i > ComntLineSize*ComntMaxLines {
 			break
 		}
 		i = backwardsLoop(i)
-		if i < comntLineSize {
+		if i < ComntLineSize {
 			break
 		}
 		if i >= sauceIndex {
