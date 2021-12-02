@@ -1,4 +1,10 @@
+// Type of file.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package record
+
+import "errors"
+
+var ErrFileType = errors.New("unknown filetype")
 
 // Files, both the SAUCE FileType value and name.
 type Files struct {
@@ -6,7 +12,7 @@ type Files struct {
 	Name string     `json:"name" xml:"name"`
 }
 
-// FileType is the type of file (SAUCE FileType).
+// TypeOfFile is the type of file (SAUCE FileType).
 type TypeOfFile uint
 
 func (d *Data) FileType() Files {
@@ -40,6 +46,7 @@ func (d *Data) FileType() Files {
 		e := Executable(file)
 		return Files{TypeOfFile(e), e.String()}
 	default:
-		return Files{TypeOfFile(0), "error"}
+		var empty TypeOfFile
+		return Files{empty, ErrFileType.Error()}
 	}
 }
