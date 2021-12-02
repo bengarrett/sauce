@@ -1,3 +1,5 @@
+// An archive file data type.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package record
 
 // Archive and compressed files.
@@ -17,6 +19,9 @@ const (
 )
 
 func (a Archive) String() string {
+	if (a) > (Sqz) {
+		return ""
+	}
 	return [...]string{
 		"ZIP compressed archive",
 		"ARJ compressed archive",

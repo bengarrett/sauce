@@ -1,3 +1,5 @@
+// An audio file data type.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package record
 
 // Audio or music files.
@@ -32,6 +34,9 @@ const (
 )
 
 func (a Audio) String() string {
+	if a > It {
+		return ""
+	}
 	return [...]string{
 		"NoiseTracker module",
 		"Composer 669 module",
@@ -60,12 +65,13 @@ func (a Audio) String() string {
 		"Impulse Tracker module",
 	}[a]
 }
+
 func (ti *Infos) audio(ft uint8) {
 	switch Audio(ft) {
 	case Smp8, Smp8s, Smp16, Smp16s:
 		ti.Info1.Info = "sample rate"
-	case Mod, Composer669, Stm, S3m, Mtm, Far, Ult, Amf, Dmf, Okt, Rol, Cmf, Midi,
-		Sadt, Voc, Wave, Patch8, Patch16, Xm, Hsc, It:
+	case Mod, Composer669, Stm, S3m, Mtm, Far, Ult, Amf, Dmf, Okt,
+		Rol, Cmf, Midi, Sadt, Voc, Wave, Patch8, Patch16, Xm, Hsc, It:
 		return
 	}
 }

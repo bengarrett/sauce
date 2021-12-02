@@ -12,6 +12,7 @@ func TestAudio_String(t *testing.T) {
 		a    record.Audio
 		want string
 	}{
+		{"out of range", 999, ""},
 		{"first", record.Mod, "NoiseTracker module"},
 		{"midi", record.Midi, "MIDI audio"},
 		{"okt", record.Okt, "Oktalyzer module"},

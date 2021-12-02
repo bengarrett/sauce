@@ -12,8 +12,9 @@ func TestArchive_String(t *testing.T) {
 		a    record.Archive
 		want string
 	}{
-		{"zip", record.Zip, "ZIP compressed archive"},
-		{"squeeze", record.Sqz, "Squeeze It compressed archive"},
+		{"out of range", 999, ""},
+		{"(first) zip", record.Zip, "ZIP compressed archive"},
+		{"(last) squeeze", record.Sqz, "Squeeze It compressed archive"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
