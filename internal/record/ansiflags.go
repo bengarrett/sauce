@@ -6,11 +6,11 @@ import (
 	"strings"
 )
 
-var (
-	ErrInvalid = errors.New("invalid value") // todo: handle this correctly
-)
+var ErrInvalid = errors.New("invalid value")
 
-const NoPref = "no preference" // todo: make into an error that can be handled using errors.Is()
+// NoPref is a legacy value used by Letter-spacing and Aspect Ratio.
+// It acts as an unsupported placeholder for SAUCE versions prior to v00.5 from Nov 2013.
+const NoPref = "no preference"
 
 // Flags is the SAUCE Flags field.
 type Flags uint8
@@ -48,12 +48,12 @@ func (a *ANSIFlags) String() string {
 
 // ANSIFlagB is the interpretation of the SAUCE Flags non-blink mode binary bit.
 type ANSIFlagB struct {
-	Flag bBit   `json:"flag" xml:"flag"`
+	Flag BBit   `json:"flag" xml:"flag"`
 	Info string `json:"interpretation" xml:"interpretation,attr"`
 }
 
-func (f Flags) parse() ANSIFlags {
-	const binary5Bits, minLen = "%05b", 6
+func (f Flags) Parse() ANSIFlags {
+	const binary5Bits, minLen = "%05b", 5
 	bin := fmt.Sprintf(binary5Bits, f)
 	r := []rune(bin)
 	if len(r) < minLen {
@@ -63,12 +63,13 @@ func (f Flags) parse() ANSIFlags {
 		}
 	}
 	b, ls, ar := string(r[0]), string(r[1:3]), string(r[3:5])
+	fmt.Println("b", b, "ls", ls, "ar", ar)
 	return ANSIFlags{
 		Decimal: f,
 		Binary:  bin,
-		B:       ANSIFlagB{Flag: bBit(b), Info: bBit(b).String()},
+		B:       ANSIFlagB{Flag: BBit(b), Info: BBit(b).String()},
 		LS:      ANSIFlagLS{Flag: LsBit(ls), Info: LsBit(ls).String()},
-		AR:      ANSIFlagAR{Flag: arBit(ar), Info: arBit(ar).String()},
+		AR:      ANSIFlagAR{Flag: ArBit(ar), Info: ArBit(ar).String()},
 	}
 }
 
@@ -96,13 +97,13 @@ func (ls LsBit) String() string {
 
 // ANSIFlagAR is the interpretation of the SAUCE Flags aspect ratio binary bits.
 type ANSIFlagAR struct {
-	Flag arBit  `json:"flag" xml:"flag"`
+	Flag ArBit  `json:"flag" xml:"flag"`
 	Info string `json:"interpretation" xml:"interpretation,attr"`
 }
 
-type arBit string
+type ArBit string
 
-func (ar arBit) String() string {
+func (ar ArBit) String() string {
 	const none, strect, square = "00", "01", "10"
 	switch ar {
 	case none:
@@ -116,9 +117,9 @@ func (ar arBit) String() string {
 	}
 }
 
-type bBit string
+type BBit string
 
-func (b bBit) String() string {
+func (b BBit) String() string {
 	const blink, non = "0", "1"
 	switch b {
 	case blink:

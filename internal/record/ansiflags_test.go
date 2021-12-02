@@ -1,26 +1,119 @@
 package record_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/bengarrett/sauce/internal/record"
 )
 
-func Test_lsBit_String(t *testing.T) {
+const (
+	null = ""
+	zero = "00"
+	one  = "01"
+	two  = "10"
+)
+
+func TestFlags_parse(t *testing.T) {
+	var (
+		invalid = record.ErrInvalid.Error()
+		blink   = record.BBit("0").String()
+		noBlink = record.BBit("1").String()
+		noPref  = record.NoPref
+		stretch = record.ArBit(one).String()
+		square  = record.ArBit(two).String()
+		px8     = record.LsBit(one).String()
+		px9     = record.LsBit(two).String()
+	)
+	tests := []struct {
+		name       string
+		f          uint8 // range: 0 through 255.
+		wantB      string
+		wantLS     string
+		wantAR     string
+		wantString string
+	}{
+		{"zero", 0, blink, noPref, noPref, ""},
+		{"one", 1, blink, noPref, stretch, "blink mode, stretch pixels"},
+		{"two", 2, blink, noPref, square, "blink mode, square pixels"},
+		{"three", 3, blink, noPref, invalid, "blink mode, invalid value"},
+		{"four", 4, blink, px8, noPref, "blink mode, select 8 pixel font"},
+		{"five", 5, blink, px8, stretch, "blink mode, select 8 pixel font, stretch pixels"},
+		{"no blink", 99, noBlink, px9, noPref, "non-blink mode, select 9 pixel font"},
+		{"max", 255, noBlink, invalid, invalid, "non-blink mode, invalid value, invalid value"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := record.Flags(tt.f).Parse(); !reflect.DeepEqual(got.B.Info, tt.wantB) {
+				t.Errorf("Flags.parse() = %v, want %v", got.B.Info, tt.wantB)
+			}
+			if got := record.Flags(tt.f).Parse(); !reflect.DeepEqual(got.LS.Info, tt.wantLS) {
+				t.Errorf("Flags.parse() = %v, want %v", got.LS.Info, tt.wantLS)
+			}
+			if got := record.Flags(tt.f).Parse(); !reflect.DeepEqual(got.AR.Info, tt.wantAR) {
+				t.Errorf("Flags.parse() = %v, want %v", got.AR.Info, tt.wantAR)
+			}
+			if got := record.Flags(tt.f).Parse(); got.String() != tt.wantString {
+				t.Errorf("Flags.String() = %q, want %q", got.String(), tt.wantB)
+			}
+		})
+	}
+}
+
+func Test_LsBit_String(t *testing.T) {
 	tests := []struct {
 		name string
 		ls   record.LsBit
 		want string
 	}{
-		{"empty", "", record.ErrInvalid.Error()},
-		{"00", "00", record.NoPref},
-		{"8px", "01", "select 8 pixel font"},
-		{"9px", "10", "select 9 pixel font"},
+		{"empty", null, record.ErrInvalid.Error()},
+		{"00", zero, record.NoPref},
+		{"8px", one, "select 8 pixel font"},
+		{"9px", two, "select 9 pixel font"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.ls.String(); got != tt.want {
 				t.Errorf("LsBit.String() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_ArBit_String(t *testing.T) {
+	tests := []struct {
+		name string
+		ar   record.ArBit
+		want string
+	}{
+		{"empty", null, record.ErrInvalid.Error()},
+		{"00", zero, record.NoPref},
+		{"8px", one, "stretch pixels"},
+		{"9px", two, "square pixels"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.ar.String(); got != tt.want {
+				t.Errorf("arBit.String() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBBit_String(t *testing.T) {
+	tests := []struct {
+		name string
+		b    record.BBit
+		want string
+	}{
+		{"empty", null, record.ErrInvalid.Error()},
+		{"8px", "0", "blink mode"},
+		{"9px", "1", "non-blink mode"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.b.String(); got != tt.want {
+				t.Errorf("BBit.String() = %v, want %v", got, tt.want)
 			}
 		})
 	}

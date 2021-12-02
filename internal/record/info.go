@@ -36,7 +36,7 @@ func (d *Data) InfoType() Infos {
 		Info{t1, ""},
 		Info{t2, ""},
 		Info{t3, ""},
-		flag.parse(),
+		flag.Parse(),
 		d.TInfoS.String(),
 	}
 	switch TypeOfData(dt) {
