@@ -1,0 +1,63 @@
+package record
+
+import (
+	"bufio"
+	"bytes"
+	"strings"
+)
+
+type Comnt struct {
+	Index  int
+	Length int
+	Count  Comments
+	Lines  []byte
+}
+
+// Comment contain the optional SAUCE comment block.
+type Comment struct {
+	ID      string   `json:"id" xml:"id,attr"`
+	Count   int      `json:"count" xml:"count,attr"`
+	Comment []string `json:"lines" xml:"line"`
+}
+
+// CommentBlock parses the optional SAUCE comment block.
+func (d *Data) CommentBlock() (c Comment) {
+	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
+	c.ID = comntID
+	c.Count = int(unsignedBinary1(d.Comnt.Count))
+	if breakCount > 0 {
+		// comments with line breaks are technically invalid but they exist in the wild.
+		// https://github.com/16colo-rs/16c/issues/67
+		c.Comment = CommentByBreak(d.Comnt.Lines)
+		return c
+	}
+	c.Comment = CommentByLine(d.Comnt.Lines)
+	return c
+}
+
+// CommentByBreak parses the SAUCE comment by line break characters.
+func CommentByBreak(b []byte) (lines []string) {
+	r := bytes.NewReader(b)
+	scanner := bufio.NewScanner(r)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines
+}
+
+// CommentByLine parses the SAUCE comment by lines of 64 characters.
+func CommentByLine(b []byte) (lines []string) {
+	s, l := "", 0
+	var resetLine = func() {
+		s, l = "", 0
+	}
+	for _, c := range b {
+		l++
+		s += string(c)
+		if l == comntLineSize {
+			lines = append(lines, s)
+			resetLine()
+		}
+	}
+	return lines
+}
