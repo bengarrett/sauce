@@ -1,3 +1,10 @@
+// ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer / editor
+// how to render the image. The 8 bits in the ANSiFlags contain the following information:
+// 0 	0 	0 	A 	R 	L 	S 	B
+// B: Non-blink mode (iCE Color).
+// LS: Letter-spacing (a.k.a. 8/9 pixel font selection).
+// AR: Aspect Ratio.
+// See http://www.acid.org/info/sauce/sauce.htm#ANSiFlags.
 package record
 
 import (
