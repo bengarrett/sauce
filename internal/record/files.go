@@ -12,8 +12,9 @@ type TypeOfFile uint
 func (d *Data) FileType() Files {
 	data, file := unsignedBinary1(d.Datatype), unsignedBinary1(d.Filetype)
 	switch TypeOfData(data) {
-	case None:
-		return Files{TypeOfFile(None), None.String()}
+	case Nones:
+		n := None(file)
+		return Files{TypeOfFile(n), n.String()}
 	case Characters:
 		c := CharacterBase(file)
 		return Files{TypeOfFile(c), c.String()}
@@ -27,14 +28,17 @@ func (d *Data) FileType() Files {
 		a := Audio(file)
 		return Files{TypeOfFile(a), a.String()}
 	case BinaryTexts:
-		return Files{TypeOfFile(BinaryTexts), BinaryTexts.String()}
+		b := BinaryText(file)
+		return Files{TypeOfFile(b), b.String()}
 	case XBins:
-		return Files{TypeOfFile(XBins), XBins.String()}
+		x := XBin(file)
+		return Files{TypeOfFile(x), x.String()}
 	case Archives:
 		a := Archive(file)
 		return Files{TypeOfFile(a), a.String()}
 	case Executables:
-		return Files{TypeOfFile(Executables), Executables.String()}
+		e := Executable(file)
+		return Files{TypeOfFile(e), e.String()}
 	default:
 		return Files{TypeOfFile(0), "error"}
 	}

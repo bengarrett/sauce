@@ -40,7 +40,7 @@ func (d *Data) InfoType() Infos {
 		d.TInfoS.String(),
 	}
 	switch TypeOfData(dt) {
-	case None:
+	case Nones:
 		return ti // golangci-lint deadcode placeholder
 	case Characters:
 		ti.character(ft)

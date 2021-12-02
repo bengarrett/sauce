@@ -1,3 +1,5 @@
+// A vector graphic file.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package record
 
 // Vector graphic files.
@@ -11,6 +13,9 @@ const (
 )
 
 func (v Vector) String() string {
+	if v > Kinetix {
+		return ""
+	}
 	return [...]string{
 		"AutoDesk CAD vector graphic",
 		"AutoDesk CAD vector graphic",

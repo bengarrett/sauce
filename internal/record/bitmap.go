@@ -1,3 +1,5 @@
+// Bitmap graphic and animation files.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package record
 
 // Bitmap graphic and animation files.
@@ -21,6 +23,9 @@ const (
 )
 
 func (b Bitmap) String() string {
+	if b > Avi {
+		return ""
+	}
 	return [...]string{
 		"GIF image",
 		"ZSoft Paintbrush image",

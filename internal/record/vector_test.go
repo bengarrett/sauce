@@ -12,6 +12,7 @@ func TestVector_String(t *testing.T) {
 		v    record.Vector
 		want string
 	}{
+		{"out of range", 999, ""},
 		{"first", record.Dxf, "AutoDesk CAD vector graphic"},
 		{"last", record.Kinetix, "3D Studio vector graphic"},
 	}

@@ -17,7 +17,7 @@ type Datas struct {
 type TypeOfData uint
 
 const (
-	None TypeOfData = iota
+	Nones TypeOfData = iota
 	Characters
 	Bitmaps
 	Vectors

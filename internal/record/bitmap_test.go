@@ -12,6 +12,7 @@ func TestBitmap_String(t *testing.T) {
 		b    record.Bitmap
 		want string
 	}{
+		{"out of range", 999, ""},
 		{"first", record.Gif, "GIF image"},
 		{"last", record.Avi, "AVI video"},
 	}

@@ -40,8 +40,8 @@ func Test_data_DataType(t *testing.T) {
 	}{
 		{"none", [1]byte{0},
 			record.Datas{
-				Type: record.None,
-				Name: record.None.String()}},
+				Type: record.Nones,
+				Name: record.Nones.String()}},
 		{"archive", [1]byte{7},
 			record.Datas{
 				Type: record.Archives,

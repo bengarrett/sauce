@@ -18,7 +18,7 @@ func Test_data_FileType(t *testing.T) {
 		want   record.Files
 	}{
 		{"none", fields{[1]byte{0}, [1]byte{0}},
-			record.Files{record.TypeOfFile(record.None), record.None.String()}},
+			record.Files{record.TypeOfFile(record.Nones), record.Nones.String()}},
 		{"audio", fields{[1]byte{4}, [1]byte{0}},
 			record.Files{record.TypeOfFile(record.Mod), record.Mod.String()}},
 		{"executable", fields{[1]byte{8}, [1]byte{0}},
