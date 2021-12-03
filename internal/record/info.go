@@ -6,7 +6,6 @@ import (
 	"log"
 )
 
-// TypeInfos
 // Infos includes the SAUCE fields dependant on both DataType and FileType.
 type Infos struct {
 	Info1 Info      `json:"1" xml:"1"`
@@ -16,7 +15,7 @@ type Infos struct {
 	Font  string    `json:"fontName" xml:"fontname"`
 }
 
-// TypeInfo includes the SAUCE TInfo value and meaning.
+// Info includes the SAUCE TInfo value and meaning.
 type Info struct {
 	Value uint16 `json:"value" xml:"value"`
 	Info  string `json:"info" xml:"info,attr"`
@@ -29,9 +28,14 @@ const (
 )
 
 func (d *Data) InfoType() Infos {
-	dt, ft := unsignedBinary1(d.Datatype), unsignedBinary1(d.Filetype)
-	t1, t2, t3 := unsignedBinary2(d.Tinfo1), unsignedBinary2(d.Tinfo2), unsignedBinary2(d.Tinfo3)
-	flag := Flags(unsignedBinary1(d.TFlags))
+	dt, ft :=
+		UnsignedBinary1(d.Datatype),
+		UnsignedBinary1(d.Filetype)
+	t1, t2, t3 :=
+		UnsignedBinary2(d.Tinfo1),
+		UnsignedBinary2(d.Tinfo2),
+		UnsignedBinary2(d.Tinfo3)
+	flag := Flags(UnsignedBinary1(d.TFlags))
 	ti := Infos{
 		Info{t1, ""},
 		Info{t2, ""},
@@ -90,7 +94,7 @@ func (ti *Infos) character(ft uint8) {
 	}
 }
 
-func unsignedBinary2(b [2]byte) (value uint16) {
+func UnsignedBinary2(b [2]byte) (value uint16) {
 	buf := bytes.NewReader(b[:])
 	err := binary.Read(buf, binary.LittleEndian, &value)
 	if err != nil {

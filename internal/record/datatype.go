@@ -2,12 +2,6 @@
 // See http://www.acid.org/info/sauce/sauce.htm
 package record
 
-import (
-	"bytes"
-	"encoding/binary"
-	"log"
-)
-
 // Datas is both the SAUCE DataType value and name.
 type Datas struct {
 	Type TypeOfData `json:"type" xml:"type"`
@@ -47,18 +41,9 @@ func (d TypeOfData) String() string {
 }
 
 func (d *Data) DataType() Datas {
-	dt := unsignedBinary1(d.Datatype)
+	dt := UnsignedBinary1(d.Datatype)
 	return Datas{
 		Type: TypeOfData(dt),
 		Name: TypeOfData(dt).String(),
 	}
-}
-
-func unsignedBinary1(b [1]byte) (value uint8) {
-	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &value)
-	if err != nil {
-		log.Println("unsigned 1 byte, LE binary failed:", err)
-	}
-	return value
 }

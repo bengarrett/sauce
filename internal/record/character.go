@@ -53,7 +53,9 @@ func (c Character) Desc() string {
 	}[c]
 }
 func (d *Data) Description() string {
-	dt, ft := unsignedBinary1(d.Datatype), unsignedBinary1(d.Filetype)
+	dt, ft :=
+		UnsignedBinary1(d.Datatype),
+		UnsignedBinary1(d.Filetype)
 	c := Character(ft)
 	if TypeOfData(dt) != Characters {
 		return ""

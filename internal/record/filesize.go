@@ -17,7 +17,7 @@ type Sizes struct {
 }
 
 func (d *Data) Sizes() Sizes {
-	value := unsignedBinary4(d.Filesize)
+	value := UnsignedBinary4(d.Filesize)
 	en := language.English
 	return Sizes{
 		Bytes:   value,
@@ -25,7 +25,7 @@ func (d *Data) Sizes() Sizes {
 		Binary:  humanize.Binary(int64(value), en),
 	}
 }
-func unsignedBinary4(b [4]byte) (value uint16) {
+func UnsignedBinary4(b [4]byte) (value uint16) {
 	buf := bytes.NewReader(b[:])
 	err := binary.Read(buf, binary.LittleEndian, &value)
 	if err != nil {
