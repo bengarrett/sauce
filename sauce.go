@@ -16,18 +16,19 @@ import (
 
 const SauceDate = "20060102" // Date format is CCYYMMDD (century, year, month, day).
 
-// Contains returns true if a valid SAUCE record is contained within the bytes.
+// Contains reports whether a valid SAUCE record is within b.
 func Contains(b []byte) bool {
 	const missing int = -1
 	return layout.Scan(b) != missing
 }
 
-// Index ...
+// Index returns the index of the instance of the SAUCE ID in b,
+// or -1 if it is not present in b.
 func Index(b []byte) int {
 	return layout.Scan(b)
 }
 
-// Record is the container for SAUCE data.
+// Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.
 type Record struct {
 	ID       string         `json:"id" xml:"id,attr"`
 	Version  string         `json:"version" xml:"version,attr"`
@@ -43,7 +44,7 @@ type Record struct {
 	Comnt    layout.Comment `json:"comments" xml:"comments"`
 }
 
-// Decode and extract the SAUCE data contained within the bytes.
+// Decode the SAUCE data contained within b.
 func Decode(b []byte) Record {
 	const empty = "\x00\x00"
 	d := layout.Data(b).Extract()
@@ -66,6 +67,7 @@ func Decode(b []byte) Record {
 	}
 }
 
+// NewRecord creates a new SAUCE record from r.
 func NewRecord(r io.Reader) (*Record, error) {
 	b, err := io.ReadAll(r)
 	if err != nil {
@@ -75,18 +77,24 @@ func NewRecord(r io.Reader) (*Record, error) {
 	return &d, nil
 }
 
+// JSON returns the JSON encoding of the r SAUCE record.
 func (r *Record) JSON() ([]byte, error) {
 	return json.Marshal(r)
 }
 
+// JSONIndent is like JSON but applies Indent to format the output.
+// Each JSON element in the output will begin on a new line beginning with one or more copies of indent according to the indentation nesting.
 func (r *Record) JSONIndent(indent string) ([]byte, error) {
 	return json.MarshalIndent(r, "", indent)
 }
 
+// XML returns the XML encoding of the r SAUCE record.
 func (r *Record) XML() ([]byte, error) {
 	return xml.Marshal(r)
 }
 
+// XMLIndent is like XML but applies Indent to format the output.
+// Each XML element in the output will begin on a new line beginning with one or more copies of indent according to the indentation nesting.
 func (r *Record) XMLIndent(indent string) ([]byte, error) {
 	return xml.MarshalIndent(r, "", indent)
 }

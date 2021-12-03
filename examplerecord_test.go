@@ -45,17 +45,20 @@ func ExampleDecode_none() {
 }
 
 func ExampleNewRecord() {
+	// open file
 	file, err := static.Open("static/sauce.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
+	// create a new sauce record
 	sr, err := sauce.NewRecord(file)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// encode and print the sauce record as JSON
 	js, err := sr.JSON()
 	if err != nil {
 		log.Fatal(err)
