@@ -27,7 +27,7 @@ func raw() []byte {
 	return b
 }
 
-func exampleData() record.Data {
+func exampleData() record.Layout {
 	return record.Record(raw()).Extract()
 }
 
@@ -77,5 +77,9 @@ func TestId_String(t *testing.T) {
 	const d = "20161126"
 	if got := exampleData().Date.String(); got != d {
 		t.Errorf("Date.String() = %q, want %q", got, d)
+	}
+	const vga = "IBM VGA"
+	if got := exampleData().TInfoS.String(); got != vga {
+		t.Errorf("TInfoS.String() = %q, want %q", got, vga)
 	}
 }

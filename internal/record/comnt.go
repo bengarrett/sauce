@@ -26,7 +26,7 @@ type Comment struct {
 }
 
 // CommentBlock parses the optional SAUCE comment block.
-func (d *Data) CommentBlock() (c Comment) {
+func (d *Layout) CommentBlock() (c Comment) {
 	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
 	c.ID = ComntID
 	c.Count = int(UnsignedBinary1(d.Comnt.Count))

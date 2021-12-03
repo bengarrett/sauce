@@ -52,12 +52,12 @@ func Test_data_FileType(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := &record.Data{
+			d := &record.Layout{
 				Datatype: tt.fields.datatype,
 				Filetype: tt.fields.filetype,
 			}
 			if got := d.FileType(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("data.FileType() = %v, want %v", got, tt.want)
+				t.Errorf("Layout.FileType() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -22,7 +22,7 @@ func raw() []byte {
 	return b
 }
 
-func exampleData() record.Data {
+func exampleData() record.Layout {
 	return record.Record(raw()).Extract()
 }
 

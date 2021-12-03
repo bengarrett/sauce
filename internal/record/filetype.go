@@ -15,7 +15,7 @@ type Files struct {
 // TypeOfFile is the type of file (SAUCE FileType).
 type TypeOfFile uint
 
-func (d *Data) FileType() Files {
+func (d *Layout) FileType() Files {
 	data, file :=
 		UnsignedBinary1(d.Datatype),
 		UnsignedBinary1(d.Filetype)

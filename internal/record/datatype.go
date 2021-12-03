@@ -40,7 +40,7 @@ func (d TypeOfData) String() string {
 	}[d]
 }
 
-func (d *Data) DataType() Datas {
+func (d *Layout) DataType() Datas {
 	dt := UnsignedBinary1(d.Datatype)
 	return Datas{
 		Type: TypeOfData(dt),

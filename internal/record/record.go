@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	ComntID       string = "COMNT"                // SAUCE comment block identification.	This should be equal to "COMNT".
+	ComntID       string = "COMNT"                // SAUCE comment block identification. This should be equal to "COMNT".
 	SauceID       string = "SAUCE"                // SAUCE identification, this should be equal to "SAUCE".
 	SauceVersion  string = "00"                   // SAUCE version number, should be "00".
 	SauceSeek     string = SauceID + SauceVersion // SAUCE sequence to seek.
@@ -16,7 +16,8 @@ const (
 )
 
 type (
-	Record   []byte
+	Record []byte // Src is the input data.
+
 	Id       [5]byte
 	Version  [2]byte
 	Title    [35]byte
@@ -35,7 +36,7 @@ type (
 	TInfoS   [22]byte
 )
 
-type Data struct {
+type Layout struct {
 	Id       Id
 	Version  Version
 	Title    Title
@@ -131,12 +132,12 @@ func (t TInfoS) String() string {
 	return s
 }
 
-func (r Record) Extract() Data {
+func (r Record) Extract() Layout {
 	i := Scan(r...)
 	if i == -1 {
-		return Data{}
+		return Layout{}
 	}
-	d := Data{
+	d := Layout{
 		Id:       r.id(i),
 		Version:  r.version(i),
 		Title:    r.title(i),
@@ -174,8 +175,8 @@ func (r Record) comments(i int) Comments {
 	return Comments{r[i+104]}
 }
 
-func (r Record) Comnt(count Comments, sauceIndex int) (block Comnt) {
-	block = Comnt{
+func (r Record) Comnt(count Comments, sauceIndex int) Comnt {
+	var block = Comnt{
 		Count: count,
 	}
 	if int(UnsignedBinary1(count)) == 0 {

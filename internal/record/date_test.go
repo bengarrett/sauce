@@ -27,7 +27,7 @@ func Test_data_dates(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := &record.Data{
+			d := &record.Layout{
 				Date: tt.date,
 			}
 			if got := d.Dates(); !reflect.DeepEqual(got, tt.want) {
@@ -54,7 +54,7 @@ func Test_data_DataType(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := &record.Data{
+			d := &record.Layout{
 				Datatype: tt.datatype,
 			}
 			if got := d.DataType(); !reflect.DeepEqual(got, tt.want) {

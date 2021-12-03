@@ -36,10 +36,10 @@ func Test_record_Comnt(t *testing.T) {
 func Test_data_CommentBlock(t *testing.T) {
 	tests := []struct {
 		name string
-		data record.Data
+		data record.Layout
 		want []string
 	}{
-		{"empty", record.Data{}, nil},
+		{"empty", record.Layout{}, nil},
 		{"example", exampleData(), []string{commentResult}},
 	}
 	for _, tt := range tests {
@@ -47,7 +47,7 @@ func Test_data_CommentBlock(t *testing.T) {
 			c := &record.Comnt{
 				Lines: tt.data.Comnt.Lines,
 			}
-			d := &record.Data{
+			d := &record.Layout{
 				Comments: tt.data.Comments,
 				Comnt:    *c,
 			}

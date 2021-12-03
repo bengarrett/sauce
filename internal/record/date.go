@@ -23,7 +23,7 @@ type Dates struct {
 	Epoch int64     `json:"epoch" xml:"epoch,attr"`
 }
 
-func (d *Data) Dates() Dates {
+func (d *Layout) Dates() Dates {
 	t, err := d.parseDate()
 	if err != nil {
 		log.Printf("%s: %s\n", ErrSauceDate, err)
@@ -37,7 +37,7 @@ func (d *Data) Dates() Dates {
 	}
 }
 
-func (d *Data) parseDate() (t time.Time, err error) {
+func (d *Layout) parseDate() (t time.Time, err error) {
 	da := d.Date
 	dy, err := strconv.Atoi(string(da[0:4]))
 	if err != nil {

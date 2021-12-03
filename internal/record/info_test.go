@@ -44,7 +44,7 @@ func Test_data_InfoType(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := &record.Data{
+			d := &record.Layout{
 				Datatype: tt.fields.datatype,
 				Filetype: tt.fields.filetype,
 				Tinfo1:   tt.fields.tinfo1,
@@ -54,7 +54,7 @@ func Test_data_InfoType(t *testing.T) {
 			}
 			if got := d.InfoType(); got.Info1.Info != tt.want {
 				t.Errorf("got.Info1.Inf = %q, want %q", got.Info1.Info, tt.want)
-				t.Errorf("data.InfoType() = %v", got)
+				t.Errorf("Layout.InfoType() = %v", got)
 			}
 		})
 	}

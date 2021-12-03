@@ -16,7 +16,7 @@ type Sizes struct {
 	Binary  string `json:"binary" xml:"binary,attr"`
 }
 
-func (d *Data) Sizes() Sizes {
+func (d *Layout) Sizes() Sizes {
 	value := UnsignedBinary4(d.Filesize)
 	en := language.English
 	return Sizes{

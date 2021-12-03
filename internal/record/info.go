@@ -27,7 +27,7 @@ const (
 	pxw  = "pixel width"
 )
 
-func (d *Data) InfoType() Infos {
+func (d *Layout) InfoType() Infos {
 	dt, ft :=
 		UnsignedBinary1(d.Datatype),
 		UnsignedBinary1(d.Filetype)
