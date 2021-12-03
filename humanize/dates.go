@@ -1,92 +1,33 @@
 package humanize
 
 import (
-	"fmt"
-	"strings"
 	"time"
 )
 
-// 2 Jan 15:04 2006.
+type Layout string
+
 const (
-	DMY = "2 Jan 2006"
-	YMD = "2006 Jan 2"
-	MDY = "Jan 2 2006"
-	H12 = "3:04 pm"
-	H24 = "15:04"
+	DMY   Layout = "2 Jan 2006"
+	YMD   Layout = "2006 Jan 2"
+	MDY   Layout = "Jan 2 2006"
+	H12   Layout = "3:04 pm"
+	H24   Layout = "15:04"
+	DMY12 Layout = DMY + " " + H12 // 2 Jan 2006 3:04 pm
+	DMY24 Layout = DMY + " " + H24 // 2 Jan 2006 15:04
+	YMD12 Layout = YMD + " " + H12 // 2006 Jan 2 3:04 pm
+	YMD24 Layout = YMD + " " + H24 // 2006 Jan 2 15:04
+	MDY12 Layout = MDY + " " + H12 // Jan 2 2006 3:04 pm
+	MDY24 Layout = MDY + " " + H24 // Jan 2 2006 15:04
 )
 
-// DMY12 12-hour day month year.
-func DMY12() string { return fmt.Sprintf("%s %s", DMY, H12) }
-
-// DMY24 24-hour day month year.
-func DMY24() string { return fmt.Sprintf("%s %s", DMY, H24) }
-
-// YMD12 12-hour year month day.
-func YMD12() string { return fmt.Sprintf("%s %s", YMD, H12) }
-
-// YMD24 24-hour year month day.
-func YMD24() string { return fmt.Sprintf("%s %s", YMD, H24) }
-
-// MDY12 12-hour month day year.
-func MDY12() string { return fmt.Sprintf("%s %s", MDY, H12) }
-
-// MDY24 24-hour month day year.
-func MDY24() string { return fmt.Sprintf("%s %s", MDY, H24) }
-
-// Date returns a formatted date string.
-func Date(format string, t time.Time) string {
-	const dmy = "DMY"
-	format = strings.ToUpper(format)
-	if format == "" {
-		format = dmy
+// Format returns a formatted time string using a predefined layout.
+func (l Layout) Format(t time.Time) string {
+	switch l {
+	case "":
+		return t.Format(string(YMD24))
+	case DMY, YMD, MDY, H12, H24, DMY12, DMY24, YMD12, YMD24, MDY12, MDY24:
+		return t.Format(string(l))
+	default:
+		return ""
 	}
-	switch format {
-	case dmy:
-		return t.Format(DMY)
-	case "YMD":
-		return t.Format(YMD)
-	case "MDY":
-		return t.Format(MDY)
-	}
-	return ""
-}
-
-// Time returns a formatted time string.
-func Time(format string, t time.Time) string {
-	const def = "H24"
-	format = strings.ToUpper(format)
-	if format == "" {
-		format = def
-	}
-	switch format {
-	case "H12":
-		return t.Format(H12)
-	case def:
-		return t.Format(H24)
-	}
-	return ""
-}
-
-// Datetime returns a formatted date and time string.
-func Datetime(format string, t time.Time) string {
-	const def = "DMY24"
-	format = strings.ToUpper(format)
-	if format == "" {
-		format = def
-	}
-	switch format {
-	case "DMY12":
-		return t.Format(DMY12())
-	case "YMD12":
-		return t.Format(YMD12())
-	case "MDY12":
-		return t.Format(MDY12())
-	case def:
-		return t.Format(DMY24())
-	case "YMD24":
-		return t.Format(YMD24())
-	case "MDY24":
-		return t.Format(MDY24())
-	}
-	return ""
 }
