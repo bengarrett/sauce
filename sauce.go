@@ -35,24 +35,22 @@ func Index(b []byte) int {
 // Trim returns b without any SAUCE metadata.
 func Trim(b []byte) []byte {
 	const none = -1
-	sauceIndex := Index(b)
-	if sauceIndex == none {
+	si := Index(b)
+	if si == none {
 		return b
 	}
 	// the optional comnt index always prefixes the sauce index
 	sr := Decode(b)
-	if comntIndex := sr.Comnt.Index; comntIndex > none {
-		idIndex := comntIndex - len(layout.ComntID)
-		if idIndex > len(b) {
+	if ci := sr.Comnt.Index; ci > none {
+		if ci > len(b) {
 			return nil
 		}
-		return b[:idIndex]
+		return b[:ci]
 	}
-	idIndex := sauceIndex - len(ID+Version)
-	if idIndex > len(b) {
+	if si > len(b) {
 		return nil
 	}
-	return b[:idIndex]
+	return b[:si]
 }
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.

@@ -31,7 +31,10 @@ func (d *Layout) CommentBlock() (c Comment) {
 	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
 	c.ID = ComntID
 	c.Count = int(UnsignedBinary1(d.Comnt.Count))
-	c.Index = d.Comnt.Index
+	c.Index = -1
+	if d.Comnt.Index > 0 {
+		c.Index = d.Comnt.Index - len(ComntID)
+	}
 	if breakCount > 0 {
 		// comments with line breaks are technically invalid but they exist in the wild.
 		// https://github.com/16colo-rs/16c/issues/67
