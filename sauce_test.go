@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/bengarrett/sauce"
-	"github.com/bengarrett/sauce/internal/record"
+	"github.com/bengarrett/sauce/internal/layout"
 )
 
 const (
@@ -22,12 +22,12 @@ func raw() []byte {
 	return b
 }
 
-func exampleData() record.Layout {
-	return record.Data(raw()).Extract()
+func exampleData() layout.Layout {
+	return layout.Data(raw()).Extract()
 }
 
 func sauceIndex() int {
-	return record.Scan(raw()...)
+	return layout.Scan(raw()...)
 }
 
 func TestParse(t *testing.T) {
@@ -43,7 +43,7 @@ func TestParse(t *testing.T) {
 		{"empty", []byte(""), ""},
 		{"example", raw, "Sauce title"},
 	}
-	// TODO: {"example", record.Data(raw()), sauceIndex(), "Sauce author        "},
+	// TODO: {"example", layout.Data(raw()), sauceIndex(), "Sauce author        "},
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := sauce.Parse(tt.data...); got.Title != tt.want {

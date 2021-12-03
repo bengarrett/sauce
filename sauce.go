@@ -5,7 +5,7 @@ package sauce
 import (
 	"strings"
 
-	"github.com/bengarrett/sauce/internal/record"
+	"github.com/bengarrett/sauce/internal/layout"
 )
 
 // Record is the container for SAUCE data.
@@ -15,19 +15,19 @@ type Record struct {
 	Title    string         `json:"title" xml:"title"`
 	Author   string         `json:"author" xml:"author"`
 	Group    string         `json:"group" xml:"group"`
-	Date     record.Dates   `json:"date" xml:"date"`
-	FileSize record.Sizes   `json:"filesize" xml:"filesize"`
-	Data     record.Datas   `json:"dataType"  xml:"data_type"`
-	File     record.Files   `json:"fileType" xml:"file_type"`
-	Info     record.Infos   `json:"typeInfo"  xml:"type_info"`
+	Date     layout.Dates   `json:"date" xml:"date"`
+	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`
+	Data     layout.Datas   `json:"dataType"  xml:"data_type"`
+	File     layout.Files   `json:"fileType" xml:"file_type"`
+	Info     layout.Infos   `json:"typeInfo"  xml:"type_info"`
 	Desc     string         `json:"-" xml:"-"`
-	Comnt    record.Comment `json:"comments" xml:"comments"`
+	Comnt    layout.Comment `json:"comments" xml:"comments"`
 }
 
 // Parse and extract the record data. // todo: rename to marshal
 func Parse(data ...byte) Record {
 	const empty = "\x00\x00"
-	r := record.Data(data)
+	r := layout.Data(data)
 	d := r.Extract()
 	if string(d.Version[:]) == empty {
 		return Record{}
