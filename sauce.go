@@ -14,7 +14,11 @@ import (
 	"github.com/bengarrett/sauce/internal/layout"
 )
 
-const SauceDate = "20060102" // Date format is CCYYMMDD (century, year, month, day).
+const (
+	ID        = "SAUCE"
+	Version   = "00"
+	SauceDate = "20060102" // Date format is CCYYMMDD (century, year, month, day).
+)
 
 // Contains reports whether a valid SAUCE record is within b.
 func Contains(b []byte) bool {
@@ -86,6 +90,11 @@ func (r *Record) JSON() ([]byte, error) {
 // Each JSON element in the output will begin on a new line beginning with one or more copies of indent according to the indentation nesting.
 func (r *Record) JSONIndent(indent string) ([]byte, error) {
 	return json.MarshalIndent(r, "", indent)
+}
+
+// Valid reports the completeness of the r SAUCE record.
+func (r *Record) Valid() bool {
+	return r.ID == ID && r.Version == Version
 }
 
 // XML returns the XML encoding of the r SAUCE record.

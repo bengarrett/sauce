@@ -27,6 +27,10 @@ func Example() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if !sr.Valid() {
+		fmt.Println("no sauce metadata found")
+		return
+	}
 
 	// print specific SAUCE fields
 	fmt.Printf("%q\n", sr.Title)
