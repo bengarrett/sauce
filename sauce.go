@@ -3,6 +3,8 @@
 package sauce
 
 import (
+	"encoding/json"
+	"io"
 	"strings"
 
 	"github.com/bengarrett/sauce/internal/layout"
@@ -24,11 +26,16 @@ type Record struct {
 	Comnt    layout.Comment `json:"comments" xml:"comments"`
 }
 
-// Parse and extract the record data. // todo: rename to marshal
-func Parse(data ...byte) Record {
+// Contains returns true if a valid SAUCE record is contained within the bytes.
+func Contains(b []byte) bool {
+	const missing int = -1
+	return layout.Scan(b) != missing
+}
+
+// Decode and extract the SAUCE data contained within the bytes.
+func Decode(b []byte) Record {
 	const empty = "\x00\x00"
-	r := layout.Data(data)
-	d := r.Extract()
+	d := layout.Data(b).Extract()
 	if string(d.Version[:]) == empty {
 		return Record{}
 	}
@@ -46,4 +53,26 @@ func Parse(data ...byte) Record {
 		Desc:     d.Description(),
 		Comnt:    d.CommentBlock(),
 	}
+}
+
+// Index ...
+func Index(b []byte) int {
+	return layout.Scan(b)
+}
+
+func NewRecord(r io.Reader) (*Record, error) {
+	b, err := io.ReadAll(r)
+	if err != nil {
+		return nil, err
+	}
+	d := Decode(b)
+	return &d, nil
+}
+
+func JSON(r *Record) ([]byte, error) {
+	return json.Marshal(r)
+}
+
+func JSONIndent(r *Record, indent string) ([]byte, error) {
+	return json.MarshalIndent(r, "", indent)
 }

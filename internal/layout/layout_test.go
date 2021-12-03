@@ -50,7 +50,7 @@ func TestScan(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotIndex := layout.Scan(tt.b...); gotIndex != tt.wantIndex {
+			if gotIndex := layout.Scan(tt.b); gotIndex != tt.wantIndex {
 				t.Errorf("Scan() = %v, want %v", gotIndex, tt.wantIndex)
 			}
 		})

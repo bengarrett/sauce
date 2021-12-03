@@ -8,7 +8,7 @@ import (
 )
 
 func sauceIndex() int {
-	return layout.Scan(raw()...)
+	return layout.Scan(raw())
 }
 func Test_record_Comnt(t *testing.T) {
 	type args struct {

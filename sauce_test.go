@@ -2,11 +2,9 @@
 package sauce_test
 
 import (
-	"log"
 	"testing"
 
 	"github.com/bengarrett/sauce"
-	"github.com/bengarrett/sauce/internal/layout"
 )
 
 const (
@@ -14,26 +12,10 @@ const (
 	example       = "static/sauce.txt"
 )
 
-func raw() []byte {
-	b, err := static.ReadFile(example)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return b
-}
-
-func exampleData() layout.Layout {
-	return layout.Data(raw()).Extract()
-}
-
-func sauceIndex() int {
-	return layout.Scan(raw()...)
-}
-
 func TestParse(t *testing.T) {
 	raw, err := static.ReadFile(example)
 	if err != nil {
-		t.Errorf("Parse() %v error: %v", example, err)
+		t.Errorf("Decode() %v error: %v", example, err)
 	}
 	tests := []struct {
 		name string
@@ -46,8 +28,8 @@ func TestParse(t *testing.T) {
 	// TODO: {"example", layout.Data(raw()), sauceIndex(), "Sauce author        "},
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := sauce.Parse(tt.data...); got.Title != tt.want {
-				t.Errorf("Parse() = %v, want %v", got.Title, tt.want)
+			if got := sauce.Decode(tt.data); got.Title != tt.want {
+				t.Errorf("Decode() = %v, want %v", got.Title, tt.want)
 			}
 		})
 	}
