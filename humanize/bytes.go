@@ -1,11 +1,11 @@
-// Package humanize parses data to a human readable format.
-package humanize
-
 // The code on this page is derived from labstack/gommon, Common packages for Go
 // https://github.com/labstack/gommon.
 //
 // The MIT License (MIT) Copyright (c) 2018 labstack
 // https://github.com/labstack/gommon/blob/master/LICENSE
+
+// Package humanize parses data to a human readable format.
+package humanize
 
 import (
 	"golang.org/x/text/language"
@@ -31,7 +31,8 @@ const (
 // Binary formats bytes integer to localized readable string.
 func binary(b int64, t language.Tag) string {
 	p := message.NewPrinter(t)
-	multiple, value := "", float64(b)
+	value := float64(b)
+	var multiple string
 	switch {
 	case b >= tib:
 		value /= tib
@@ -56,7 +57,8 @@ func binary(b int64, t language.Tag) string {
 // Decimal formats bytes integer to localized readable string.
 func decimal(b int64, t language.Tag) string {
 	p := message.NewPrinter(t)
-	multiple, value := "", float64(b)
+	value := float64(b)
+	var multiple string
 	switch {
 	case b >= tb:
 		value /= tb

@@ -7,7 +7,7 @@ import (
 )
 
 func Test_binary_decimal(t *testing.T) {
-	var us = language.AmericanEnglish
+	us := language.AmericanEnglish
 	type args struct {
 		b int64
 		t language.Tag

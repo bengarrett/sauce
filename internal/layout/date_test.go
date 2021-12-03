@@ -43,14 +43,22 @@ func Test_data_DataType(t *testing.T) {
 		datatype layout.DataType
 		want     layout.Datas
 	}{
-		{"none", [1]byte{0},
+		{
+			"none",
+			[1]byte{0},
 			layout.Datas{
 				Type: layout.Nones,
-				Name: layout.Nones.String()}},
-		{"archive", [1]byte{7},
+				Name: layout.Nones.String(),
+			},
+		},
+		{
+			"archive",
+			[1]byte{7},
 			layout.Datas{
 				Type: layout.Archives,
-				Name: layout.Archives.String()}},
+				Name: layout.Archives.String(),
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

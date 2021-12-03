@@ -25,6 +25,7 @@ func (d *Layout) Sizes() Sizes {
 		Binary:  humanize.Binary(int64(value), en),
 	}
 }
+
 func UnsignedBinary4(b [4]byte) (value uint16) {
 	buf := bytes.NewReader(b[:])
 	err := binary.Read(buf, binary.LittleEndian, &value)

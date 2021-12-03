@@ -58,7 +58,7 @@ func CommentByBreak(b []byte) (lines []string) {
 // CommentByLine parses the SAUCE comment by lines of 64 characters.
 func CommentByLine(b []byte) (lines []string) {
 	s, l := "", 0
-	var resetLine = func() {
+	resetLine := func() {
 		s, l = "", 0
 	}
 	for _, c := range b {

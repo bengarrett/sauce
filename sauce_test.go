@@ -10,10 +10,7 @@ import (
 	"github.com/bengarrett/sauce/internal/layout"
 )
 
-const (
-	commentResult = "Any comments go here.                                           "
-	example       = "static/sauce.txt"
-)
+const example = "static/sauce.txt"
 
 func TestTrim(t *testing.T) {
 	none := []byte("This is a string without any SAUCE.")
@@ -21,7 +18,8 @@ func TestTrim(t *testing.T) {
 		t.Errorf("Trim() = %q, want %q", got, none)
 	}
 
-	fake := append(none, layout.SauceSeek...)
+	fake := none
+	fake = append(fake, layout.SauceSeek...)
 	fake = append(fake, []byte(strings.Repeat("?", 128))...)
 	if got := sauce.Trim(fake); !reflect.DeepEqual(got, none) {
 		t.Errorf("Trim() = %q, want %q", got, none)

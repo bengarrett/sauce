@@ -12,8 +12,10 @@ func Test_data_FileType(t *testing.T) {
 		datatype layout.DataType
 		filetype layout.FileType
 	}
-	empty := layout.Files{layout.TypeOfFile(layout.Nones),
-		layout.Undefined.String()}
+	empty := layout.Files{
+		layout.TypeOfFile(layout.Nones),
+		layout.Undefined.String(),
+	}
 	outofrange := fields{[1]byte{255}, [1]byte{255}}
 	none := fields{[1]byte{0}, [1]byte{0}}
 	chars := fields{[1]byte{1}, [1]byte{0}}
@@ -31,24 +33,33 @@ func Test_data_FileType(t *testing.T) {
 	}{
 		{"empty", fields{}, empty},
 		{"out of range", outofrange, layout.Files{
-			layout.TypeOfFile(layout.Nones), layout.ErrFileType.Error()}},
+			layout.TypeOfFile(layout.Nones), layout.ErrFileType.Error(),
+		}},
 		{"nones", none, empty},
 		{"characters", chars, layout.Files{
-			layout.TypeOfFile(layout.Ascii), layout.Ascii.String()}},
+			layout.TypeOfFile(layout.Ascii), layout.Ascii.String(),
+		}},
 		{"bitmaps", bmp, layout.Files{
-			layout.TypeOfFile(layout.Gif), layout.Gif.String()}},
+			layout.TypeOfFile(layout.Gif), layout.Gif.String(),
+		}},
 		{"vectors", vec, layout.Files{
-			layout.TypeOfFile(layout.Dxf), layout.Dxf.String()}},
+			layout.TypeOfFile(layout.Dxf), layout.Dxf.String(),
+		}},
 		{"audios", aud, layout.Files{
-			layout.TypeOfFile(layout.Mod), layout.Mod.String()}},
+			layout.TypeOfFile(layout.Mod), layout.Mod.String(),
+		}},
 		{"binarytexts", btxt, layout.Files{
-			layout.TypeOfFile(layout.BinaryScreenImage), layout.BinaryScreenImage.String()}},
+			layout.TypeOfFile(layout.BinaryScreenImage), layout.BinaryScreenImage.String(),
+		}},
 		{"xbins", xb, layout.Files{
-			layout.TypeOfFile(layout.ExtendedBin), layout.ExtendedBin.String()}},
+			layout.TypeOfFile(layout.ExtendedBin), layout.ExtendedBin.String(),
+		}},
 		{"archives", arc, layout.Files{
-			layout.TypeOfFile(layout.Zip), layout.Zip.String()}},
+			layout.TypeOfFile(layout.Zip), layout.Zip.String(),
+		}},
 		{"executable", exe, layout.Files{
-			layout.TypeOfFile(layout.Exe), layout.Exe.String()}},
+			layout.TypeOfFile(layout.Exe), layout.Exe.String(),
+		}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

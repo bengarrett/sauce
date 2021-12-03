@@ -52,6 +52,7 @@ func (c Character) Desc() string {
 		"TundraDraw files, like ANSI, but with a custom palette.",
 	}[c]
 }
+
 func (d *Layout) Description() string {
 	dt, ft :=
 		UnsignedBinary1(d.Datatype),

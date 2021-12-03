@@ -1,8 +1,12 @@
-// Package sauce is a Go module that parses SAUCE (Standard Architecture for Universal Comment Extensions) metadata.
+// Package sauce is a Go module that parses SAUCE (Standard Architecture for
+// Universal Comment Extensions) metadata.
 //
 // See http://www.acid.org/info/sauce/sauce.htm.
 //
-// The Standard Architecture for Universal Comment Extensions or SAUCE as it is more commonly known, is an architecture or protocol for attaching meta data or comments to files. Mainly intended for ANSI art files, SAUCE has always had provisions for many different file types.
+// The Standard Architecture for Universal Comment Extensions or SAUCE as it is
+// more commonly known, is an architecture or protocol for attaching meta data
+// or comments to files. Mainly intended for ANSI art files, SAUCE has always
+// had provisions for many different file types.
 package sauce
 
 import (
@@ -108,7 +112,8 @@ func (r *Record) JSON() ([]byte, error) {
 }
 
 // JSONIndent is like JSON but applies Indent to format the output.
-// Each JSON element in the output will begin on a new line beginning with one or more copies of indent according to the indentation nesting.
+// Each JSON element in the output will begin on a new line beginning with one
+// or more copies of indent according to the indentation nesting.
 func (r *Record) JSONIndent(indent string) ([]byte, error) {
 	return json.MarshalIndent(r, "", indent)
 }
@@ -124,7 +129,8 @@ func (r *Record) XML() ([]byte, error) {
 }
 
 // XMLIndent is like XML but applies Indent to format the output.
-// Each XML element in the output will begin on a new line beginning with one or more copies of indent according to the indentation nesting.
+// Each XML element in the output will begin on a new line beginning with one
+// or more copies of indent according to the indentation nesting.
 func (r *Record) XMLIndent(indent string) ([]byte, error) {
 	return xml.MarshalIndent(r, "", indent)
 }

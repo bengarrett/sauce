@@ -9,10 +9,8 @@ import (
 	"github.com/bengarrett/sauce"
 )
 
-var (
-	//go:embed static/*
-	static embed.FS
-)
+//go:embed static/*
+var static embed.FS
 
 func Example() {
 	// open a file
@@ -25,7 +23,8 @@ func Example() {
 	// read the file and create a SAUCE record
 	sr, err := sauce.NewRecord(file)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 	if !sr.Valid() {
 		fmt.Println("no sauce metadata found")
@@ -41,7 +40,8 @@ func Example() {
 	// return the SAUCE data as indented JSON
 	js, err := sr.JSONIndent("    ")
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 	fmt.Printf("%s", js)
 

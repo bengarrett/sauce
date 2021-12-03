@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// nolint:lll
 const (
 	ComntID       string = "COMNT"                // SAUCE comment block identification. This should be equal to "COMNT".
 	SauceID       string = "SAUCE"                // SAUCE identification, this should be equal to "SAUCE".
@@ -102,18 +103,23 @@ func Index(b []byte) int {
 func (b Id) String() string {
 	return string(b[:])
 }
+
 func (b Version) String() string {
 	return string(b[:])
 }
+
 func (b Title) String() string {
 	return string(b[:])
 }
+
 func (b Author) String() string {
 	return string(b[:])
 }
+
 func (b Group) String() string {
 	return string(b[:])
 }
+
 func (b Date) String() string {
 	return string(b[:])
 }
@@ -174,14 +180,14 @@ func (d Data) comments(i int) Comments {
 }
 
 func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
-	var block = Comnt{
+	block := Comnt{
 		Count: count,
 	}
 	if int(UnsignedBinary1(count)) == 0 {
 		return block
 	}
 	id, l := []byte(ComntID), len(d)
-	var backwardsLoop = func(i int) int {
+	backwardsLoop := func(i int) int {
 		return l - 1 - i
 	}
 	// search for the id sequence in b

@@ -10,6 +10,7 @@ import (
 func sauceIndex() int {
 	return layout.Index(raw())
 }
+
 func Test_record_Comnt(t *testing.T) {
 	type args struct {
 		count      layout.Comments
@@ -21,8 +22,11 @@ func Test_record_Comnt(t *testing.T) {
 		args       args
 		wantLength int
 	}{
-		{"example", layout.Data(raw()),
-			args{count: [1]byte{1}, sauceIndex: sauceIndex()}, 1 * layout.ComntLineSize},
+		{
+			"example", layout.Data(raw()),
+			args{count: [1]byte{1}, sauceIndex: sauceIndex()},
+			1 * layout.ComntLineSize,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

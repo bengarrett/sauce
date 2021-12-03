@@ -14,10 +14,8 @@ const (
 	example       = "static/sauce.txt"
 )
 
-var (
-	//go:embed static/*
-	static embed.FS
-)
+//go:embed static/*
+var static embed.FS
 
 func raw() []byte {
 	b, err := static.ReadFile(example)

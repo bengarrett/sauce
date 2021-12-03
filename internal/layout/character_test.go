@@ -32,10 +32,14 @@ func TestCharacter_Desc(t *testing.T) {
 		want string
 	}{
 		{"out of range", 999, ""},
-		{"first", layout.Ascii,
-			"ASCII text file with no formatting codes or color codes."},
-		{"last", layout.TundraDraw,
-			"TundraDraw files, like ANSI, but with a custom palette."},
+		{
+			"first", layout.Ascii,
+			"ASCII text file with no formatting codes or color codes.",
+		},
+		{
+			"last", layout.TundraDraw,
+			"TundraDraw files, like ANSI, but with a custom palette.",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
