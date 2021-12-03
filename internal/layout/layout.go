@@ -56,7 +56,7 @@ type Layout struct {
 }
 
 // Index returns the position of the SAUCE00 ID or -1 if no ID exists.
-func Index(b []byte) (index int) {
+func Index(b []byte) int {
 	const sauceSize, maximum = 128, 512
 	id, l := []byte(SauceSeek), len(b)
 	backwardsLoop := func(i int) int {

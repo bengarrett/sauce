@@ -23,13 +23,36 @@ const (
 // Contains reports whether a valid SAUCE record is within b.
 func Contains(b []byte) bool {
 	const missing int = -1
-	return layout.Scan(b) != missing
+	return layout.Index(b) != missing
 }
 
 // Index returns the index of the instance of the SAUCE ID in b,
 // or -1 if it is not present in b.
 func Index(b []byte) int {
-	return layout.Scan(b)
+	return layout.Index(b)
+}
+
+// Trim returns b without any SAUCE metadata.
+func Trim(b []byte) []byte {
+	const none = -1
+	sauceIndex := Index(b)
+	if sauceIndex == none {
+		return b
+	}
+	// the optional comnt index always prefixes the sauce index
+	sr := Decode(b)
+	if comntIndex := sr.Comnt.Index; comntIndex > none {
+		idIndex := comntIndex - len(layout.ComntID)
+		if idIndex > len(b) {
+			return nil
+		}
+		return b[:idIndex]
+	}
+	idIndex := sauceIndex - len(ID+Version)
+	if idIndex > len(b) {
+		return nil
+	}
+	return b[:idIndex]
 }
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.

@@ -22,6 +22,7 @@ type Comnt struct {
 type Comment struct {
 	ID      string   `json:"id" xml:"id,attr"`
 	Count   int      `json:"count" xml:"count,attr"`
+	Index   int      `json:"-" xml:"-"`
 	Comment []string `json:"lines" xml:"line"`
 }
 
@@ -30,6 +31,7 @@ func (d *Layout) CommentBlock() (c Comment) {
 	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
 	c.ID = ComntID
 	c.Count = int(UnsignedBinary1(d.Comnt.Count))
+	c.Index = d.Comnt.Index
 	if breakCount > 0 {
 		// comments with line breaks are technically invalid but they exist in the wild.
 		// https://github.com/16colo-rs/16c/issues/67
