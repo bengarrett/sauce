@@ -1,14 +1,31 @@
-// Package sauce parses SAUCE (Standard Architecture for Universal Comment Extensions) metadata.
-// http://www.acid.org/info/sauce/sauce.htm
+// Package sauce is a Go module that parses SAUCE (Standard Architecture for Universal Comment Extensions) metadata.
+//
+// See http://www.acid.org/info/sauce/sauce.htm.
+//
+// The Standard Architecture for Universal Comment Extensions or SAUCE as it is more commonly known, is an architecture or protocol for attaching meta data or comments to files. Mainly intended for ANSI art files, SAUCE has always had provisions for many different file types.
 package sauce
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"io"
 	"strings"
 
 	"github.com/bengarrett/sauce/internal/layout"
 )
+
+const SauceDate = "20060102" // Date format is CCYYMMDD (century, year, month, day).
+
+// Contains returns true if a valid SAUCE record is contained within the bytes.
+func Contains(b []byte) bool {
+	const missing int = -1
+	return layout.Scan(b) != missing
+}
+
+// Index ...
+func Index(b []byte) int {
+	return layout.Scan(b)
+}
 
 // Record is the container for SAUCE data.
 type Record struct {
@@ -24,12 +41,6 @@ type Record struct {
 	Info     layout.Infos   `json:"typeInfo"  xml:"type_info"`
 	Desc     string         `json:"-" xml:"-"`
 	Comnt    layout.Comment `json:"comments" xml:"comments"`
-}
-
-// Contains returns true if a valid SAUCE record is contained within the bytes.
-func Contains(b []byte) bool {
-	const missing int = -1
-	return layout.Scan(b) != missing
 }
 
 // Decode and extract the SAUCE data contained within the bytes.
@@ -55,11 +66,6 @@ func Decode(b []byte) Record {
 	}
 }
 
-// Index ...
-func Index(b []byte) int {
-	return layout.Scan(b)
-}
-
 func NewRecord(r io.Reader) (*Record, error) {
 	b, err := io.ReadAll(r)
 	if err != nil {
@@ -69,10 +75,18 @@ func NewRecord(r io.Reader) (*Record, error) {
 	return &d, nil
 }
 
-func JSON(r *Record) ([]byte, error) {
+func (r *Record) JSON() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func JSONIndent(r *Record, indent string) ([]byte, error) {
+func (r *Record) JSONIndent(indent string) ([]byte, error) {
 	return json.MarshalIndent(r, "", indent)
+}
+
+func (r *Record) XML() ([]byte, error) {
+	return xml.Marshal(r)
+}
+
+func (r *Record) XMLIndent(indent string) ([]byte, error) {
+	return xml.MarshalIndent(r, "", indent)
 }
