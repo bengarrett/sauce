@@ -70,7 +70,6 @@ func (f Flags) Parse() ANSIFlags {
 		}
 	}
 	b, ls, ar := string(r[0]), string(r[1:3]), string(r[3:5])
-	fmt.Println("b", b, "ls", ls, "ar", ar)
 	return ANSIFlags{
 		Decimal: f,
 		Binary:  bin,
