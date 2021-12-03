@@ -17,11 +17,11 @@ func Test_record_Comnt(t *testing.T) {
 	}
 	tests := []struct {
 		name       string
-		r          record.Record
+		r          record.Data
 		args       args
 		wantLength int
 	}{
-		{"example", record.Record(raw()),
+		{"example", record.Data(raw()),
 			args{count: [1]byte{1}, sauceIndex: sauceIndex()}, 1 * record.ComntLineSize},
 	}
 	for _, tt := range tests {

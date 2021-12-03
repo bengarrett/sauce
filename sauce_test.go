@@ -23,7 +23,7 @@ func raw() []byte {
 }
 
 func exampleData() record.Layout {
-	return record.Record(raw()).Extract()
+	return record.Data(raw()).Extract()
 }
 
 func sauceIndex() int {
@@ -43,7 +43,7 @@ func TestParse(t *testing.T) {
 		{"empty", []byte(""), ""},
 		{"example", raw, "Sauce title"},
 	}
-	// TODO: {"example", record.Record(raw()), sauceIndex(), "Sauce author        "},
+	// TODO: {"example", record.Data(raw()), sauceIndex(), "Sauce author        "},
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := sauce.Parse(tt.data...); got.Title != tt.want {

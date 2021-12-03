@@ -16,8 +16,7 @@ const (
 )
 
 type (
-	Record []byte // Src is the input data.
-
+	Data     []byte // Data is the input data.
 	Id       [5]byte
 	Version  [2]byte
 	Title    [35]byte
@@ -132,62 +131,62 @@ func (t TInfoS) String() string {
 	return s
 }
 
-func (r Record) Extract() Layout {
-	i := Scan(r...)
+func (d Data) Extract() Layout {
+	i := Scan(d...)
 	if i == -1 {
 		return Layout{}
 	}
-	d := Layout{
-		Id:       r.id(i),
-		Version:  r.version(i),
-		Title:    r.title(i),
-		Author:   r.author(i),
-		Group:    r.group(i),
-		Date:     r.date(i),
-		Filesize: r.fileSize(i),
-		Datatype: r.dataType(i),
-		Filetype: r.fileType(i),
-		Tinfo1:   r.TInfo1(i),
-		Tinfo2:   r.TInfo2(i),
-		Tinfo3:   r.TInfo3(i),
-		Tinfo4:   r.TInfo4(i),
-		TFlags:   r.tFlags(i),
-		TInfoS:   r.TInfoS(i),
+	l := Layout{
+		Id:       d.id(i),
+		Version:  d.version(i),
+		Title:    d.title(i),
+		Author:   d.author(i),
+		Group:    d.group(i),
+		Date:     d.date(i),
+		Filesize: d.fileSize(i),
+		Datatype: d.dataType(i),
+		Filetype: d.fileType(i),
+		Tinfo1:   d.TInfo1(i),
+		Tinfo2:   d.TInfo2(i),
+		Tinfo3:   d.TInfo3(i),
+		Tinfo4:   d.TInfo4(i),
+		TFlags:   d.tFlags(i),
+		TInfoS:   d.TInfoS(i),
 	}
-	d.Comments = r.comments(i)
-	d.Comnt = r.Comnt(d.Comments, i)
-	return d
+	l.Comments = d.comments(i)
+	l.Comnt = d.Comnt(l.Comments, i)
+	return l
 }
 
-func (r Record) author(i int) Author {
+func (d Data) author(i int) Author {
 	var a Author
 	const (
 		start = 42
 		end   = start + len(a)
 	)
-	for j, c := range r[start+i : end+i] {
+	for j, c := range d[start+i : end+i] {
 		a[j] = c
 	}
 	return a
 }
 
-func (r Record) comments(i int) Comments {
-	return Comments{r[i+104]}
+func (d Data) comments(i int) Comments {
+	return Comments{d[i+104]}
 }
 
-func (r Record) Comnt(count Comments, sauceIndex int) Comnt {
+func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 	var block = Comnt{
 		Count: count,
 	}
 	if int(UnsignedBinary1(count)) == 0 {
 		return block
 	}
-	id, l := []byte(ComntID), len(r)
+	id, l := []byte(ComntID), len(d)
 	var backwardsLoop = func(i int) int {
 		return l - 1 - i
 	}
 	// search for the id sequence in b
-	for i := range r {
+	for i := range d {
 		if i > ComntLineSize*ComntMaxLines {
 			break
 		}
@@ -199,108 +198,108 @@ func (r Record) Comnt(count Comments, sauceIndex int) Comnt {
 			continue
 		}
 		// do matching in reverse
-		if r[i-1] != id[4] {
+		if d[i-1] != id[4] {
 			continue // T
 		}
-		if r[i-2] != id[3] {
+		if d[i-2] != id[3] {
 			continue // N
 		}
-		if r[i-3] != id[2] {
+		if d[i-3] != id[2] {
 			continue // M
 		}
-		if r[i-4] != id[1] {
+		if d[i-4] != id[1] {
 			continue // O
 		}
-		if r[i-5] != id[0] {
+		if d[i-5] != id[0] {
 			continue // C
 		}
 		block.Index = i
 		block.Length = sauceIndex - block.Index
-		block.Lines = r[i : i+block.Length]
+		block.Lines = d[i : i+block.Length]
 		return block
 	}
 	return block
 }
 
-func (r Record) dataType(i int) DataType {
-	return DataType{r[i+94]}
+func (d Data) dataType(i int) DataType {
+	return DataType{d[i+94]}
 }
 
-func (r Record) date(i int) Date {
-	var d Date
+func (d Data) date(i int) Date {
+	var dt Date
 	const (
 		start = 82
-		end   = start + len(d)
+		end   = start + len(dt)
 	)
-	for j, c := range r[start+i : end+i] {
-		d[j] = c
+	for j, c := range d[start+i : end+i] {
+		dt[j] = c
 	}
-	return d
+	return dt
 }
 
-func (r Record) fileSize(i int) FileSize {
-	return FileSize{r[i+90], r[i+91], r[i+92], r[i+93]}
+func (d Data) fileSize(i int) FileSize {
+	return FileSize{d[i+90], d[i+91], d[i+92], d[i+93]}
 }
 
-func (r Record) fileType(i int) FileType {
-	return FileType{r[i+95]}
+func (d Data) fileType(i int) FileType {
+	return FileType{d[i+95]}
 }
 
-func (r Record) group(i int) Group {
+func (d Data) group(i int) Group {
 	var g Group
 	const (
 		start = 62
 		end   = start + len(g)
 	)
-	for j, c := range r[start+i : end+i] {
+	for j, c := range d[start+i : end+i] {
 		g[j] = c
 	}
 	return g
 }
 
-func (r Record) id(i int) Id {
-	return Id{r[i+0], r[i+1], r[i+2], r[i+3], r[i+4]}
+func (d Data) id(i int) Id {
+	return Id{d[i+0], d[i+1], d[i+2], d[i+3], d[i+4]}
 }
 
-func (r Record) tFlags(i int) TFlags {
-	return TFlags{r[i+105]}
+func (d Data) tFlags(i int) TFlags {
+	return TFlags{d[i+105]}
 }
 
-func (r Record) title(i int) Title {
+func (d Data) title(i int) Title {
 	var t Title
 	const (
 		start = 7
 		end   = start + len(t)
 	)
-	for j, c := range r[start+i : end+i] {
+	for j, c := range d[start+i : end+i] {
 		t[j] = c
 	}
 	return t
 }
 
-func (r Record) TInfo1(i int) TInfo1 {
-	return TInfo1{r[i+96], r[i+97]}
+func (d Data) TInfo1(i int) TInfo1 {
+	return TInfo1{d[i+96], d[i+97]}
 }
 
-func (r Record) TInfo2(i int) TInfo2 {
-	return TInfo2{r[i+98], r[i+99]}
+func (d Data) TInfo2(i int) TInfo2 {
+	return TInfo2{d[i+98], d[i+99]}
 }
 
-func (r Record) TInfo3(i int) TInfo3 {
-	return TInfo3{r[i+100], r[i+101]}
+func (d Data) TInfo3(i int) TInfo3 {
+	return TInfo3{d[i+100], d[i+101]}
 }
 
-func (r Record) TInfo4(i int) TInfo4 {
-	return TInfo4{r[i+102], r[i+103]}
+func (d Data) TInfo4(i int) TInfo4 {
+	return TInfo4{d[i+102], d[i+103]}
 }
 
-func (r Record) TInfoS(i int) TInfoS {
+func (d Data) TInfoS(i int) TInfoS {
 	var s TInfoS
 	const (
 		start = 106
 		end   = start + len(s)
 	)
-	for j, c := range r[start+i : end+i] {
+	for j, c := range d[start+i : end+i] {
 		if c == 0 {
 			continue
 		}
@@ -309,8 +308,8 @@ func (r Record) TInfoS(i int) TInfoS {
 	return s
 }
 
-func (r Record) version(i int) Version {
-	return Version{r[i+5], r[i+6]}
+func (d Data) version(i int) Version {
+	return Version{d[i+5], d[i+6]}
 }
 
 func UnsignedBinary1(b [1]byte) (value uint8) {

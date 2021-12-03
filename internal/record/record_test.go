@@ -28,7 +28,7 @@ func raw() []byte {
 }
 
 func exampleData() record.Layout {
-	return record.Record(raw()).Extract()
+	return record.Data(raw()).Extract()
 }
 
 func TestScan(t *testing.T) {

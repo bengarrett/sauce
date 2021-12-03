@@ -27,7 +27,7 @@ type Record struct {
 // Parse and extract the record data. // todo: rename to marshal
 func Parse(data ...byte) Record {
 	const empty = "\x00\x00"
-	r := record.Record(data)
+	r := record.Data(data)
 	d := r.Extract()
 	if string(d.Version[:]) == empty {
 		return Record{}
