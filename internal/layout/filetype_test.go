@@ -7,6 +7,7 @@ import (
 	"github.com/bengarrett/sauce/internal/layout"
 )
 
+// nolint:funlen
 func Test_data_FileType(t *testing.T) {
 	type fields struct {
 		datatype layout.DataType
