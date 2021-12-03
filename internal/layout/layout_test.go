@@ -31,7 +31,7 @@ func exampleData() layout.Layout {
 	return layout.Data(raw()).Extract()
 }
 
-func TestScan(t *testing.T) {
+func TestIndex(t *testing.T) {
 	const hi = "Hello world!"
 	fake := make([]byte, 0, len(hi)+len(layout.SauceSeek))
 	fake = append(fake, []byte(hi)...)
@@ -50,8 +50,8 @@ func TestScan(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotIndex := layout.Scan(tt.b); gotIndex != tt.wantIndex {
-				t.Errorf("Scan() = %v, want %v", gotIndex, tt.wantIndex)
+			if gotIndex := layout.Index(tt.b); gotIndex != tt.wantIndex {
+				t.Errorf("Index() = %v, want %v", gotIndex, tt.wantIndex)
 			}
 		})
 	}

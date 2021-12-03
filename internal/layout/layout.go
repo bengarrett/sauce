@@ -55,9 +55,8 @@ type Layout struct {
 	Comnt    Comnt
 }
 
-// Scan returns the position of the SAUCE00 ID or -1 if no ID exists.
-// TODO: rename Seek? Index?
-func Scan(b []byte) (index int) {
+// Index returns the position of the SAUCE00 ID or -1 if no ID exists.
+func Index(b []byte) (index int) {
 	const sauceSize, maximum = 128, 512
 	id, l := []byte(SauceSeek), len(b)
 	backwardsLoop := func(i int) int {
@@ -132,7 +131,7 @@ func (t TInfoS) String() string {
 }
 
 func (d Data) Extract() Layout {
-	i := Scan(d)
+	i := Index(d)
 	if i == -1 {
 		return Layout{}
 	}
