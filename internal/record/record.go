@@ -7,10 +7,12 @@ import (
 )
 
 const (
-	comntID       string = "COMNT"
-	sauceID       string = "SAUCE00"
-	ComntLineSize int    = 64
-	ComntMaxLines int    = 255
+	ComntID       string = "COMNT"                // SAUCE comment block identification.	This should be equal to "COMNT".
+	SauceID       string = "SAUCE"                // SAUCE identification, this should be equal to "SAUCE".
+	SauceVersion  string = "00"                   // SAUCE version number, should be "00".
+	SauceSeek     string = SauceID + SauceVersion // SAUCE sequence to seek.
+	ComntLineSize int    = 64                     // A SAUCE comment line is 64 characters wide.
+	ComntMaxLines int    = 255                    // A SAUCE comment is variable sized structure that holds up to 255 lines of additional information.
 )
 
 type (
@@ -54,9 +56,10 @@ type Data struct {
 }
 
 // Scan returns the position of the SAUCE00 ID or -1 if no ID exists.
+// TODO: rename Seek? Index?
 func Scan(b ...byte) (index int) {
 	const sauceSize, maximum = 128, 512
-	id, l := []byte(sauceID), len(b)
+	id, l := []byte(SauceSeek), len(b)
 	backwardsLoop := func(i int) int {
 		return l - 1 - i
 	}
@@ -67,7 +70,7 @@ func Scan(b ...byte) (index int) {
 			break
 		}
 		i = backwardsLoop(i)
-		if i < sauceSize {
+		if len(b) < sauceSize {
 			break
 		}
 		// do matching in reverse
@@ -178,7 +181,7 @@ func (r Record) Comnt(count Comments, sauceIndex int) (block Comnt) {
 	if int(UnsignedBinary1(count)) == 0 {
 		return block
 	}
-	id, l := []byte(comntID), len(r)
+	id, l := []byte(ComntID), len(r)
 	var backwardsLoop = func(i int) int {
 		return l - 1 - i
 	}

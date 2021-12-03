@@ -28,7 +28,7 @@ type Comment struct {
 // CommentBlock parses the optional SAUCE comment block.
 func (d *Data) CommentBlock() (c Comment) {
 	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
-	c.ID = comntID
+	c.ID = ComntID
 	c.Count = int(UnsignedBinary1(d.Comnt.Count))
 	if breakCount > 0 {
 		// comments with line breaks are technically invalid but they exist in the wild.
