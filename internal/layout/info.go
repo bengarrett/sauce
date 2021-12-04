@@ -8,17 +8,17 @@ import (
 
 // Infos includes the SAUCE fields dependant on both DataType and FileType.
 type Infos struct {
-	Info1 Info      `json:"1" xml:"1"`
-	Info2 Info      `json:"2" xml:"2"`
-	Info3 Info      `json:"3" xml:"3"`
-	Flags ANSIFlags `json:"flags" xml:"flags"`
-	Font  string    `json:"fontName" xml:"fontname"`
+	Info1 Info      `json:"1" xml:"1"`               // Type dependant numeric information field 1.
+	Info2 Info      `json:"2" xml:"2"`               // Type dependant numeric information field 2.
+	Info3 Info      `json:"3" xml:"3"`               // Type dependant numeric information field 3.
+	Flags ANSIFlags `json:"flags" xml:"flags"`       // Type dependant flags.
+	Font  string    `json:"fontName" xml:"fontname"` // FontName field allows an author to provide a clue to the viewer/editor which font to use to render the image.
 }
 
-// Info includes the SAUCE TInfo value and meaning.
+// Info is the type for the SAUCE TInfo1, TInfo2, TInfo3 and TInfo4 fields.
 type Info struct {
-	Value uint16 `json:"value" xml:"value"`
-	Info  string `json:"info" xml:"info,attr"`
+	Value uint16 `json:"value" xml:"value"`    // The value of the field.
+	Info  string `json:"info" xml:"info,attr"` // A description of the value.
 }
 
 const (

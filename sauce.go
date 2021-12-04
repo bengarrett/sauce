@@ -59,18 +59,18 @@ func Trim(b []byte) []byte {
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.
 type Record struct {
-	ID       string         `json:"id" xml:"id,attr"`
-	Version  string         `json:"version" xml:"version,attr"`
-	Title    string         `json:"title" xml:"title"`
-	Author   string         `json:"author" xml:"author"`
-	Group    string         `json:"group" xml:"group"`
-	Date     layout.Dates   `json:"date" xml:"date"`
-	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`
-	Data     layout.Datas   `json:"dataType"  xml:"data_type"`
-	File     layout.Files   `json:"fileType" xml:"file_type"`
-	Info     layout.Infos   `json:"typeInfo"  xml:"type_info"`
-	Desc     string         `json:"-" xml:"-"`
-	Comnt    layout.Comment `json:"comments" xml:"comments"`
+	ID       string         `json:"id" xml:"id,attr"`           // ID is the SAUCE identification, it should equal "SAUCE".
+	Version  string         `json:"version" xml:"version,attr"` // Version is the SAUCE version, it should be "00".
+	Title    string         `json:"title" xml:"title"`          // Title of the file.
+	Author   string         `json:"author" xml:"author"`        // The nick, name or handle of the creator of the file.
+	Group    string         `json:"group" xml:"group"`          // The name of the group or company the creator is employed by.
+	Date     layout.Dates   `json:"date" xml:"date"`            // The date the file was created.
+	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`    // The original file size not including the SAUCE information.
+	Data     layout.Datas   `json:"dataType"  xml:"data_type"`  // Type of data.
+	File     layout.Files   `json:"fileType" xml:"file_type"`   // Type of file.
+	Info     layout.Infos   `json:"typeInfo"  xml:"type_info"`  // Type dependant numeric informations.
+	Desc     string         `json:"-" xml:"-"`                  // Humanized description of the file.
+	Comnt    layout.Comment `json:"comments" xml:"comments"`    // Comments or notes from the creator.
 }
 
 // Decode the SAUCE data contained within b.

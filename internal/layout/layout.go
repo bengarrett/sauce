@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-// nolint:lll
+//nolint:lll
 const (
 	ComntID       string = "COMNT"                // SAUCE comment block identification. This should be equal to "COMNT".
 	SauceID       string = "SAUCE"                // SAUCE identification, this should be equal to "SAUCE".
@@ -17,23 +17,23 @@ const (
 )
 
 type (
-	Data     []byte // Data is the input data.
-	Id       [5]byte
-	Version  [2]byte
-	Title    [35]byte
-	Author   [20]byte
-	Group    [20]byte
-	Date     [8]byte
-	FileSize [4]byte
-	DataType [1]byte
-	FileType [1]byte
-	TInfo1   [2]byte
-	TInfo2   [2]byte
-	TInfo3   [2]byte
-	TInfo4   [2]byte
-	Comments [1]byte
-	TFlags   [1]byte
-	TInfoS   [22]byte
+	Data     []byte   // Data is the input data.
+	Id       [5]byte  // SAUCE identification.
+	Version  [2]byte  // SAUCE version number.
+	Title    [35]byte // The title of the file.
+	Author   [20]byte // The (nick)name or handle of the creator of the file.
+	Group    [20]byte // The name of the group or company the creator is employed by.
+	Date     [8]byte  // The date the file was created.
+	FileSize [4]byte  // The original file size not including the SAUCE information.
+	DataType [1]byte  // Type of data.
+	FileType [1]byte  // Type of file.
+	TInfo1   [2]byte  // Type dependant numeric information field 1.
+	TInfo2   [2]byte  // Type dependant numeric information field 2.
+	TInfo3   [2]byte  // Type dependant numeric information field 3.
+	TInfo4   [2]byte  // Type dependant numeric information field 4.
+	Comments [1]byte  // Number of lines in the extra SAUCE comment block.
+	TFlags   [1]byte  // Type dependant flags.
+	TInfoS   [22]byte // Type dependant string information field.
 )
 
 type Layout struct {

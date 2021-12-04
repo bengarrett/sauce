@@ -12,18 +12,20 @@ import (
 )
 
 type Comnt struct {
-	Index  int
-	Length int
-	Count  Comments
-	Lines  []byte
+	Index  int      // The calculated starting position of the comment block.
+	Length int      // The calculated length of the comment block.
+	Count  Comments // The reported number of lines in the SAUCE comment block.
+	Lines  []byte   // Lines of text.
 }
 
-// Comment contain the optional SAUCE comment block.
+// Comment contains the optional SAUCE comment block.
+// A SAUCE comment block is an optional, variable sized structure that holds
+// up to 255 lines of additional information, each line 64 characters wide.
 type Comment struct {
-	ID      string   `json:"id" xml:"id,attr"`
-	Count   int      `json:"count" xml:"count,attr"`
-	Index   int      `json:"-" xml:"-"`
-	Comment []string `json:"lines" xml:"line"`
+	ID      string   `json:"id" xml:"id,attr"`       // SAUCE comment block identification, this should be "COMNT"
+	Count   int      `json:"count" xml:"count,attr"` // The reported number of lines in the SAUCE comment block.
+	Index   int      `json:"-" xml:"-"`              // The calculated starting position of the comment block.
+	Comment []string `json:"lines" xml:"line"`       // Lines of text, each line should be 64 characters.
 }
 
 // CommentBlock parses the optional SAUCE comment block.

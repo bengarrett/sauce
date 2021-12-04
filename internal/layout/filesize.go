@@ -9,11 +9,11 @@ import (
 	"golang.org/x/text/language"
 )
 
-// Sizes of the file data in multiples.
+// Sizes is the original file size in multiple formats.
 type Sizes struct {
-	Bytes   uint16 `json:"bytes" xml:"bytes"`
-	Decimal string `json:"decimal" xml:"decimal,attr"`
-	Binary  string `json:"binary" xml:"binary,attr"`
+	Bytes   uint16 `json:"bytes" xml:"bytes"`          // Size as bytes.
+	Decimal string `json:"decimal" xml:"decimal,attr"` // Decimal returns the file size as a base 10 value.
+	Binary  string `json:"binary" xml:"binary,attr"`   // Binary returns the file size as a base 2 value.
 }
 
 func (d *Layout) Sizes() Sizes {

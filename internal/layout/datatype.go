@@ -2,25 +2,25 @@
 // See http://www.acid.org/info/sauce/sauce.htm
 package layout
 
-// Datas is both the SAUCE DataType value and name.
+// Datas is the SAUCE DataType value and name.
 type Datas struct {
-	Type TypeOfData `json:"type" xml:"type"`
-	Name string     `json:"name" xml:"name"`
+	Type TypeOfData `json:"type" xml:"type"` // A unsigned integer DataType.
+	Name string     `json:"name" xml:"name"` // Name of the DataType.
 }
 
-// TypeOfData is the data type (SAUCE DataType).
+// TypeOfData is the SAUCE DataType.
 type TypeOfData uint
 
 const (
-	Nones TypeOfData = iota
-	Characters
-	Bitmaps
-	Vectors
-	Audios
-	BinaryTexts
-	XBins
-	Archives
-	Executables
+	Nones       TypeOfData = iota // Undefined filetype.
+	Characters                    // A character based file.
+	Bitmaps                       // Bitmap graphic and animation files.
+	Vectors                       // A vector graphic file.
+	Audios                        // An audio file.
+	BinaryTexts                   // This is a raw memory copy of a text mode screen. Also known as a .BIN file.
+	XBins                         // An XBin or eXtended BIN file.
+	Archives                      // An archive file.
+	Executables                   // A executable file.
 )
 
 func (d TypeOfData) String() string {

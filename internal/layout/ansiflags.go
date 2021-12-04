@@ -22,14 +22,14 @@ const Unsupported = "no preference"
 // Flags is the SAUCE Flags field.
 type Flags uint8
 
-// ANSIFlags are the interpretation of the SAUCE Flags field.
+// ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image.
 type ANSIFlags struct {
-	Decimal         Flags      `json:"decimal" xml:"decimal,attr"`
-	Binary          string     `json:"binary" xml:"binary,attr"`
-	B               ANSIFlagB  `json:"nonBlinkMode" xml:"non_blink_mode"`
-	LS              ANSIFlagLS `json:"letterSpacing" xml:"letter_spacing"`
-	AR              ANSIFlagAR `json:"aspectRatio" xml:"aspect_ratio"`
-	Interpretations string     `json:"-" xml:"-"`
+	Decimal         Flags      `json:"decimal" xml:"decimal,attr"`         // Flags value as an unsigned integer.
+	Binary          string     `json:"binary" xml:"binary,attr"`           // Flags value in binary notation.
+	B               ANSIFlagB  `json:"nonBlinkMode" xml:"non_blink_mode"`  // Non-blink mode (iCE Color) value.
+	LS              ANSIFlagLS `json:"letterSpacing" xml:"letter_spacing"` // Letter-spacing value.
+	AR              ANSIFlagAR `json:"aspectRatio" xml:"aspect_ratio"`     // Aspect Ratio value.
+	Interpretations string     `json:"-" xml:"-"`                          // Humanized descriptions of the ANSIFlags bits.
 }
 
 func (a *ANSIFlags) String() string {
@@ -55,8 +55,8 @@ func (a *ANSIFlags) String() string {
 
 // ANSIFlagB is the interpretation of the SAUCE Flags non-blink mode binary bit.
 type ANSIFlagB struct {
-	Flag BBit   `json:"flag" xml:"flag"`
-	Info string `json:"interpretation" xml:"interpretation,attr"`
+	Flag BBit   `json:"flag" xml:"flag"`                          // Non-blink mode (iCE Color) toggle.
+	Info string `json:"interpretation" xml:"interpretation,attr"` // A description of the toggle.
 }
 
 func (f Flags) Parse() ANSIFlags {
@@ -81,11 +81,11 @@ func (f Flags) Parse() ANSIFlags {
 
 // ANSIFlagLS is the interpretation of the SAUCE Flags letter spacing binary bits.
 type ANSIFlagLS struct {
-	Flag LsBit  `json:"flag" xml:"flag"`
-	Info string `json:"interpretation" xml:"interpretation,attr"`
+	Flag LsBit  `json:"flag" xml:"flag"`                          // Letter-spacing value.
+	Info string `json:"interpretation" xml:"interpretation,attr"` // A description of the value.
 }
 
-type LsBit string
+type LsBit string // Letter-spacing two bit value.
 
 func (ls LsBit) String() string {
 	const none, eight, nine = "00", "01", "10"
@@ -103,11 +103,11 @@ func (ls LsBit) String() string {
 
 // ANSIFlagAR is the interpretation of the SAUCE Flags aspect ratio binary bits.
 type ANSIFlagAR struct {
-	Flag ArBit  `json:"flag" xml:"flag"`
-	Info string `json:"interpretation" xml:"interpretation,attr"`
+	Flag ArBit  `json:"flag" xml:"flag"`                          // Aspect Ratio value.
+	Info string `json:"interpretation" xml:"interpretation,attr"` // A description of the value.
 }
 
-type ArBit string
+type ArBit string // Aspect Ratio two bit value.
 
 func (ar ArBit) String() string {
 	const none, strect, square = "00", "01", "10"
@@ -123,7 +123,7 @@ func (ar ArBit) String() string {
 	}
 }
 
-type BBit string
+type BBit string // Non-blink mode (iCE Color) bit value.
 
 func (b BBit) String() string {
 	const blink, non = "0", "1"

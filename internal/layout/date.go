@@ -16,11 +16,11 @@ var (
 	ErrSauceDate = errors.New("sauce date error")
 )
 
-// Dates in multiple output formats.
+// Dates is the date the file was created, in multiple time formats.
 type Dates struct {
-	Value string    `json:"value" xml:"value"`
-	Time  time.Time `json:"iso" xml:"date"`
-	Epoch int64     `json:"epoch" xml:"epoch,attr"`
+	Value string    `json:"value" xml:"value"`      // SAUCE date format, CCYYMMDD (century, year, month, day).
+	Time  time.Time `json:"iso" xml:"date"`         // Time as a time type.
+	Epoch int64     `json:"epoch" xml:"epoch,attr"` // Unix time, the number of seconds since 1 Jan 1970.
 }
 
 func (d *Layout) Dates() Dates {

@@ -6,13 +6,13 @@ import "errors"
 
 var ErrFileType = errors.New("unknown filetype")
 
-// Files, both the SAUCE FileType value and name.
+// Files is the SAUCE FileType value and name.
 type Files struct {
-	Type TypeOfFile `json:"type" xml:"type"`
-	Name string     `json:"name" xml:"name"`
+	Type TypeOfFile `json:"type" xml:"type"` // A unsigned integer FileType.
+	Name string     `json:"name" xml:"name"` // Name of the FileType.
 }
 
-// TypeOfFile is the type of file (SAUCE FileType).
+// TypeOfData is the SAUCE FileType.
 type TypeOfFile uint
 
 func (d *Layout) FileType() Files {
