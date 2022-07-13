@@ -179,7 +179,7 @@ func ExampleRecord_XML() {
 		log.Fatal(err)
 	}
 	fmt.Print(string(xm))
-	// Output: <Record id="SAUCE" version="00"><title>Sauce title</title><author>Sauce author</author><group>Sauce group</group><date epoch="1480118400"><value>20161126</value><date>2016-11-26T00:00:00Z</date></date><filesize decimal="3.7 kB" binary="3.6 KiB"><bytes>3713</bytes></filesize><data_type><type>1</type><name>text or character stream</name></data_type><file_type><type>0</type><name>ASCII text</name></file_type><type_info><1 info="character width"><value>977</value></1><2 info="number of lines"><value>9</value></2><3 info=""><value>0</value></3><flags decimal="19" binary="10011"><non_blink_mode interpretation="non-blink mode"><flag>1</flag></non_blink_mode><letter_spacing interpretation="no preference"><flag>00</flag></letter_spacing><aspect_ratio interpretation="invalid value"><flag>11</flag></aspect_ratio></flags><fontname>IBM VGA</fontname></type_info><comments id="COMNT" count="1"><line>Any comments go here.                                           </line></comments></Record>
+	// Output: <Record id="SAUCE" version="00"><title>Sauce title</title><author>Sauce author</author><group>Sauce group</group><date epoch="1480118400"><value>20161126</value><date>2016-11-26T00:00:00Z</date></date><filesize decimal="3.7 kB" binary="3.6 KiB"><bytes>3713</bytes></filesize><data_type><type>1</type><name>text or character stream</name></data_type><file_type><type>0</type><name>ASCII text</name></file_type><type_info><type1 type="character width"><value>977</value></type1><type2 type="number of lines"><value>9</value></type2><type3 type=""><value>0</value></type3><flags decimal="19" binary="10011"><non_blink_mode interpretation="non-blink mode"><flag>1</flag></non_blink_mode><letter_spacing interpretation="no preference"><flag>00</flag></letter_spacing><aspect_ratio interpretation="invalid value"><flag>11</flag></aspect_ratio></flags><fontname>IBM VGA</fontname></type_info><comments id="COMNT" count="1"><line>Any comments go here.                                           </line></comments></Record>
 }
 
 func ExampleRecord_XMLIndent() {
@@ -214,15 +214,15 @@ func ExampleRecord_XMLIndent() {
 	//     <name>ASCII text</name>
 	//   </file_type>
 	//   <type_info>
-	//     <1 info="character width">
+	//     <type1 type="character width">
 	//       <value>977</value>
-	//     </1>
-	//     <2 info="number of lines">
+	//     </type1>
+	//     <type2 type="number of lines">
 	//       <value>9</value>
-	//     </2>
-	//     <3 info="">
+	//     </type2>
+	//     <type3 type="">
 	//       <value>0</value>
-	//     </3>
+	//     </type3>
 	//     <flags decimal="19" binary="10011">
 	//       <non_blink_mode interpretation="non-blink mode">
 	//         <flag>1</flag>
