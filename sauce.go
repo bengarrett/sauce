@@ -59,18 +59,30 @@ func Trim(b []byte) []byte {
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.
 type Record struct {
-	ID       string         `json:"id" xml:"id,attr"`           // ID is the SAUCE identification, it should equal "SAUCE".
-	Version  string         `json:"version" xml:"version,attr"` // Version is the SAUCE version, it should be "00".
-	Title    string         `json:"title" xml:"title"`          // Title of the file.
-	Author   string         `json:"author" xml:"author"`        // The nick, name or handle of the creator of the file.
-	Group    string         `json:"group" xml:"group"`          // The name of the group or company the creator is employed by.
-	Date     layout.Dates   `json:"date" xml:"date"`            // The date the file was created.
-	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`    // The original file size not including the SAUCE information.
-	Data     layout.Datas   `json:"dataType"  xml:"data_type"`  // Type of data.
-	File     layout.Files   `json:"fileType" xml:"file_type"`   // Type of file.
-	Info     layout.Infos   `json:"typeInfo"  xml:"type_info"`  // Type dependant numeric informations.
-	Desc     string         `json:"-" xml:"-"`                  // Humanized description of the file.
-	Comnt    layout.Comment `json:"comments" xml:"comments"`    // Comments or notes from the creator.
+	// ID is the SAUCE identification, it must equal "SAUCE".
+	ID string `json:"id" xml:"id,attr"`
+	// Version is the SAUCE version, it must equal "00".
+	Version string `json:"version" xml:"version,attr"`
+	// Title of the file.
+	Title string `json:"title" xml:"title"`
+	// Author is nick, name or handle of the creator of the file.
+	Author string `json:"author" xml:"author"`
+	// Group is the name of the group or company the creator is employed by.
+	Group string `json:"group" xml:"group"`
+	// Date the file was created.
+	Date layout.Dates `json:"date" xml:"date"`
+	// FileSize of the original file, not including any appended SAUCE data.
+	FileSize layout.Sizes `json:"filesize" xml:"filesize"`
+	// Data type used by the file.
+	Data layout.Datas `json:"dataType"  xml:"data_type"`
+	// File type of file.
+	File layout.Files `json:"fileType" xml:"file_type"`
+	// Info contains type dependant numeric informations.
+	Info layout.Infos `json:"typeInfo"  xml:"type_info"`
+	// Desc is a humanized description of the file.
+	Desc string `json:"-" xml:"-"`
+	// Comnt contains comments or notes from the creator.
+	Comnt layout.Comment `json:"comments" xml:"comments"`
 }
 
 // Decode the SAUCE data contained within b.
