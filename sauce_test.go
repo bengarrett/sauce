@@ -2,6 +2,10 @@
 package sauce_test
 
 import (
+	"encoding/json"
+	"encoding/xml"
+	"fmt"
+	"os"
 	"reflect"
 	"strings"
 	"testing"
@@ -49,5 +53,77 @@ func TestDecode(t *testing.T) {
 	const wantA = "Sauce author"
 	if got.Author != wantA {
 		t.Errorf("Decode().Author = %q, want %q", got.Author, wantA)
+	}
+}
+
+func TestJSON(t *testing.T) {
+	const id, ver = "SAUCE", "00"
+	raw, err := static.ReadFile(example)
+	if err != nil {
+		t.Errorf("JSON() %v error: %v", example, err)
+		return
+	}
+	rec := sauce.Decode(raw)
+	// test json
+	got, err := rec.JSON()
+	if err != nil {
+		t.Errorf("JSON() %v error: %v", example, err)
+		return
+	}
+	var res sauce.Record
+	if err := json.Unmarshal([]byte(got), &res); err != nil {
+		t.Errorf("Unmarshal error: %v", err)
+	}
+	if res.ID != id {
+		t.Errorf("Unmarshal ID got: %v, want %v", res.ID, id)
+	}
+	if res.Version != ver {
+		t.Errorf("Unmarshal Version got: %v, want %v", res.Version, ver)
+	}
+	// test json tab indent
+	got, err = rec.JSONIndent("\t")
+	if err != nil {
+		t.Errorf("JSONIndent() %v error: %v", example, err)
+		return
+	}
+	res = sauce.Record{}
+	if err := json.Unmarshal([]byte(got), &res); err != nil {
+		t.Errorf("Unmarshal error: %v", err)
+	}
+	if res.ID != id {
+		t.Errorf("Unmarshal ID got: %v, want %v", res.ID, id)
+	}
+	if res.Version != ver {
+		t.Errorf("Unmarshal Version got: %v, want %v", res.Version, ver)
+	}
+}
+
+func TestXML(t *testing.T) {
+	const id, ver = "SAUCE", "00"
+	raw, err := static.ReadFile(example)
+	if err != nil {
+		t.Errorf("JSON() %v error: %v", example, err)
+		return
+	}
+	rec := sauce.Decode(raw)
+	got, err := rec.XMLIndent("  ")
+	if err != nil {
+		t.Errorf("XML() %v error: %v", example, err)
+		return
+	}
+	var res sauce.Record
+	if err := xml.Unmarshal([]byte(got), &res); err != nil {
+		t.Errorf("Unmarshal error: %v", err)
+		s := strings.Split(string(got), "\n")
+		for i, row := range s {
+			fmt.Fprintf(os.Stderr, "%d. %s\n", i+1, row)
+		}
+		return
+	}
+	if res.ID != id {
+		t.Errorf("Unmarshal ID got: %v, want %v", res.ID, id)
+	}
+	if res.Version != ver {
+		t.Errorf("Unmarshal Version got: %v, want %v", res.Version, ver)
 	}
 }
