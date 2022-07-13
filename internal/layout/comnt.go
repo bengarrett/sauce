@@ -29,8 +29,9 @@ type Comment struct {
 }
 
 // CommentBlock parses the optional SAUCE comment block.
-func (d *Layout) CommentBlock() (c Comment) {
+func (d *Layout) CommentBlock() Comment {
 	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
+	var c Comment
 	c.ID = ComntID
 	c.Count = int(UnsignedBinary1(d.Comnt.Count))
 	c.Index = -1
@@ -48,21 +49,23 @@ func (d *Layout) CommentBlock() (c Comment) {
 }
 
 // CommentByBreak parses the SAUCE comment by line break characters.
-func CommentByBreak(b []byte) (lines []string) {
+func CommentByBreak(b []byte) []string {
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
+	s := []string{}
 	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+		s = append(s, scanner.Text())
 	}
-	return lines
+	return s
 }
 
 // CommentByLine parses the SAUCE comment by lines of 64 characters.
-func CommentByLine(b []byte) (lines []string) {
+func CommentByLine(b []byte) []string {
 	s, l := "", 0
 	resetLine := func() {
 		s, l = "", 0
 	}
+	lines := []string{}
 	for _, c := range b {
 		l++
 		s += string(c)

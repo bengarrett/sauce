@@ -65,13 +65,13 @@ func TestJSON(t *testing.T) {
 	}
 	rec := sauce.Decode(raw)
 	// test json
-	got, err := rec.JSON()
+	gotData, err := rec.JSON()
 	if err != nil {
 		t.Errorf("JSON() %v error: %v", example, err)
 		return
 	}
 	var res sauce.Record
-	if err := json.Unmarshal([]byte(got), &res); err != nil {
+	if err := json.Unmarshal(gotData, &res); err != nil {
 		t.Errorf("Unmarshal error: %v", err)
 	}
 	if res.ID != id {
@@ -81,13 +81,13 @@ func TestJSON(t *testing.T) {
 		t.Errorf("Unmarshal Version got: %v, want %v", res.Version, ver)
 	}
 	// test json tab indent
-	got, err = rec.JSONIndent("\t")
+	gotData, err = rec.JSONIndent("\t")
 	if err != nil {
 		t.Errorf("JSONIndent() %v error: %v", example, err)
 		return
 	}
 	res = sauce.Record{}
-	if err := json.Unmarshal([]byte(got), &res); err != nil {
+	if err := json.Unmarshal(gotData, &res); err != nil {
 		t.Errorf("Unmarshal error: %v", err)
 	}
 	if res.ID != id {
@@ -106,15 +106,15 @@ func TestXML(t *testing.T) {
 		return
 	}
 	rec := sauce.Decode(raw)
-	got, err := rec.XMLIndent("  ")
+	gotData, err := rec.XMLIndent("  ")
 	if err != nil {
 		t.Errorf("XML() %v error: %v", example, err)
 		return
 	}
 	var res sauce.Record
-	if err := xml.Unmarshal([]byte(got), &res); err != nil {
+	if err := xml.Unmarshal(gotData, &res); err != nil {
 		t.Errorf("Unmarshal error: %v", err)
-		s := strings.Split(string(got), "\n")
+		s := strings.Split(string(gotData), "\n")
 		for i, row := range s {
 			fmt.Fprintf(os.Stderr, "%d. %s\n", i+1, row)
 		}

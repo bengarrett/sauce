@@ -38,7 +38,7 @@ func Test_data_FileType(t *testing.T) {
 		}},
 		{"nones", none, empty},
 		{"characters", chars, layout.Files{
-			layout.TypeOfFile(layout.Ascii), layout.Ascii.String(),
+			layout.TypeOfFile(layout.ASCII), layout.ASCII.String(),
 		}},
 		{"bitmaps", bmp, layout.Files{
 			layout.TypeOfFile(layout.Gif), layout.Gif.String(),

@@ -43,7 +43,7 @@ func Test_data_CommentBlock(t *testing.T) {
 		data layout.Layout
 		want []string
 	}{
-		{"empty", layout.Layout{}, nil},
+		{"empty", layout.Layout{}, []string{}},
 		{"example", exampleData(), []string{commentResult}},
 	}
 	for _, tt := range tests {
@@ -68,7 +68,7 @@ func Test_CommentByBreak(t *testing.T) {
 		b         []byte
 		wantLines []string
 	}{
-		{"empty", []byte{}, nil},
+		{"empty", []byte{}, []string{}},
 		{"example", exampleData().Comnt.Lines, []string{commentResult}},
 	}
 	for _, tt := range tests {
@@ -86,7 +86,7 @@ func Test_CommentByLine(t *testing.T) {
 		b         []byte
 		wantLines []string
 	}{
-		{"empty", []byte{}, nil},
+		{"empty", []byte{}, []string{}},
 		{"example", exampleData().Comnt.Lines, []string{commentResult}},
 	}
 	for _, tt := range tests {

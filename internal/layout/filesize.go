@@ -26,11 +26,12 @@ func (d *Layout) Sizes() Sizes {
 	}
 }
 
-func UnsignedBinary4(b [4]byte) (value uint16) {
+func UnsignedBinary4(b [4]byte) uint16 {
+	var data uint16
 	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &value)
+	err := binary.Read(buf, binary.LittleEndian, &data)
 	if err != nil {
 		log.Println("unsigned 4 byte, LE binary failed:", err)
 	}
-	return value
+	return data
 }

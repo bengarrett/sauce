@@ -18,7 +18,7 @@ const (
 
 type (
 	Data     []byte   // Data is the input data.
-	Id       [5]byte  // SAUCE identification.
+	ID       [5]byte  // SAUCE identification.
 	Version  [2]byte  // SAUCE version number.
 	Title    [35]byte // The title of the file.
 	Author   [20]byte // The (nick)name or handle of the creator of the file.
@@ -37,7 +37,7 @@ type (
 )
 
 type Layout struct {
-	Id       Id
+	ID       ID
 	Version  Version
 	Title    Title
 	Author   Author
@@ -100,7 +100,7 @@ func Index(b []byte) int {
 	return -1
 }
 
-func (b Id) String() string {
+func (b ID) String() string {
 	return string(b[:])
 }
 
@@ -142,7 +142,7 @@ func (d Data) Extract() Layout {
 		return Layout{}
 	}
 	l := Layout{
-		Id:       d.id(i),
+		ID:       d.id(i),
 		Version:  d.version(i),
 		Title:    d.title(i),
 		Author:   d.author(i),
@@ -164,14 +164,11 @@ func (d Data) Extract() Layout {
 }
 
 func (d Data) author(i int) Author {
+	const start = 42
 	var a Author
-	const (
-		start = 42
-		end   = start + len(a)
-	)
-	for j, c := range d[start+i : end+i] {
-		a[j] = c
-	}
+	// source answer:
+	// https://stackoverflow.com/questions/30285680/how-to-convert-slice-to-fixed-size-array
+	copy(a[:], d[start+i:])
 	return a
 }
 
@@ -231,14 +228,9 @@ func (d Data) dataType(i int) DataType {
 }
 
 func (d Data) date(i int) Date {
+	const start = 82
 	var dt Date
-	const (
-		start = 82
-		end   = start + len(dt)
-	)
-	for j, c := range d[start+i : end+i] {
-		dt[j] = c
-	}
+	copy(dt[:], d[start+i:])
 	return dt
 }
 
@@ -251,19 +243,14 @@ func (d Data) fileType(i int) FileType {
 }
 
 func (d Data) group(i int) Group {
+	const start = 62
 	var g Group
-	const (
-		start = 62
-		end   = start + len(g)
-	)
-	for j, c := range d[start+i : end+i] {
-		g[j] = c
-	}
+	copy(g[:], d[start+i:])
 	return g
 }
 
-func (d Data) id(i int) Id {
-	return Id{d[i+0], d[i+1], d[i+2], d[i+3], d[i+4]}
+func (d Data) id(i int) ID {
+	return ID{d[i+0], d[i+1], d[i+2], d[i+3], d[i+4]}
 }
 
 func (d Data) tFlags(i int) TFlags {
@@ -271,14 +258,9 @@ func (d Data) tFlags(i int) TFlags {
 }
 
 func (d Data) title(i int) Title {
+	const start = 7
 	var t Title
-	const (
-		start = 7
-		end   = start + len(t)
-	)
-	for j, c := range d[start+i : end+i] {
-		t[j] = c
-	}
+	copy(t[:], d[start+i:])
 	return t
 }
 
@@ -317,11 +299,12 @@ func (d Data) version(i int) Version {
 	return Version{d[i+5], d[i+6]}
 }
 
-func UnsignedBinary1(b [1]byte) (value uint8) {
+func UnsignedBinary1(b [1]byte) uint8 {
+	var data uint8
 	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &value)
+	err := binary.Read(buf, binary.LittleEndian, &data)
 	if err != nil {
 		log.Println("unsigned 1 byte, LE binary failed:", err)
 	}
-	return value
+	return data
 }

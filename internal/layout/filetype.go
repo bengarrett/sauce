@@ -16,8 +16,7 @@ type Files struct {
 type TypeOfFile uint
 
 func (d *Layout) FileType() Files {
-	data, file :=
-		UnsignedBinary1(d.Datatype),
+	data, file := UnsignedBinary1(d.Datatype),
 		UnsignedBinary1(d.Filetype)
 	switch TypeOfData(data) {
 	case Nones:

@@ -57,7 +57,7 @@ func TestIndex(t *testing.T) {
 
 func TestId_String(t *testing.T) {
 	const s = "SAUCE"
-	if got := exampleData().Id.String(); got != s {
+	if got := exampleData().ID.String(); got != s {
 		t.Errorf("Id.String() = %q, want %q", got, s)
 	}
 	const v = "00"

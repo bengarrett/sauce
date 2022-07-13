@@ -7,13 +7,13 @@ package layout
 type Character uint
 
 const (
-	Ascii Character = iota
+	ASCII Character = iota
 	Ansi
 	AnsiMation
 	RipScript
 	PCBoard
 	Avatar
-	Html
+	HTML
 	Source
 	TundraDraw
 )
@@ -54,21 +54,20 @@ func (c Character) Desc() string {
 }
 
 func (d *Layout) Description() string {
-	dt, ft :=
-		UnsignedBinary1(d.Datatype),
+	dt, ft := UnsignedBinary1(d.Datatype),
 		UnsignedBinary1(d.Filetype)
 	c := Character(ft)
 	if TypeOfData(dt) != Characters {
 		return ""
 	}
 	switch c {
-	case Ascii,
+	case ASCII,
 		Ansi,
 		AnsiMation,
 		RipScript,
 		PCBoard,
 		Avatar,
-		Html,
+		HTML,
 		Source,
 		TundraDraw:
 		return c.Desc()

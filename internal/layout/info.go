@@ -87,14 +87,14 @@ func (d *Layout) InfoType() Infos {
 
 func (ti *Infos) character(ft uint8) {
 	switch Character(ft) {
-	case Ascii, Ansi, AnsiMation, PCBoard, Avatar, TundraDraw:
+	case ASCII, Ansi, AnsiMation, PCBoard, Avatar, TundraDraw:
 		ti.Info1.Info = chrw
 		ti.Info2.Info = nol
 	case RipScript:
 		ti.Info1.Info = pxw
 		ti.Info2.Info = "character screen height"
 		ti.Info3.Info = "number of colors"
-	case Html, Source:
+	case HTML, Source:
 		return
 	}
 }

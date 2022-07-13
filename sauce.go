@@ -93,7 +93,7 @@ func Decode(b []byte) Record {
 		return Record{}
 	}
 	return Record{
-		ID:       d.Id.String(),
+		ID:       d.ID.String(),
 		Version:  d.Version.String(),
 		Title:    strings.TrimSpace(d.Title.String()),
 		Author:   strings.TrimSpace(d.Author.String()),

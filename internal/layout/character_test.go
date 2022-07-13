@@ -13,7 +13,7 @@ func TestCharacter_String(t *testing.T) {
 		want string
 	}{
 		{"out of range", 999, ""},
-		{"first", layout.Ascii, "ASCII text"},
+		{"first", layout.ASCII, "ASCII text"},
 		{"last", layout.TundraDraw, "TundraDraw color text"},
 	}
 	for _, tt := range tests {
@@ -33,7 +33,7 @@ func TestCharacter_Desc(t *testing.T) {
 	}{
 		{"out of range", 999, ""},
 		{
-			"first", layout.Ascii,
+			"first", layout.ASCII,
 			"ASCII text file with no formatting codes or color codes.",
 		},
 		{

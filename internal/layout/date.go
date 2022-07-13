@@ -37,19 +37,22 @@ func (d *Layout) Dates() Dates {
 	}
 }
 
-func (d *Layout) parseDate() (t time.Time, err error) {
+func (d *Layout) parseDate() (time.Time, error) {
 	da := d.Date
 	dy, err := strconv.Atoi(string(da[0:4]))
 	if err != nil {
-		return t, fmt.Errorf("year failed: %v: %w", dy, ErrParseDate)
+		return time.Time{},
+			fmt.Errorf("year failed: %v: %w", dy, ErrParseDate)
 	}
 	dm, err := strconv.Atoi(string(da[4:6]))
 	if err != nil {
-		return t, fmt.Errorf("month failed: %v: %w", dm, ErrParseDate)
+		return time.Time{},
+			fmt.Errorf("month failed: %v: %w", dm, ErrParseDate)
 	}
 	dd, err := strconv.Atoi(string(da[6:8]))
 	if err != nil {
-		return t, fmt.Errorf("day failed: %v: %w", dd, ErrParseDate)
+		return time.Time{},
+			fmt.Errorf("day failed: %v: %w", dd, ErrParseDate)
 	}
 	return time.Date(dy, time.Month(dm), dd, 0, 0, 0, 0, time.UTC), nil
 }
