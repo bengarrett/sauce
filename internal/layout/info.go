@@ -8,17 +8,24 @@ import (
 
 // Infos includes the SAUCE fields dependant on both DataType and FileType.
 type Infos struct {
-	Info1 Info      `json:"1" xml:"type1"`           // Type dependant numeric information field 1.
-	Info2 Info      `json:"2" xml:"type2"`           // Type dependant numeric information field 2.
-	Info3 Info      `json:"3" xml:"type3"`           // Type dependant numeric information field 3.
-	Flags ANSIFlags `json:"flags" xml:"flags"`       // Type dependant flags.
-	Font  string    `json:"fontName" xml:"fontname"` // FontName field allows an author to provide a clue to the viewer/editor which font to use to render the image.
+	// Info1 dependant numeric information field 1.
+	Info1 Info `json:"1" xml:"type1"`
+	// Info2 dependant numeric information field 2.
+	Info2 Info `json:"2" xml:"type2"`
+	// Info3 dependant numeric information field 3.
+	Info3 Info `json:"3" xml:"type3"`
+	// Flags are file type dependant flags.
+	Flags ANSIFlags `json:"flags" xml:"flags"`
+	// Font field allows an author to provide a clue to the viewer/editor which font to use to render the image.
+	Font string `json:"fontName" xml:"fontname"`
 }
 
 // Info is the type for the SAUCE TInfo1, TInfo2, TInfo3 and TInfo4 fields.
 type Info struct {
-	Value uint16 `json:"value" xml:"value"`    // The value of the field.
-	Info  string `json:"info" xml:"type,attr"` // A description of the value.
+	// Value of the field.
+	Value uint16 `json:"value" xml:"value"`
+	// Info is a description of the value.
+	Info string `json:"info" xml:"type,attr"`
 }
 
 const (
@@ -28,11 +35,9 @@ const (
 )
 
 func (d *Layout) InfoType() Infos {
-	dt, ft :=
-		UnsignedBinary1(d.Datatype),
+	dt, ft := UnsignedBinary1(d.Datatype),
 		UnsignedBinary1(d.Filetype)
-	t1, t2, t3 :=
-		UnsignedBinary2(d.Tinfo1),
+	t1, t2, t3 := UnsignedBinary2(d.Tinfo1),
 		UnsignedBinary2(d.Tinfo2),
 		UnsignedBinary2(d.Tinfo3)
 	flag := Flags(UnsignedBinary1(d.TFlags))
@@ -94,11 +99,12 @@ func (ti *Infos) character(ft uint8) {
 	}
 }
 
-func UnsignedBinary2(b [2]byte) (value uint16) {
+func UnsignedBinary2(b [2]byte) uint16 {
+	var data uint16
 	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &value)
+	err := binary.Read(buf, binary.LittleEndian, &data)
 	if err != nil {
 		log.Println("unsigned 2 bytes, LE binary failed:", err)
 	}
-	return value
+	return data
 }
