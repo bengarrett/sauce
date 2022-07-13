@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/bengarrett/sauce.svg)](https://pkg.go.dev/github.com/bengarrett/sauce) &nbsp; [![Go Report Card](https://goreportcard.com/badge/github.com/bengarrett/sauce)](https://goreportcard.com/report/github.com/bengarrett/sauce)
+
 # Package sauce
 
 Package sauce is a [Go module](https://go.dev/) that parses SAUCE (Standard Architecture for
@@ -8,7 +10,9 @@ more commonly known, is an architecture or protocol for attaching meta data
 or comments to files. Mainly intended for [ANSI art files](https://en.wikipedia.org/wiki/ANSI_art), SAUCE has always
 had provisions for many different file types.
 
-For the complete specification see http://www.acid.org/info/sauce/sauce.htm.
+For the complete specification see:<br>
+http://www.acid.org/info/sauce/sauce.htm<br>
+https://github.com/radman1/sauce<br>
 
 ## Quick usage
 
@@ -109,3 +113,11 @@ The name of the group or company the creator is employed by.
 - - `id` - SAUCE comment block identification, this should be "COMNT"
 - - `count`- The reported number of lines in the SAUCE comment block.
 - - `lines` - Lines of text, each line should comprise of 64 characters.
+
+---
+
+### Similar projects and languages
+
+- Go, [textmodes sauce](https://github.com/textmodes/sauce)
+- Python, [Parser for SAUCE](https://pypi.org/project/sauce/)
+- Elixir, [Saucexages](https://hexdocs.pm/saucexages/overview.html)
