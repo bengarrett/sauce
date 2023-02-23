@@ -2,4 +2,4 @@ module github.com/bengarrett/sauce
 
 go 1.16
 
-require golang.org/x/text v0.3.7
+require golang.org/x/text v0.3.8
