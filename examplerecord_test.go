@@ -24,7 +24,7 @@ func ExampleIndex() {
 	}
 	i := sauce.Index(b)
 	fmt.Printf("SAUCE metadata position index: %v", i)
-	// Output: SAUCE metadata position index: 1320
+	// Output: SAUCE metadata position index: 1190
 }
 
 //nolint:lll
@@ -35,7 +35,7 @@ func ExampleDecode() {
 	}
 	sr := sauce.Decode(b)
 	fmt.Printf("%+v", sr)
-	// Output: {ID:SAUCE Version:00 Title:Sauce title Author:Sauce author Group:Sauce group Date:{Value:20161126 Time:2016-11-26 00:00:00 +0000 UTC Epoch:1480118400} FileSize:{Bytes:3713 Decimal:3.7 kB Binary:3.6 KiB} Data:{Type:text or character stream Name:text or character stream} File:{Type:0 Name:ASCII text} Info:{Info1:{Value:977 Info:character width} Info2:{Value:9 Info:number of lines} Info3:{Value:0 Info:} Flags:{Decimal:19 Binary:10011 B:{Flag:non-blink mode Info:non-blink mode} LS:{Flag:no preference Info:no preference} AR:{Flag:invalid value Info:invalid value} Interpretations:} Font:IBM VGA} Desc:ASCII text file with no formatting codes or color codes. Comnt:{ID:COMNT Count:1 Index:1251 Comment:[Any comments go here.                                           ]}}
+	// Output: {ID:SAUCE Version:00 Title:Sauce title Author:Sauce author Group:Sauce group Date:{Value:20161126 Time:2016-11-26 00:00:00 +0000 UTC Epoch:1480118400} FileSize:{Bytes:3741 Decimal:3.7 kB Binary:3.7 KiB} Data:{Type:text or character stream Name:text or character stream} File:{Type:0 Name:ASCII text} Info:{Info1:{Value:977 Info:character width} Info2:{Value:9 Info:number of lines} Info3:{Value:0 Info:} Flags:{Decimal:19 Binary:10011 B:{Flag:non-blink mode Info:non-blink mode} LS:{Flag:no preference Info:no preference} AR:{Flag:invalid value Info:invalid value} Interpretations:} Font:IBM VGA} Desc:ASCII text file with no formatting codes or color codes. Comnt:{ID:COMNT Count:1 Index:1121 Comment:[Any comments go here.                                           ]}}
 }
 
 //nolint:lll
@@ -70,7 +70,7 @@ func ExampleNewRecord() {
 		return
 	}
 	fmt.Print(string(js))
-	// Output: {"id":"SAUCE","version":"00","title":"Sauce title","author":"Sauce author","group":"Sauce group","date":{"value":"20161126","iso":"2016-11-26T00:00:00Z","epoch":1480118400},"filesize":{"bytes":3713,"decimal":"3.7 kB","binary":"3.6 KiB"},"dataType":{"type":1,"name":"text or character stream"},"fileType":{"type":0,"name":"ASCII text"},"typeInfo":{"1":{"value":977,"info":"character width"},"2":{"value":9,"info":"number of lines"},"3":{"value":0,"info":""},"flags":{"decimal":19,"binary":"10011","nonBlinkMode":{"flag":"1","interpretation":"non-blink mode"},"letterSpacing":{"flag":"00","interpretation":"no preference"},"aspectRatio":{"flag":"11","interpretation":"invalid value"}},"fontName":"IBM VGA"},"comments":{"id":"COMNT","count":1,"lines":["Any comments go here.                                           "]}}
+	// Output: {"id":"SAUCE","version":"00","title":"Sauce title","author":"Sauce author","group":"Sauce group","date":{"value":"20161126","iso":"2016-11-26T00:00:00Z","epoch":1480118400},"filesize":{"bytes":3741,"decimal":"3.7 kB","binary":"3.7 KiB"},"dataType":{"type":1,"name":"text or character stream"},"fileType":{"type":0,"name":"ASCII text"},"typeInfo":{"1":{"value":977,"info":"character width"},"2":{"value":9,"info":"number of lines"},"3":{"value":0,"info":""},"flags":{"decimal":19,"binary":"10011","nonBlinkMode":{"flag":"1","interpretation":"non-blink mode"},"letterSpacing":{"flag":"00","interpretation":"no preference"},"aspectRatio":{"flag":"11","interpretation":"invalid value"}},"fontName":"IBM VGA"},"comments":{"id":"COMNT","count":1,"lines":["Any comments go here.                                           "]}}
 }
 
 //nolint:lll
@@ -85,7 +85,7 @@ func ExampleRecord_JSON() {
 		log.Fatal(err)
 	}
 	fmt.Print(string(js))
-	// Output: {"id":"SAUCE","version":"00","title":"Sauce title","author":"Sauce author","group":"Sauce group","date":{"value":"20161126","iso":"2016-11-26T00:00:00Z","epoch":1480118400},"filesize":{"bytes":3713,"decimal":"3.7 kB","binary":"3.6 KiB"},"dataType":{"type":1,"name":"text or character stream"},"fileType":{"type":0,"name":"ASCII text"},"typeInfo":{"1":{"value":977,"info":"character width"},"2":{"value":9,"info":"number of lines"},"3":{"value":0,"info":""},"flags":{"decimal":19,"binary":"10011","nonBlinkMode":{"flag":"1","interpretation":"non-blink mode"},"letterSpacing":{"flag":"00","interpretation":"no preference"},"aspectRatio":{"flag":"11","interpretation":"invalid value"}},"fontName":"IBM VGA"},"comments":{"id":"COMNT","count":1,"lines":["Any comments go here.                                           "]}}
+	// Output: {"id":"SAUCE","version":"00","title":"Sauce title","author":"Sauce author","group":"Sauce group","date":{"value":"20161126","iso":"2016-11-26T00:00:00Z","epoch":1480118400},"filesize":{"bytes":3741,"decimal":"3.7 kB","binary":"3.7 KiB"},"dataType":{"type":1,"name":"text or character stream"},"fileType":{"type":0,"name":"ASCII text"},"typeInfo":{"1":{"value":977,"info":"character width"},"2":{"value":9,"info":"number of lines"},"3":{"value":0,"info":""},"flags":{"decimal":19,"binary":"10011","nonBlinkMode":{"flag":"1","interpretation":"non-blink mode"},"letterSpacing":{"flag":"00","interpretation":"no preference"},"aspectRatio":{"flag":"11","interpretation":"invalid value"}},"fontName":"IBM VGA"},"comments":{"id":"COMNT","count":1,"lines":["Any comments go here.                                           "]}}
 }
 
 func ExampleRecord_JSONIndent() { //nolint:funlen
@@ -114,9 +114,9 @@ func ExampleRecord_JSONIndent() { //nolint:funlen
 	//     "epoch": 1480118400
 	//   },
 	//   "filesize": {
-	//     "bytes": 3713,
+	//     "bytes": 3741,
 	//     "decimal": "3.7 kB",
-	//     "binary": "3.6 KiB"
+	//     "binary": "3.7 KiB"
 	//   },
 	//   "dataType": {
 	//     "type": 1,
@@ -179,7 +179,7 @@ func ExampleRecord_XML() {
 		log.Fatal(err)
 	}
 	fmt.Print(string(xm))
-	// Output: <Record id="SAUCE" version="00"><title>Sauce title</title><author>Sauce author</author><group>Sauce group</group><date epoch="1480118400"><value>20161126</value><date>2016-11-26T00:00:00Z</date></date><filesize decimal="3.7 kB" binary="3.6 KiB"><bytes>3713</bytes></filesize><data_type><type>1</type><name>text or character stream</name></data_type><file_type><type>0</type><name>ASCII text</name></file_type><type_info><type1 type="character width"><value>977</value></type1><type2 type="number of lines"><value>9</value></type2><type3 type=""><value>0</value></type3><flags decimal="19" binary="10011"><non_blink_mode interpretation="non-blink mode"><flag>1</flag></non_blink_mode><letter_spacing interpretation="no preference"><flag>00</flag></letter_spacing><aspect_ratio interpretation="invalid value"><flag>11</flag></aspect_ratio></flags><fontname>IBM VGA</fontname></type_info><comments id="COMNT" count="1"><line>Any comments go here.                                           </line></comments></Record>
+	// Output: <Record id="SAUCE" version="00"><title>Sauce title</title><author>Sauce author</author><group>Sauce group</group><date epoch="1480118400"><value>20161126</value><date>2016-11-26T00:00:00Z</date></date><filesize decimal="3.7 kB" binary="3.7 KiB"><bytes>3741</bytes></filesize><data_type><type>1</type><name>text or character stream</name></data_type><file_type><type>0</type><name>ASCII text</name></file_type><type_info><type1 type="character width"><value>977</value></type1><type2 type="number of lines"><value>9</value></type2><type3 type=""><value>0</value></type3><flags decimal="19" binary="10011"><non_blink_mode interpretation="non-blink mode"><flag>1</flag></non_blink_mode><letter_spacing interpretation="no preference"><flag>00</flag></letter_spacing><aspect_ratio interpretation="invalid value"><flag>11</flag></aspect_ratio></flags><fontname>IBM VGA</fontname></type_info><comments id="COMNT" count="1"><line>Any comments go here.                                           </line></comments></Record>
 }
 
 func ExampleRecord_XMLIndent() {
@@ -202,8 +202,8 @@ func ExampleRecord_XMLIndent() {
 	//     <value>20161126</value>
 	//     <date>2016-11-26T00:00:00Z</date>
 	//   </date>
-	//   <filesize decimal="3.7 kB" binary="3.6 KiB">
-	//     <bytes>3713</bytes>
+	//   <filesize decimal="3.7 kB" binary="3.7 KiB">
+	//     <bytes>3741</bytes>
 	//   </filesize>
 	//   <data_type>
 	//     <type>1</type>

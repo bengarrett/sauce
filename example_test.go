@@ -33,9 +33,9 @@ func Example() { //nolint:funlen
 
 	// print specific SAUCE fields
 	fmt.Printf("%q\n", sr.Title)
-	fmt.Printf("Author:\t%s.\n", sr.Author)
-	fmt.Printf("Group:\t%s.\n", sr.Group)
-	fmt.Printf("Date:\t%s.\n", sr.Date.Time.Format(time.ANSIC))
+	fmt.Printf("Author,\t%s.\n", sr.Author)
+	fmt.Printf("Group,\t%s.\n", sr.Group)
+	fmt.Printf("Date,\t%s.\n", sr.Date.Time.Format(time.ANSIC))
 
 	// return the SAUCE data as indented JSON
 	js, err := sr.JSONIndent("    ")
@@ -46,9 +46,9 @@ func Example() { //nolint:funlen
 	fmt.Printf("%s", js)
 
 	// Output: "Sauce title"
-	// Author:	Sauce author.
-	// Group:	Sauce group.
-	// Date:	Sat Nov 26 00:00:00 2016.
+	// Author,	Sauce author.
+	// Group,	Sauce group.
+	// Date,	Sat Nov 26 00:00:00 2016.
 	//{
 	//     "id": "SAUCE",
 	//     "version": "00",
@@ -61,9 +61,9 @@ func Example() { //nolint:funlen
 	//         "epoch": 1480118400
 	//     },
 	//     "filesize": {
-	//         "bytes": 3713,
+	//         "bytes": 3741,
 	//         "decimal": "3.7 kB",
-	//         "binary": "3.6 KiB"
+	//         "binary": "3.7 KiB"
 	//     },
 	//     "dataType": {
 	//         "type": 1,

@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/bengarrett/sauce"
 	"github.com/bengarrett/sauce/internal/layout"
 )
 
@@ -79,5 +80,34 @@ func TestId_String(t *testing.T) {
 	const vga = "IBM VGA"
 	if got := exampleData().TInfoS.String(); got != vga {
 		t.Errorf("TInfoS.String() = %q, want %q", got, vga)
+	}
+}
+
+func Test_Incomplete(t *testing.T) {
+	b, err := static.ReadFile("static/error.txt")
+	if err != nil {
+		t.Error(err)
+	}
+	r := sauce.Decode(b)
+	const want = "20161126"
+	if r.Date.Value != want {
+		t.Errorf("Date.Value = %q, want %q", r.Date.Value, want)
+	}
+	if r.Info.Font != "" {
+		t.Errorf("Font = %q, want %q", r.Info.Font, "")
+	}
+}
+
+func Test_Empty(t *testing.T) {
+	b, err := static.ReadFile("static/empty.txt")
+	if err != nil {
+		t.Error(err)
+	}
+	r := sauce.Decode(b)
+	if r.Date.Value != "" {
+		t.Errorf("Date.Value = %q, want %q", r.Date.Value, "")
+	}
+	if r.Info.Font != "" {
+		t.Errorf("Font = %q, want %q", r.Info.Font, "")
 	}
 }

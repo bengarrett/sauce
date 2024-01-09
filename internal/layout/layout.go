@@ -164,6 +164,9 @@ func (d Data) Extract() Layout {
 }
 
 func (d Data) author(i int) Author {
+	if len(d) < i+41 {
+		return Author{}
+	}
 	const start = 42
 	var a Author
 	// source answer:
@@ -173,6 +176,9 @@ func (d Data) author(i int) Author {
 }
 
 func (d Data) comments(i int) Comments {
+	if len(d) < i+103 {
+		return Comments{}
+	}
 	return Comments{d[i+104]}
 }
 
@@ -224,10 +230,16 @@ func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 }
 
 func (d Data) dataType(i int) DataType {
+	if len(d) < i+93 {
+		return DataType{}
+	}
 	return DataType{d[i+94]}
 }
 
 func (d Data) date(i int) Date {
+	if len(d) < i+81 {
+		return Date{}
+	}
 	const start = 82
 	var dt Date
 	copy(dt[:], d[start+i:])
@@ -235,14 +247,27 @@ func (d Data) date(i int) Date {
 }
 
 func (d Data) fileSize(i int) FileSize {
-	return FileSize{d[i+90], d[i+91], d[i+92], d[i+93]}
+	if len(d) < i+92 {
+		return FileSize{}
+	}
+	b0 := d[i+90]
+	b1 := d[i+91]
+	b2 := d[i+92]
+	b3 := d[i+93]
+	return FileSize{b0, b1, b2, b3}
 }
 
 func (d Data) fileType(i int) FileType {
+	if len(d) < i+94 {
+		return FileType{}
+	}
 	return FileType{d[i+95]}
 }
 
 func (d Data) group(i int) Group {
+	if len(d) < i+61 {
+		return Group{}
+	}
 	const start = 62
 	var g Group
 	copy(g[:], d[start+i:])
@@ -254,6 +279,9 @@ func (d Data) id(i int) ID {
 }
 
 func (d Data) tFlags(i int) TFlags {
+	if len(d) < i+104 {
+		return TFlags{}
+	}
 	return TFlags{d[i+105]}
 }
 
@@ -265,22 +293,37 @@ func (d Data) title(i int) Title {
 }
 
 func (d Data) TInfo1(i int) TInfo1 {
+	if len(d) < i+96 {
+		return TInfo1{}
+	}
 	return TInfo1{d[i+96], d[i+97]}
 }
 
 func (d Data) TInfo2(i int) TInfo2 {
+	if len(d) < i+98 {
+		return TInfo2{}
+	}
 	return TInfo2{d[i+98], d[i+99]}
 }
 
 func (d Data) TInfo3(i int) TInfo3 {
+	if len(d) < i+100 {
+		return TInfo3{}
+	}
 	return TInfo3{d[i+100], d[i+101]}
 }
 
 func (d Data) TInfo4(i int) TInfo4 {
+	if len(d) < i+102 {
+		return TInfo4{}
+	}
 	return TInfo4{d[i+102], d[i+103]}
 }
 
 func (d Data) TInfoS(i int) TInfoS {
+	if len(d) < i+105 {
+		return TInfoS{}
+	}
 	var s TInfoS
 	const (
 		start = 106
