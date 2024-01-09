@@ -1,14 +1,18 @@
 // This is a raw memory copy of a text mode screen. Also known as a .BIN file.
 // This is essentially a collection of character and attribute pairs.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
+package layout_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/bengarrett/sauce/internal/layout"
+)
 
 func TestBinaryText_String(t *testing.T) {
 	tests := []struct {
 		name string
-		b    BinaryText
+		b    layout.BinaryText
 		want string
 	}{
 		{"out of range", 999, ""},

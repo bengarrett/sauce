@@ -1,11 +1,15 @@
-package layout
+package layout_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/bengarrett/sauce/internal/layout"
+)
 
 func TestXBin_String(t *testing.T) {
 	tests := []struct {
 		name string
-		x    XBin
+		x    layout.XBin
 		want string
 	}{
 		{"out of range", 999, ""},

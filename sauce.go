@@ -12,6 +12,7 @@ package sauce
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io"
 	"strings"
 
@@ -112,7 +113,7 @@ func Decode(b []byte) Record {
 func NewRecord(r io.Reader) (*Record, error) {
 	b, err := io.ReadAll(r)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("new sauce record: %w", err)
 	}
 	d := Decode(b)
 	return &d, nil
@@ -120,14 +121,22 @@ func NewRecord(r io.Reader) (*Record, error) {
 
 // JSON returns the JSON encoding of the r SAUCE record.
 func (r *Record) JSON() ([]byte, error) {
-	return json.Marshal(r)
+	b, err := json.Marshal(r)
+	if err != nil {
+		return nil, fmt.Errorf("record as json: %w", err)
+	}
+	return b, nil
 }
 
 // JSONIndent is like JSON but applies Indent to format the output.
 // Each JSON element in the output will begin on a new line beginning with one
 // or more copies of indent according to the indentation nesting.
 func (r *Record) JSONIndent(indent string) ([]byte, error) {
-	return json.MarshalIndent(r, "", indent)
+	b, err := json.MarshalIndent(r, "", indent)
+	if err != nil {
+		return nil, fmt.Errorf("record as json indent: %w", err)
+	}
+	return b, nil
 }
 
 // Valid reports the completeness of the r SAUCE record.
@@ -137,12 +146,20 @@ func (r *Record) Valid() bool {
 
 // XML returns the XML encoding of the r SAUCE record.
 func (r *Record) XML() ([]byte, error) {
-	return xml.Marshal(r)
+	b, err := xml.Marshal(r)
+	if err != nil {
+		return nil, fmt.Errorf("record as xml: %w", err)
+	}
+	return b, nil
 }
 
 // XMLIndent is like XML but applies Indent to format the output.
 // Each XML element in the output will begin on a new line beginning with one
 // or more copies of indent according to the indentation nesting.
 func (r *Record) XMLIndent(indent string) ([]byte, error) {
-	return xml.MarshalIndent(r, "", indent)
+	b, err := xml.MarshalIndent(r, "", indent)
+	if err != nil {
+		return nil, fmt.Errorf("record as xml indent: %w", err)
+	}
+	return b, nil
 }

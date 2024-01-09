@@ -1,11 +1,15 @@
-package layout
+package layout_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/bengarrett/sauce/internal/layout"
+)
 
 func TestExecutable_String(t *testing.T) {
 	tests := []struct {
 		name string
-		e    Executable
+		e    layout.Executable
 		want string
 	}{
 		{"out of range", 999, ""},

@@ -1,11 +1,15 @@
-package layout
+package layout_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/bengarrett/sauce/internal/layout"
+)
 
 func TestNone_String(t *testing.T) {
 	tests := []struct {
 		name string
-		n    None
+		n    layout.None
 		want string
 	}{
 		{"out of range", 999, ""},
