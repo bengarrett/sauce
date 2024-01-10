@@ -33,7 +33,7 @@ func TestTrim(t *testing.T) {
 	if err != nil {
 		t.Errorf("Trim() %v error: %v", example, err)
 	}
-	const wantL = 1121
+	const wantL = 1119
 	if got := sauce.Trim(raw); len(got) != wantL {
 		t.Errorf("Trim() length = %d, want %d", len(got), wantL)
 		t.Errorf("Trim() = %q", got)

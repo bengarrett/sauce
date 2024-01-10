@@ -1,12 +1,21 @@
-// Package sauce is a Go module that parses SAUCE (Standard Architecture for
-// Universal Comment Extensions) metadata.
+// Package sauce is a Go module that parses [SAUCE] metadata.
 //
-// See http://www.acid.org/info/sauce/sauce.htm.
+// # What is SAUCE?
 //
-// The Standard Architecture for Universal Comment Extensions or SAUCE as it is
-// more commonly known, is an architecture or protocol for attaching meta data
-// or comments to files. Mainly intended for ANSI art files, SAUCE has always
-// had provisions for many different file types.
+// The Standard Architecture for Universal Comment Extensions is an architecture
+// and protocol for attaching meta data and comments to files. While intended
+// for [ANSI art files], SAUCE has always had provisions for many different file types.
+//
+// # Why SAUCE?
+//
+// From the original [SAUCE] specification:
+//
+// In the early 1990s there was a growing popularity in ANSI artwork. The ANSI art groups regularly released the works of their members over a certain period. Some of the bigger groups also included specialised viewers in each ‘artpack’. One of the problems with these artpacks was a lack of standardized way to provide meta data to the art, such as the title of the artwork, the author, the group, ... Some of the specialised viewers provided such information for a specific artpack either by encoding it as part of the executable, or by having some sort of database or list. However every viewer did it their own way. This meant you either had to use the viewer included with the artpack, or had to make do without the extra info. SAUCE was created to address that need. So if you wanted to, you could use your prefered viewer to view the art in a certain artpack, or even store the art files you liked in a separate folder while retaining the meta data.
+//
+// The goal was simple, but the way to get there certainly was not. Logistically, we wanted as many art groups as possible to support it. Technically, we wanted a system that was easy to implement and – if at all possible – manage to provide this meta data while still being compatible with all the existing software such as ANSI viewers, and Bulletin Board Software.
+//
+// [SAUCE]: http://www.acid.org/info/sauce/sauce.htm
+// [ANSI art files]: https://16colo.rs
 package sauce
 
 import (
@@ -15,15 +24,22 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"github.com/bengarrett/sauce/internal/layout"
 )
 
+// SAUCE identifier and version.
 const (
-	ID        = "SAUCE"
-	Version   = "00"
-	SauceDate = "20060102" // Date format is CCYYMMDD (century, year, month, day).
+	ID      = "SAUCE"
+	Version = "00" // the version is always 00
 )
+
+// Date format layout.
+const Date = "20060102"
+
+// EOF is the end-of-file marker, otherwise known as SUB, the substitute character.
+const EOF byte = 26
 
 // Contains reports whether a valid SAUCE record is within b.
 func Contains(b []byte) bool {
@@ -37,7 +53,7 @@ func Index(b []byte) int {
 	return layout.Index(b)
 }
 
-// Trim returns b without any SAUCE metadata.
+// Trim returns b without any SAUCE metadata and the optional end-of-file marker.
 func Trim(b []byte) []byte {
 	const none = -1
 	si := Index(b)
@@ -50,40 +66,36 @@ func Trim(b []byte) []byte {
 		if ci > len(b) {
 			return nil
 		}
+		// trim the eof marker
+		if b[ci-1] == EOF && ci > 2 {
+			return b[:ci-2]
+		}
 		return b[:ci]
 	}
 	if si > len(b) {
 		return nil
+	}
+	// trim the eof marker
+	if b[si-1] == EOF && si > 2 {
+		return b[:si-2]
 	}
 	return b[:si]
 }
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.
 type Record struct {
-	// ID is the SAUCE identification, it must equal "SAUCE".
-	ID string `json:"id" xml:"id,attr"`
-	// Version is the SAUCE version, it must equal "00".
-	Version string `json:"version" xml:"version,attr"`
-	// Title of the file.
-	Title string `json:"title" xml:"title"`
-	// Author is nick, name or handle of the creator of the file.
-	Author string `json:"author" xml:"author"`
-	// Group is the name of the group or company the creator is employed by.
-	Group string `json:"group" xml:"group"`
-	// Date the file was created.
-	Date layout.Dates `json:"date" xml:"date"`
-	// FileSize of the original file, not including any appended SAUCE data.
-	FileSize layout.Sizes `json:"filesize" xml:"filesize"`
-	// Data type used by the file.
-	Data layout.Datas `json:"dataType"  xml:"data_type"`
-	// File type of file.
-	File layout.Files `json:"fileType" xml:"file_type"`
-	// Info contains type dependant numeric informations.
-	Info layout.Infos `json:"typeInfo"  xml:"type_info"`
-	// Desc is a humanized description of the file.
-	Desc string `json:"-" xml:"-"`
-	// Comnt contains comments or notes from the creator.
-	Comnt layout.Comment `json:"comments" xml:"comments"`
+	ID       string         `json:"id" xml:"id,attr"`           // SAUCE identification.
+	Version  string         `json:"version" xml:"version,attr"` // version must equal "00".
+	Title    string         `json:"title" xml:"title"`          // title of the file.
+	Author   string         `json:"author" xml:"author"`        // author of the file.
+	Group    string         `json:"group" xml:"group"`          // author employer or membership.
+	Date     layout.Dates   `json:"date" xml:"date"`            // date of creation or release.
+	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`    // size of file in bytes without SAUCE.
+	Data     layout.Datas   `json:"dataType" xml:"data_type"`   // data type of file.
+	File     layout.Files   `json:"fileType" xml:"file_type"`   // file type of file.
+	Info     layout.Infos   `json:"typeInfo" xml:"type_info"`   // file type dependant information.
+	Desc     string         `json:"-" xml:"-"`                  // description of the file.
+	Comnt    layout.Comment `json:"comments" xml:"comments"`    // comment block or notes.
 }
 
 // Decode the SAUCE data contained within b.
@@ -91,7 +103,44 @@ func Decode(b []byte) Record {
 	const empty = "\x00\x00"
 	d := layout.Data(b).Extract()
 	if string(d.Version[:]) == empty {
-		return Record{}
+		return Record{
+			ID:      "",
+			Version: "",
+			Title:   "",
+			Author:  "",
+			Group:   "",
+			Date: layout.Dates{
+				Value: "",
+				Time:  time.Time{},
+				Epoch: 0,
+			},
+			FileSize: layout.Sizes{
+				Bytes:   0,
+				Binary:  "",
+				Decimal: "",
+			},
+			Data: layout.Datas{
+				Type: d.DataType().Type,
+				Name: "",
+			},
+			File: layout.Files{
+				Type: d.FileType().Type,
+				Name: "",
+			},
+			Info: layout.Infos{
+				Info1: layout.Info{},
+				Info2: layout.Info{},
+				Info3: layout.Info{},
+				Flags: layout.ANSIFlags{},
+			},
+			Desc: "",
+			Comnt: layout.Comment{
+				ID:      "",
+				Count:   0,
+				Index:   -1,
+				Comment: []string{},
+			},
+		}
 	}
 	return Record{
 		ID:       d.ID.String(),
@@ -109,14 +158,19 @@ func Decode(b []byte) Record {
 	}
 }
 
-// NewRecord creates a new SAUCE record from r.
-func NewRecord(r io.Reader) (*Record, error) {
+// Read and return the SAUCE record in r.
+func Read(r io.Reader) (*Record, error) {
 	b, err := io.ReadAll(r)
 	if err != nil {
-		return nil, fmt.Errorf("new sauce record: %w", err)
+		return nil, fmt.Errorf("read sauce record: %w", err)
 	}
 	d := Decode(b)
 	return &d, nil
+}
+
+// NewRecord is deprecated, use [Read].
+func NewRecord(r io.Reader) (*Record, error) {
+	return Read(r)
 }
 
 // JSON returns the JSON encoding of the r SAUCE record.

@@ -21,7 +21,7 @@ func Example() { //nolint:funlen
 	defer file.Close()
 
 	// read the file and create a SAUCE record
-	sr, err := sauce.NewRecord(file)
+	sr, err := sauce.Read(file)
 	if err != nil {
 		log.Println(err)
 		return

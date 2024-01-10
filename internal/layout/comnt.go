@@ -50,6 +50,9 @@ func (d *Layout) CommentBlock() Comment {
 
 // CommentByBreak parses the SAUCE comment by line break characters.
 func CommentByBreak(b []byte) []string {
+	if len(b) == 0 {
+		return []string{}
+	}
 	r := bytes.NewReader(b)
 	scanner := bufio.NewScanner(r)
 	s := []string{}
@@ -61,6 +64,9 @@ func CommentByBreak(b []byte) []string {
 
 // CommentByLine parses the SAUCE comment by lines of 64 characters.
 func CommentByLine(b []byte) []string {
+	if len(b) == 0 {
+		return []string{}
+	}
 	s, l := "", 0
 	resetLine := func() {
 		s, l = "", 0

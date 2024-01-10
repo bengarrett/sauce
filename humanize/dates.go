@@ -4,14 +4,20 @@ import (
 	"time"
 )
 
+// Layout is a predefined time format.
 type Layout string
 
+// Date and time layouts.
 const (
-	DMY   Layout = "2 Jan 2006"
-	YMD   Layout = "2006 Jan 2"
-	MDY   Layout = "Jan 2 2006"
-	H12   Layout = "3:04 pm"
-	H24   Layout = "15:04"
+	DMY Layout = "2 Jan 2006" // day month year
+	YMD Layout = "2006 Jan 2" // year month day
+	MDY Layout = "Jan 2 2006" // month day year
+	H12 Layout = "3:04 pm"    // 12 hour clock
+	H24 Layout = "15:04"      // 24 hour clock
+)
+
+// Date with time layouts.
+const (
 	DMY12 Layout = DMY + " " + H12 // 2 Jan 2006 3:04 pm
 	DMY24 Layout = DMY + " " + H24 // 2 Jan 2006 15:04
 	YMD12 Layout = YMD + " " + H12 // 2006 Jan 2 3:04 pm
@@ -20,7 +26,7 @@ const (
 	MDY24 Layout = MDY + " " + H24 // Jan 2 2006 15:04
 )
 
-// Format returns a formatted time string using a predefined layout.
+// Format returns the time using the predefined layout.
 func (l Layout) Format(t time.Time) string {
 	switch l {
 	case "":

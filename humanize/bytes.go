@@ -1,10 +1,11 @@
-// The code on this page is derived from labstack/gommon, Common packages for Go
-// https://github.com/labstack/gommon.
+// The code in humanize/bytes.go is derived from [labstack/gommon], Common packages for Go
 //
-// The MIT License (MIT) Copyright (c) 2018 labstack
-// https://github.com/labstack/gommon/blob/master/LICENSE
+// [The MIT License] (MIT) Copyright (c) 2018 labstack
+//
+// [labstack/gommon]: https://github.com/labstack/gommon
+// [The MIT License]: https://github.com/labstack/gommon/blob/master/LICENSE
 
-// Package humanize parses data to a human readable format.
+// Package humanize is parses some limited time and byte sizes data to human readable formats.
 package humanize
 
 import (
@@ -30,7 +31,7 @@ const (
 	pb               = tb * kb
 )
 
-// Binary formats bytes integer to localized readable string.
+// Binary formats the bytes integer to localized, readable string using binary units of measure.
 func Binary(b int64, t language.Tag) string {
 	p := message.NewPrinter(t)
 	value := float64(b)
@@ -59,7 +60,7 @@ func Binary(b int64, t language.Tag) string {
 	return p.Sprintf(twoDecimalPoints, value, multiple)
 }
 
-// Decimal formats bytes integer to localized readable string.
+// Decimal formats the bytes integer to localized readable string using decimal units of measure.
 func Decimal(b int64, t language.Tag) string {
 	p := message.NewPrinter(t)
 	value := float64(b)

@@ -139,7 +139,14 @@ func (t TInfoS) String() string {
 func (d Data) Extract() Layout {
 	i := Index(d)
 	if i == -1 {
-		return Layout{}
+		return Layout{
+			Comnt: Comnt{
+				Index:  -1,
+				Length: 0,
+				Count:  [1]byte{0},
+				Lines:  []byte{},
+			},
+		}
 	}
 	l := Layout{
 		ID:       d.id(i),
@@ -185,6 +192,7 @@ func (d Data) comments(i int) Comments {
 func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 	block := Comnt{
 		Count: count,
+		Lines: []byte{},
 	}
 	if int(UnsignedBinary1(count)) == 0 {
 		return block
