@@ -17,10 +17,10 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         go: [1.16, 1.17]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.go }}
 
@@ -33,13 +33,13 @@ jobs:
         go tool cover -func coverage.out -o coverage.out  # Replaces coverage.out with the analysis of coverage.out
 
     - name: Go Coverage Badge
-      uses: tj-actions/coverage-badge-go@v1
+      uses: tj-actions/coverage-badge-go@v2
       if: ${{ runner.os == 'Linux' && matrix.go == '1.17' }} # Runs this on only one of the ci builds.
       with:
         green: 80
         filename: coverage.out
 
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - uses: stefanzweifel/git-auto-commit-action@v5
       id: auto-commit-action
       with:
         commit_message: Apply Code Coverage Badge
