@@ -202,8 +202,9 @@ func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 		return l - 1 - i
 	}
 	// search for the id sequence in b
+	const maximum = ComntLineSize * ComntMaxLines
 	for i := range d {
-		if i > ComntLineSize*ComntMaxLines {
+		if i > maximum {
 			break
 		}
 		i = backwardsLoop(i)
@@ -350,6 +351,8 @@ func (d Data) version(i int) Version {
 	return Version{d[i+5], d[i+6]}
 }
 
+// UnsignedBinary1 returns the unsigned 1 byte integer from b
+// using little-endian byte order.
 func UnsignedBinary1(b [1]byte) uint8 {
 	var data uint8
 	buf := bytes.NewReader(b[:])

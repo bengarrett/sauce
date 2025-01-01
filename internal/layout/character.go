@@ -54,13 +54,13 @@ func (c Character) Desc() string {
 }
 
 func (d *Layout) Description() string {
-	dt, ft := UnsignedBinary1(d.Datatype),
-		UnsignedBinary1(d.Filetype)
-	c := Character(ft)
+	dt := UnsignedBinary1(d.Datatype)
+	ft := UnsignedBinary1(d.Filetype)
+	chr := Character(ft)
 	if TypeOfData(dt) != Characters {
 		return ""
 	}
-	switch c {
+	switch chr {
 	case ASCII,
 		Ansi,
 		AnsiMation,
@@ -70,7 +70,7 @@ func (d *Layout) Description() string {
 		HTML,
 		Source,
 		TundraDraw:
-		return c.Desc()
+		return chr.Desc()
 	}
 	return ""
 }

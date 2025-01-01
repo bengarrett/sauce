@@ -37,20 +37,21 @@ func (a *ANSIFlags) String() string {
 		return ""
 	}
 	b, ls, ar := a.B.Info, a.LS.Info, a.AR.Info
-	l := []string{}
+	s := []string{}
 	if b != Unsupported {
-		l = append(l, b)
+		s = append(s, b)
 	}
 	if ls != Unsupported {
-		l = append(l, ls)
+		s = append(s, ls)
 	}
 	if ar != Unsupported {
-		l = append(l, ar)
+		s = append(s, ar)
 	}
-	if strings.TrimSpace(strings.Join(l, "")) == "" {
+	empty := strings.TrimSpace(strings.Join(s, "")) == ""
+	if empty {
 		return ""
 	}
-	return strings.Join(l, ", ")
+	return strings.Join(s, ", ")
 }
 
 // ANSIFlagB is the interpretation of the SAUCE Flags non-blink mode binary bit.

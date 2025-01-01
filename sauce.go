@@ -56,13 +56,13 @@ func Index(b []byte) int {
 // Trim returns b without any SAUCE metadata and the optional end-of-file marker.
 func Trim(b []byte) []byte {
 	const none = -1
-	si := Index(b)
-	if si == none {
+	pos := Index(b)
+	if pos == none {
 		return b
 	}
 	// the optional comnt index always prefixes the sauce index
-	sr := Decode(b)
-	if ci := sr.Comnt.Index; ci > none {
+	rec := Decode(b)
+	if ci := rec.Comnt.Index; ci > none {
 		if ci > len(b) {
 			return nil
 		}
@@ -72,14 +72,14 @@ func Trim(b []byte) []byte {
 		}
 		return b[:ci]
 	}
-	if si > len(b) {
+	if pos > len(b) {
 		return nil
 	}
 	// trim the eof marker
-	if b[si-1] == EOF && si > 2 {
-		return b[:si-2]
+	if b[pos-1] == EOF && pos > 2 {
+		return b[:pos-2]
 	}
-	return b[:si]
+	return b[:pos]
 }
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.

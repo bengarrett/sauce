@@ -24,35 +24,35 @@ type Dates struct {
 }
 
 func (d *Layout) Dates() Dates {
-	t, err := d.parseDate()
+	tt, err := d.date()
 	if err != nil {
 		log.Printf("%s: %s\n", ErrSauceDate, err)
 		return Dates{}
 	}
-	u := t.Unix()
+	epoch := tt.Unix()
 	return Dates{
 		Value: d.Date.String(),
-		Time:  t,
-		Epoch: u,
+		Time:  tt,
+		Epoch: epoch,
 	}
 }
 
-func (d *Layout) parseDate() (time.Time, error) {
-	da := d.Date
-	dy, err := strconv.Atoi(string(da[0:4]))
+func (d *Layout) date() (time.Time, error) {
+	dd := d.Date
+	year, err := strconv.Atoi(string(dd[0:4]))
 	if err != nil {
 		return time.Time{},
-			fmt.Errorf("year failed: %v: %w", dy, ErrParseDate)
+			fmt.Errorf("year failed: %v: %w", year, ErrParseDate)
 	}
-	dm, err := strconv.Atoi(string(da[4:6]))
+	month, err := strconv.Atoi(string(dd[4:6]))
 	if err != nil {
 		return time.Time{},
-			fmt.Errorf("month failed: %v: %w", dm, ErrParseDate)
+			fmt.Errorf("month failed: %v: %w", month, ErrParseDate)
 	}
-	dd, err := strconv.Atoi(string(da[6:8]))
+	day, err := strconv.Atoi(string(dd[6:8]))
 	if err != nil {
 		return time.Time{},
-			fmt.Errorf("day failed: %v: %w", dd, ErrParseDate)
+			fmt.Errorf("day failed: %v: %w", day, ErrParseDate)
 	}
-	return time.Date(dy, time.Month(dm), dd, 0, 0, 0, 0, time.UTC), nil
+	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC), nil
 }
