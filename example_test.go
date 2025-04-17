@@ -12,7 +12,7 @@ import (
 //go:embed static/*
 var static embed.FS
 
-func Example() { //nolint:funlen
+func Example() {
 	// open a file
 	file, err := static.Open("static/sauce.txt")
 	if err != nil {

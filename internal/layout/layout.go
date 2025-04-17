@@ -170,25 +170,6 @@ func (d Data) Extract() Layout {
 	return l
 }
 
-func (d Data) author(i int) Author {
-	if len(d) < i+41 {
-		return Author{}
-	}
-	const start = 42
-	var a Author
-	// source answer:
-	// https://stackoverflow.com/questions/30285680/how-to-convert-slice-to-fixed-size-array
-	copy(a[:], d[start+i:])
-	return a
-}
-
-func (d Data) comments(i int) Comments {
-	if len(d) < i+103 {
-		return Comments{}
-	}
-	return Comments{d[i+104]}
-}
-
 func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 	block := Comnt{
 		Count: count,
@@ -236,6 +217,83 @@ func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 		return block
 	}
 	return block
+}
+
+func (d Data) TInfo1(i int) TInfo1 {
+	if len(d) < i+96 {
+		return TInfo1{}
+	}
+	return TInfo1{d[i+96], d[i+97]}
+}
+
+func (d Data) TInfo2(i int) TInfo2 {
+	if len(d) < i+98 {
+		return TInfo2{}
+	}
+	return TInfo2{d[i+98], d[i+99]}
+}
+
+func (d Data) TInfo3(i int) TInfo3 {
+	if len(d) < i+100 {
+		return TInfo3{}
+	}
+	return TInfo3{d[i+100], d[i+101]}
+}
+
+func (d Data) TInfo4(i int) TInfo4 {
+	if len(d) < i+102 {
+		return TInfo4{}
+	}
+	return TInfo4{d[i+102], d[i+103]}
+}
+
+func (d Data) TInfoS(i int) TInfoS {
+	if len(d) < i+105 {
+		return TInfoS{}
+	}
+	var s TInfoS
+	const (
+		start = 106
+		end   = start + len(s)
+	)
+	for j, c := range d[start+i : end+i] {
+		if c == 0 {
+			continue
+		}
+		s[j] = c
+	}
+	return s
+}
+
+// UnsignedBinary1 returns the unsigned 1 byte integer from b
+// using little-endian byte order.
+func UnsignedBinary1(b [1]byte) uint8 {
+	var data uint8
+	buf := bytes.NewReader(b[:])
+	err := binary.Read(buf, binary.LittleEndian, &data)
+	if err != nil {
+		log.Println("unsigned 1 byte, LE binary failed:", err)
+	}
+	return data
+}
+
+func (d Data) author(i int) Author {
+	if len(d) < i+41 {
+		return Author{}
+	}
+	const start = 42
+	var a Author
+	// source answer:
+	// https://stackoverflow.com/questions/30285680/how-to-convert-slice-to-fixed-size-array
+	copy(a[:], d[start+i:])
+	return a
+}
+
+func (d Data) comments(i int) Comments {
+	if len(d) < i+103 {
+		return Comments{}
+	}
+	return Comments{d[i+104]}
 }
 
 func (d Data) dataType(i int) DataType {
@@ -301,64 +359,6 @@ func (d Data) title(i int) Title {
 	return t
 }
 
-func (d Data) TInfo1(i int) TInfo1 {
-	if len(d) < i+96 {
-		return TInfo1{}
-	}
-	return TInfo1{d[i+96], d[i+97]}
-}
-
-func (d Data) TInfo2(i int) TInfo2 {
-	if len(d) < i+98 {
-		return TInfo2{}
-	}
-	return TInfo2{d[i+98], d[i+99]}
-}
-
-func (d Data) TInfo3(i int) TInfo3 {
-	if len(d) < i+100 {
-		return TInfo3{}
-	}
-	return TInfo3{d[i+100], d[i+101]}
-}
-
-func (d Data) TInfo4(i int) TInfo4 {
-	if len(d) < i+102 {
-		return TInfo4{}
-	}
-	return TInfo4{d[i+102], d[i+103]}
-}
-
-func (d Data) TInfoS(i int) TInfoS {
-	if len(d) < i+105 {
-		return TInfoS{}
-	}
-	var s TInfoS
-	const (
-		start = 106
-		end   = start + len(s)
-	)
-	for j, c := range d[start+i : end+i] {
-		if c == 0 {
-			continue
-		}
-		s[j] = c
-	}
-	return s
-}
-
 func (d Data) version(i int) Version {
 	return Version{d[i+5], d[i+6]}
-}
-
-// UnsignedBinary1 returns the unsigned 1 byte integer from b
-// using little-endian byte order.
-func UnsignedBinary1(b [1]byte) uint8 {
-	var data uint8
-	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &data)
-	if err != nil {
-		log.Println("unsigned 1 byte, LE binary failed:", err)
-	}
-	return data
 }

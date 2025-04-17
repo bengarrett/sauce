@@ -1,27 +1,38 @@
-# golangci-lint run
-#
-# Fixes
-# gci write ./..
-# gofumpt -w .
-#
-
+version: "2"
 linters:
-  enable-all: true
+  default: all
   disable:
-    # Deprecated
-    - exportloopref
-
-    # Opinionated
-    - depguard # unwanted, as it requires a list of packages
-    - exhaustruct # requires too much boilerplate
-    - lll # too much of a hassle
-    - nlreturn # opinionated
-    - tagalign # requires correctly aligned structs
-    - paralleltest # too much of a hassle for no gain
-    - varnamelen # annoying
-    - wsl # whitespace linter, aggressive and opinionated
-
-linters-settings:
-  cyclop:
-    # the maximal code complexity to report
-    max-complexity: 15
+    - depguard
+    - exhaustruct
+    - lll
+    - nlreturn
+    - paralleltest
+    - tagalign
+    - varnamelen
+    - wsl
+  settings:
+    cyclop:
+      max-complexity: 15
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
