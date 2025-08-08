@@ -8,8 +8,8 @@ var ErrFileType = errors.New("unknown filetype")
 
 // Files is the SAUCE FileType value and name.
 type Files struct {
-	Type TypeOfFile `json:"type" xml:"type"` // A unsigned integer FileType.
-	Name string     `json:"name" xml:"name"` // Name of the FileType.
+	Type TypeOfFile `json:"type" xml:"type"` // type of file unsigned integer
+	Name string     `json:"name" xml:"name"` // name of the file type
 }
 
 // TypeOfData is the SAUCE FileType.

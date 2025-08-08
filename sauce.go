@@ -10,9 +10,24 @@
 //
 // From the original [SAUCE] specification:
 //
-// In the early 1990s there was a growing popularity in ANSI artwork. The ANSI art groups regularly released the works of their members over a certain period. Some of the bigger groups also included specialised viewers in each ‘artpack’. One of the problems with these artpacks was a lack of standardized way to provide meta data to the art, such as the title of the artwork, the author, the group, ... Some of the specialised viewers provided such information for a specific artpack either by encoding it as part of the executable, or by having some sort of database or list. However every viewer did it their own way. This meant you either had to use the viewer included with the artpack, or had to make do without the extra info. SAUCE was created to address that need. So if you wanted to, you could use your preferred viewer to view the art in a certain artpack, or even store the art files you liked in a separate folder while retaining the meta data.
+// In the early 1990s there was a growing popularity in ANSI artwork. The ANSI art groups
+// regularly released the works of their members over a certain period. Some of the bigger
+// groups also included specialised viewers in each ‘artpack’. One of the problems with
+// these artpacks was a lack of standardized way to provide meta data to the art, such as
+// the title of the artwork, the author, the group, ... Some of the specialised viewers
+// provided such information for a specific artpack either by encoding it as part of the
+// executable, or by having some sort of database or list. However every viewer did it
+// their own way. This meant you either had to use the viewer included with the artpack,
+// or had to make do without the extra info. SAUCE was created to address that need.
+// So if you wanted to, you could use your preferred viewer to view the art in a certain
+// artpack, or even store the art files you liked in a separate folder while retaining
+// the meta data.
 //
-// The goal was simple, but the way to get there certainly was not. Logistically, we wanted as many art groups as possible to support it. Technically, we wanted a system that was easy to implement and – if at all possible – manage to provide this meta data while still being compatible with all the existing software such as ANSI viewers, and Bulletin Board Software.
+// The goal was simple, but the way to get there certainly was not. Logistically, we
+// wanted as many art groups as possible to support it. Technically, we wanted a system
+// that was easy to implement and – if at all possible – manage to provide this meta
+// data while still being compatible with all the existing software such as ANSI viewers,
+// and Bulletin Board Software.
 //
 // [SAUCE]: http://www.acid.org/info/sauce/sauce.htm
 // [ANSI art files]: https://16colo.rs
@@ -84,18 +99,18 @@ func Trim(b []byte) []byte {
 
 // Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.
 type Record struct {
-	ID       string         `json:"id" xml:"id,attr"`           // SAUCE identification.
-	Version  string         `json:"version" xml:"version,attr"` // version must equal "00".
-	Title    string         `json:"title" xml:"title"`          // title of the file.
-	Author   string         `json:"author" xml:"author"`        // author of the file.
-	Group    string         `json:"group" xml:"group"`          // author employer or membership.
-	Date     layout.Dates   `json:"date" xml:"date"`            // date of creation or release.
-	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`    // size of file in bytes without SAUCE.
-	Data     layout.Datas   `json:"dataType" xml:"data_type"`   // data type of file.
-	File     layout.Files   `json:"fileType" xml:"file_type"`   // file type of file.
-	Info     layout.Infos   `json:"typeInfo" xml:"type_info"`   // file type dependant information.
-	Desc     string         `json:"-" xml:"-"`                  // description of the file.
-	Comnt    layout.Comment `json:"comments" xml:"comments"`    // comment block or notes.
+	ID       string         `json:"id" xml:"id,attr"`           // SAUCE identification
+	Version  string         `json:"version" xml:"version,attr"` // version must equal "00"
+	Title    string         `json:"title" xml:"title"`          // title of the file
+	Author   string         `json:"author" xml:"author"`        // author of the file
+	Group    string         `json:"group" xml:"group"`          // author employer or membership
+	Date     layout.Dates   `json:"date" xml:"date"`            // date of creation or release
+	FileSize layout.Sizes   `json:"filesize" xml:"filesize"`    // size of file in bytes without SAUCE
+	Data     layout.Datas   `json:"dataType" xml:"data_type"`   // data type of file
+	File     layout.Files   `json:"fileType" xml:"file_type"`   // file type of file
+	Info     layout.Infos   `json:"typeInfo" xml:"type_info"`   // file type dependant information
+	Desc     string         `json:"-" xml:"-"`                  // description of the file
+	Comnt    layout.Comment `json:"comments" xml:"comments"`    // comment block or notes
 }
 
 // Decode the SAUCE data contained within b.

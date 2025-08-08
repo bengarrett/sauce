@@ -5,11 +5,13 @@ linters:
     - depguard
     - exhaustruct
     - lll
+    - noinlineerr
     - nlreturn
     - paralleltest
     - tagalign
     - varnamelen
     - wsl
+    - wsl_v5
   settings:
     cyclop:
       max-complexity: 15

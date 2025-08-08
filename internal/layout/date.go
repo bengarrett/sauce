@@ -18,9 +18,9 @@ var (
 
 // Dates is the date the file was created, in multiple time formats.
 type Dates struct {
-	Value string    `json:"value" xml:"value"`      // SAUCE date format, CCYYMMDD (century, year, month, day).
-	Time  time.Time `json:"iso" xml:"date"`         // Time as a time type.
-	Epoch int64     `json:"epoch" xml:"epoch,attr"` // Unix time, the number of seconds since 1 Jan 1970.
+	Value string    `json:"value" xml:"value"`      // date format using CCYYMMDD (century, year, month, day)
+	Time  time.Time `json:"iso" xml:"date"`         // time as a go time type
+	Epoch int64     `json:"epoch" xml:"epoch,attr"` // epoch unix time, is the number of seconds since 1 Jan 1970
 }
 
 func (d *Layout) Dates() Dates {

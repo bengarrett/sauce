@@ -8,32 +8,32 @@ import (
 
 //nolint:lll
 const (
-	ComntID       string = "COMNT"                // SAUCE comment block identification. This should be equal to "COMNT".
-	SauceID       string = "SAUCE"                // SAUCE identification, this should be equal to "SAUCE".
-	SauceVersion  string = "00"                   // SAUCE version number, should be "00".
-	SauceSeek     string = SauceID + SauceVersion // SAUCE sequence to seek.
-	ComntLineSize int    = 64                     // A SAUCE comment line is 64 characters wide.
-	ComntMaxLines int    = 255                    // A SAUCE comment is variable sized structure that holds up to 255 lines of additional information.
+	ComntID       string = "COMNT"                // comntid is the comment block identification that must be "COMNT"
+	SauceID       string = "SAUCE"                // sauceid is the SAUCE identification that must be "SAUCE"
+	SauceVersion  string = "00"                   // sauce version number that is always "00"
+	SauceSeek     string = SauceID + SauceVersion // sauceseek is the sauce id and version value to lookup
+	ComntLineSize int    = 64                     // comntlinesize is the fix length in bytes of an individual comment line
+	ComntMaxLines int    = 255                    // comntmaxlines is the maximum permitted number of lines for a block of comments
 )
 
 type (
-	Data     []byte   // Data is the input data.
-	ID       [5]byte  // SAUCE identification.
-	Version  [2]byte  // SAUCE version number.
-	Title    [35]byte // The title of the file.
-	Author   [20]byte // The (nick)name or handle of the creator of the file.
-	Group    [20]byte // The name of the group or company the creator is employed by.
-	Date     [8]byte  // The date the file was created.
-	FileSize [4]byte  // The original file size not including the SAUCE information.
-	DataType [1]byte  // Type of data.
-	FileType [1]byte  // Type of file.
-	TInfo1   [2]byte  // Type dependant numeric information field 1.
-	TInfo2   [2]byte  // Type dependant numeric information field 2.
-	TInfo3   [2]byte  // Type dependant numeric information field 3.
-	TInfo4   [2]byte  // Type dependant numeric information field 4.
-	Comments [1]byte  // Number of lines in the extra SAUCE comment block.
-	TFlags   [1]byte  // Type dependant flags.
-	TInfoS   [22]byte // Type dependant string information field.
+	Data     []byte   // data is a copy of the input data
+	ID       [5]byte  // id is the sauce identifier
+	Version  [2]byte  // version number
+	Title    [35]byte // title of the file
+	Author   [20]byte // author is nickname or handle of creator of the file
+	Group    [20]byte // group or company name the author worked for
+	Date     [8]byte  // date the file was created
+	FileSize [4]byte  // file size of original file size without the sauce data
+	DataType [1]byte  // data type is the type of file, such as an raster image
+	FileType [1]byte  // file type is the technical format of the file, such as a GIF
+	TInfo1   [2]byte  // tinfo1 is type dependant numeric information field 1
+	TInfo2   [2]byte  // tinfo2 is type dependant numeric information field 2
+	TInfo3   [2]byte  // tinfo3 is type dependant numeric information field 3
+	TInfo4   [2]byte  // tinfo4 is type dependant numeric information field 4
+	Comments [1]byte  // comments are the number of lines in the extra SAUCE comment block
+	TFlags   [1]byte  // tflags are the type dependant flags
+	TInfoS   [22]byte // tinfos are the type dependant string information field
 )
 
 type Layout struct {
