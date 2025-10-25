@@ -220,35 +220,47 @@ func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 }
 
 func (d Data) TInfo1(i int) TInfo1 {
-	if len(d) < i+96 {
+	if len(d) <= i+97 {
 		return TInfo1{}
 	}
-	return TInfo1{d[i+96], d[i+97]}
+	return TInfo1{
+		d[i+96],
+		d[i+97],
+	}
 }
 
 func (d Data) TInfo2(i int) TInfo2 {
-	if len(d) < i+98 {
+	if len(d) <= i+99 {
 		return TInfo2{}
 	}
-	return TInfo2{d[i+98], d[i+99]}
+	return TInfo2{
+		d[i+98],
+		d[i+99],
+	}
 }
 
 func (d Data) TInfo3(i int) TInfo3 {
-	if len(d) < i+100 {
+	if len(d) <= i+101 {
 		return TInfo3{}
 	}
-	return TInfo3{d[i+100], d[i+101]}
+	return TInfo3{
+		d[i+100],
+		d[i+101],
+	}
 }
 
 func (d Data) TInfo4(i int) TInfo4 {
-	if len(d) < i+102 {
+	if len(d) <= i+103 {
 		return TInfo4{}
 	}
-	return TInfo4{d[i+102], d[i+103]}
+	return TInfo4{
+		d[i+102],
+		d[i+103],
+	}
 }
 
 func (d Data) TInfoS(i int) TInfoS {
-	if len(d) < i+105 {
+	if len(d) <= i+106 {
 		return TInfoS{}
 	}
 	var s TInfoS
@@ -278,7 +290,7 @@ func UnsignedBinary1(b [1]byte) uint8 {
 }
 
 func (d Data) author(i int) Author {
-	if len(d) < i+41 {
+	if len(d) <= i+42 {
 		return Author{}
 	}
 	const start = 42
@@ -290,21 +302,21 @@ func (d Data) author(i int) Author {
 }
 
 func (d Data) comments(i int) Comments {
-	if len(d) < i+103 {
+	if len(d) <= i+104 {
 		return Comments{}
 	}
 	return Comments{d[i+104]}
 }
 
 func (d Data) dataType(i int) DataType {
-	if len(d) < i+93 {
+	if len(d) <= i+94 {
 		return DataType{}
 	}
 	return DataType{d[i+94]}
 }
 
 func (d Data) date(i int) Date {
-	if len(d) < i+81 {
+	if len(d) <= i+82 {
 		return Date{}
 	}
 	const start = 82
@@ -314,7 +326,7 @@ func (d Data) date(i int) Date {
 }
 
 func (d Data) fileSize(i int) FileSize {
-	if len(d) < i+92 {
+	if len(d) <= i+93 {
 		return FileSize{}
 	}
 	b0 := d[i+90]
@@ -325,14 +337,14 @@ func (d Data) fileSize(i int) FileSize {
 }
 
 func (d Data) fileType(i int) FileType {
-	if len(d) < i+94 {
+	if len(d) <= i+95 {
 		return FileType{}
 	}
 	return FileType{d[i+95]}
 }
 
 func (d Data) group(i int) Group {
-	if len(d) < i+61 {
+	if len(d) <= i+62 {
 		return Group{}
 	}
 	const start = 62
@@ -346,13 +358,16 @@ func (d Data) id(i int) ID {
 }
 
 func (d Data) tFlags(i int) TFlags {
-	if len(d) < i+104 {
+	if len(d) <= i+105 {
 		return TFlags{}
 	}
 	return TFlags{d[i+105]}
 }
 
 func (d Data) title(i int) Title {
+	if len(d) <= 7 {
+		return [35]byte{}
+	}
 	const start = 7
 	var t Title
 	copy(t[:], d[start+i:])
@@ -360,5 +375,8 @@ func (d Data) title(i int) Title {
 }
 
 func (d Data) version(i int) Version {
+	if len(d) <= i+6 {
+		return Version{}
+	}
 	return Version{d[i+5], d[i+6]}
 }
