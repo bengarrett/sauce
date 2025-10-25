@@ -1,6 +1,7 @@
+package layout
+
 // An XBin or eXtended BIN file.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // XBin or extended binary text files.
 type XBin uint

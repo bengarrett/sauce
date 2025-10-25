@@ -365,10 +365,10 @@ func (d Data) tFlags(i int) TFlags {
 }
 
 func (d Data) title(i int) Title {
-	if len(d) <= 7 {
+	const start = 7
+	if len(d) <= start {
 		return [35]byte{}
 	}
-	const start = 7
 	var t Title
 	copy(t[:], d[start+i:])
 	return t

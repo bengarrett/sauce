@@ -1,8 +1,9 @@
-// Type of file.
-// See http://www.acid.org/info/sauce/sauce.htm#FileType
 package layout
 
 import "errors"
+
+// Type of file.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
 
 var ErrFileType = errors.New("unknown filetype")
 
@@ -12,7 +13,7 @@ type Files struct {
 	Name string     `json:"name" xml:"name"` // name of the file type
 }
 
-// TypeOfData is the SAUCE FileType.
+// TypeOfFile is the SAUCE FileType.
 type TypeOfFile uint
 
 func (d *Layout) FileType() Files {

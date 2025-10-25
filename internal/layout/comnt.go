@@ -1,8 +1,3 @@
-// A SAUCE comment block is an optional, variable sized structure that holds up to 255 lines
-// of additional information, each line 64 characters wide. There are as many comment lines
-// as is mentioned in the Comments field of the SAUCE record.
-// If the Comments field is set to 0, there should not be a comment block at all.
-// See http://www.acid.org/info/sauce/sauce.htm
 package layout
 
 import (
@@ -10,6 +5,12 @@ import (
 	"bytes"
 	"strings"
 )
+
+// A SAUCE comment block is an optional, variable sized structure that holds up to 255 lines
+// of additional information, each line 64 characters wide. There are as many comment lines
+// as is mentioned in the Comments field of the SAUCE record.
+// If the Comments field is set to 0, there should not be a comment block at all.
+// See http://www.acid.org/info/sauce/sauce.htm
 
 type Comnt struct {
 	Index  int      // index is the calculated starting position of the comment block

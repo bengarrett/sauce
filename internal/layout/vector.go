@@ -1,6 +1,7 @@
+package layout
+
 // A vector graphic file.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // Vector graphic files.
 type Vector uint

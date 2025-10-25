@@ -1,6 +1,7 @@
+package layout
+
 // Type of data. SAUCE supports 8 different types and an undefined value.
 // See http://www.acid.org/info/sauce/sauce.htm
-package layout
 
 // Datas is the SAUCE DataType value and name.
 type Datas struct {

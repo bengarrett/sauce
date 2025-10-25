@@ -1,7 +1,8 @@
+package layout
+
 // This is a raw memory copy of a text mode screen. Also known as a .BIN file.
 // This is essentially a collection of character and attribute pairs.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // BinaryText is a raw memory copy of a text mode screen.
 type BinaryText uint

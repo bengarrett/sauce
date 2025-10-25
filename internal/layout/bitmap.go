@@ -1,6 +1,7 @@
+package layout
+
 // Bitmap graphic and animation files.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // Bitmap graphic and animation files.
 type Bitmap uint

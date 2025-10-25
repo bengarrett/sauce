@@ -1,6 +1,7 @@
+package layout
+
 // An archive file data type.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // Archive and compressed files.
 type Archive uint

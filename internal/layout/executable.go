@@ -1,7 +1,8 @@
+package layout
+
 // A executable file. Any executable file. .exe, .dll, .bat, ...
 // Executable scripts such as .vbs should be tagged as Source.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // Executable program files.
 type Executable uint

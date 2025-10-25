@@ -1,7 +1,8 @@
+package layout
+
 // A character based file. These files are typically interpreted sequentially.
 // Also known as streams.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // Character files more commonly referred as text files.
 type Character uint

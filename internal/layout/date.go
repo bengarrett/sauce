@@ -1,6 +1,3 @@
-// The date the file was created. The format for the date is CCYYMMDD (century, year, month, day).
-// Example: 4 May 2013 would be stored as "20130504".
-// See http://www.acid.org/info/sauce/sauce.htm
 package layout
 
 import (
@@ -10,6 +7,10 @@ import (
 	"strconv"
 	"time"
 )
+
+// The date the file was created. The format for the date is CCYYMMDD (century, year, month, day).
+// Example: 4 May 2013 would be stored as "20130504".
+// See http://www.acid.org/info/sauce/sauce.htm
 
 var (
 	ErrParseDate = errors.New("parse date to integer conversion")

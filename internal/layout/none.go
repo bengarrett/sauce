@@ -1,8 +1,9 @@
+package layout
+
 // Undefined filetype.
 // You could use this to add SAUCE to a custom or proprietary file,
 // without giving it any particular meaning or interpretation.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 type None uint
 

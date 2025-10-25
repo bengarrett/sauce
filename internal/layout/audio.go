@@ -1,6 +1,7 @@
+package layout
+
 // An audio file data type.
 // See http://www.acid.org/info/sauce/sauce.htm#FileType
-package layout
 
 // Audio or music files.
 type Audio uint
