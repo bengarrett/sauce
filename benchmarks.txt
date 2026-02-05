@@ -1,0 +1,26 @@
+goos: linux
+goarch: amd64
+pkg: github.com/bengarrett/sauce
+cpu: 13th Gen Intel(R) Core(TM) i3-1315U
+BenchmarkIndex-8                	14642908	        76.60 ns/op	       0 B/op	       0 allocs/op
+BenchmarkIndexLargeFile-8       	17361253	        67.92 ns/op	       0 B/op	       0 allocs/op
+BenchmarkDecode-8               	  495862	      2356 ns/op	    1200 B/op	      33 allocs/op
+BenchmarkTrim-8                 	  479649	      2476 ns/op	    1200 B/op	      33 allocs/op
+BenchmarkRead-8                 	  292189	      3773 ns/op	    4579 B/op	      38 allocs/op
+BenchmarkUnsignedBinary1-8      	1000000000	         0.1413 ns/op	       0 B/op	       0 allocs/op
+BenchmarkUnsignedBinary2-8      	1000000000	         0.1391 ns/op	       0 B/op	       0 allocs/op
+BenchmarkUnsignedBinary4-8      	1000000000	         0.1455 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCommentByLine-8        	 2053556	       547.6 ns/op	     416 B/op	      12 allocs/op
+BenchmarkCommentByLineLarge-8   	   25524	     50281 ns/op	   39872 B/op	    1026 allocs/op
+BenchmarkCommentByBreak-8       	  982821	      1473 ns/op	    4424 B/op	      11 allocs/op
+BenchmarkJSON-8                 	  743826	      1647 ns/op	     944 B/op	       2 allocs/op
+BenchmarkJSONIndent-8           	  162583	      6601 ns/op	    2738 B/op	       3 allocs/op
+BenchmarkXML-8                  	   94972	     12082 ns/op	    7117 B/op	      33 allocs/op
+BenchmarkXMLIndent-8            	   82668	     13522 ns/op	    7373 B/op	      33 allocs/op
+BenchmarkContains-8             	15714638	        76.59 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/bengarrett/sauce	19.163s
+PASS
+ok  	github.com/bengarrett/sauce/humanize	0.002s
+PASS
+ok  	github.com/bengarrett/sauce/internal/layout	0.002s

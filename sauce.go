@@ -79,16 +79,16 @@ func Trim(b []byte) []byte {
 	rec := Decode(b)
 	if ci := rec.Comnt.Index; ci > none {
 		if ci > len(b) {
-			return nil
+			return b
 		}
 		// trim the eof marker
-		if b[ci-1] == EOF && ci > 2 {
+		if ci > 0 && b[ci-1] == EOF && ci > 2 {
 			return b[:ci-2]
 		}
 		return b[:ci]
 	}
 	if pos > len(b) {
-		return nil
+		return b
 	}
 	// trim the eof marker
 	if b[pos-1] == EOF && pos > 2 {

@@ -1,9 +1,7 @@
 package layout
 
 import (
-	"bytes"
 	"encoding/binary"
-	"log"
 )
 
 // Infos includes the SAUCE fields dependant on both DataType and FileType.
@@ -100,11 +98,5 @@ func (ti *Infos) character(ft uint8) {
 }
 
 func UnsignedBinary2(b [2]byte) uint16 {
-	var data uint16
-	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &data)
-	if err != nil {
-		log.Println("unsigned 2 bytes, LE binary failed:", err)
-	}
-	return data
+	return binary.LittleEndian.Uint16(b[:])
 }

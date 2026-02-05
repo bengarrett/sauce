@@ -1,0 +1,1820 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>humanize: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/bengarrett/sauce/humanize/bytes.go (100.0%)</option>
+				
+				<option value="file1">github.com/bengarrett/sauce/humanize/dates.go (100.0%)</option>
+				
+				<option value="file2">github.com/bengarrett/sauce/internal/layout/ansiflags.go (94.7%)</option>
+				
+				<option value="file3">github.com/bengarrett/sauce/internal/layout/archive.go (100.0%)</option>
+				
+				<option value="file4">github.com/bengarrett/sauce/internal/layout/audio.go (83.3%)</option>
+				
+				<option value="file5">github.com/bengarrett/sauce/internal/layout/binarytext.go (100.0%)</option>
+				
+				<option value="file6">github.com/bengarrett/sauce/internal/layout/bitmap.go (100.0%)</option>
+				
+				<option value="file7">github.com/bengarrett/sauce/internal/layout/character.go (92.9%)</option>
+				
+				<option value="file8">github.com/bengarrett/sauce/internal/layout/comnt.go (90.9%)</option>
+				
+				<option value="file9">github.com/bengarrett/sauce/internal/layout/datatype.go (100.0%)</option>
+				
+				<option value="file10">github.com/bengarrett/sauce/internal/layout/date.go (88.2%)</option>
+				
+				<option value="file11">github.com/bengarrett/sauce/internal/layout/executable.go (100.0%)</option>
+				
+				<option value="file12">github.com/bengarrett/sauce/internal/layout/filesize.go (88.9%)</option>
+				
+				<option value="file13">github.com/bengarrett/sauce/internal/layout/filetype.go (100.0%)</option>
+				
+				<option value="file14">github.com/bengarrett/sauce/internal/layout/info.go (97.2%)</option>
+				
+				<option value="file15">github.com/bengarrett/sauce/internal/layout/layout.go (88.1%)</option>
+				
+				<option value="file16">github.com/bengarrett/sauce/internal/layout/none.go (100.0%)</option>
+				
+				<option value="file17">github.com/bengarrett/sauce/internal/layout/vector.go (100.0%)</option>
+				
+				<option value="file18">github.com/bengarrett/sauce/internal/layout/xbin.go (100.0%)</option>
+				
+				<option value="file19">github.com/bengarrett/sauce/sauce.go (80.9%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">// The code in humanize/bytes.go is derived from [labstack/gommon], Common packages for Go
+//
+// [The MIT License] (MIT) Copyright (c) 2018 labstack
+//
+// [labstack/gommon]: https://github.com/labstack/gommon
+// [The MIT License]: https://github.com/labstack/gommon/blob/master/LICENSE
+
+// Package humanize is parses some limited time and byte sizes data to human readable formats.
+package humanize
+
+import (
+        "golang.org/x/text/language"
+        "golang.org/x/text/message"
+)
+
+const (
+        _ = 1.0 &lt;&lt; (binaryBase * iota)
+        kib
+        mib
+        gib
+        tib
+        pib
+
+        oneDecimalPoint  = "%.1f %s"
+        twoDecimalPoints = "%.2f %s"
+        binaryBase       = 10
+        kb               = 1000
+        mb               = kb * kb
+        gb               = mb * kb
+        tb               = gb * kb
+        pb               = tb * kb
+)
+
+// Binary formats the bytes integer to localized, readable string using binary units of measure.
+func Binary(b int64, t language.Tag) string <span class="cov8" title="1">{
+        p := message.NewPrinter(t)
+        value := float64(b)
+        var multiple string
+        switch </span>{
+        case b &gt;= pib:<span class="cov8" title="1">
+                value /= pib
+                multiple = "PiB"</span>
+        case b &gt;= tib:<span class="cov8" title="1">
+                value /= tib
+                multiple = "TiB"</span>
+        case b &gt;= gib:<span class="cov8" title="1">
+                value /= gib
+                multiple = "GiB"</span>
+        case b &gt;= mib:<span class="cov8" title="1">
+                value /= mib
+                multiple = "MiB"</span>
+        case b &gt;= kib:<span class="cov8" title="1">
+                value /= kib
+                return p.Sprintf(oneDecimalPoint, value, "KiB")</span>
+        case b == 0:<span class="cov8" title="1">
+                return "0"</span>
+        default:<span class="cov8" title="1">
+                return p.Sprintf("%dB", b)</span>
+        }
+        <span class="cov8" title="1">return p.Sprintf(twoDecimalPoints, value, multiple)</span>
+}
+
+// Decimal formats the bytes integer to localized readable string using decimal units of measure.
+func Decimal(b int64, t language.Tag) string <span class="cov8" title="1">{
+        p := message.NewPrinter(t)
+        value := float64(b)
+        var multiple string
+        switch </span>{
+        case b &gt;= pb:<span class="cov8" title="1">
+                value /= pb
+                multiple = "PB"</span>
+        case b &gt;= tb:<span class="cov8" title="1">
+                value /= tb
+                multiple = "TB"</span>
+        case b &gt;= gb:<span class="cov8" title="1">
+                value /= gb
+                multiple = "GB"</span>
+        case b &gt;= mb:<span class="cov8" title="1">
+                value /= mb
+                multiple = "MB"</span>
+        case b &gt;= kb:<span class="cov8" title="1">
+                value /= kb
+                return p.Sprintf(oneDecimalPoint, value, "kB")</span>
+        case b == 0:<span class="cov8" title="1">
+                return "0"</span>
+        default:<span class="cov8" title="1">
+                return p.Sprintf("%dB", b)</span>
+        }
+        <span class="cov8" title="1">return p.Sprintf(twoDecimalPoints, value, multiple)</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package humanize
+
+import (
+        "time"
+)
+
+// Layout is a predefined time format.
+type Layout string
+
+// Date and time layouts.
+const (
+        DMY Layout = "2 Jan 2006" // day month year
+        YMD Layout = "2006 Jan 2" // year month day
+        MDY Layout = "Jan 2 2006" // month day year
+        H12 Layout = "3:04 pm"    // 12 hour clock
+        H24 Layout = "15:04"      // 24 hour clock
+)
+
+// Date with time layouts.
+const (
+        DMY12 Layout = DMY + " " + H12 // 2 Jan 2006 3:04 pm
+        DMY24 Layout = DMY + " " + H24 // 2 Jan 2006 15:04
+        YMD12 Layout = YMD + " " + H12 // 2006 Jan 2 3:04 pm
+        YMD24 Layout = YMD + " " + H24 // 2006 Jan 2 15:04
+        MDY12 Layout = MDY + " " + H12 // Jan 2 2006 3:04 pm
+        MDY24 Layout = MDY + " " + H24 // Jan 2 2006 15:04
+)
+
+// Format returns the time using the predefined layout.
+func (l Layout) Format(t time.Time) string <span class="cov8" title="1">{
+        switch l </span>{
+        case "":<span class="cov8" title="1">
+                return t.Format(string(YMD24))</span>
+        case DMY, YMD, MDY, H12, H24, DMY12, DMY24, YMD12, YMD24, MDY12, MDY24:<span class="cov8" title="1">
+                return t.Format(string(l))</span>
+        default:<span class="cov8" title="1">
+                return ""</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package layout
+
+import (
+        "errors"
+        "fmt"
+        "strings"
+)
+
+// ANSIFlags allow an author of ANSi and similar files to provide a clue to a viewer / editor
+// how to render the image. The 8 bits in the ANSiFlags contain the following information:
+// 0         0         0         A         R         L         S         B
+// B: Non-blink mode (iCE Color).
+// LS: Letter-spacing (a.k.a. 8/9 pixel font selection).
+// AR: Aspect Ratio.
+// See http://www.acid.org/info/sauce/sauce.htm#ANSiFlags.
+
+var ErrInvalid = errors.New("invalid value")
+
+// Unsupported is a legacy value used by Letter-spacing and Aspect Ratio.
+// It acts as an unsupported placeholder for SAUCE versions prior to v00.5 from Nov 2013.
+const Unsupported = "no preference"
+
+// Flags is the SAUCE Flags field.
+type Flags uint8
+
+// ANSIFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image.
+type ANSIFlags struct {
+        Decimal         Flags      `json:"decimal" xml:"decimal,attr"`         // decimal, unsigned integer flags value
+        Binary          string     `json:"binary" xml:"binary,attr"`           // binary notation flags value
+        B               ANSIFlagB  `json:"nonBlinkMode" xml:"non_blink_mode"`  // b is the non-blink "iCE Color" toggle
+        LS              ANSIFlagLS `json:"letterSpacing" xml:"letter_spacing"` // ls is the letter-spacing value
+        AR              ANSIFlagAR `json:"aspectRatio" xml:"aspect_ratio"`     // ar is the aspect ratio value
+        Interpretations string     `json:"-" xml:"-"`                          // interpretations are humanized descriptions of the bits
+}
+
+func (a *ANSIFlags) String() string <span class="cov8" title="1">{
+        if a.Decimal == 0 </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">b, ls, ar := a.B.Info, a.LS.Info, a.AR.Info
+        s := []string{}
+        if b != Unsupported </span><span class="cov8" title="1">{
+                s = append(s, b)
+        }</span>
+        <span class="cov8" title="1">if ls != Unsupported </span><span class="cov8" title="1">{
+                s = append(s, ls)
+        }</span>
+        <span class="cov8" title="1">if ar != Unsupported </span><span class="cov8" title="1">{
+                s = append(s, ar)
+        }</span>
+        <span class="cov8" title="1">empty := strings.TrimSpace(strings.Join(s, "")) == ""
+        if empty </span><span class="cov0" title="0">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return strings.Join(s, ", ")</span>
+}
+
+// ANSIFlagB is the interpretation of the SAUCE Flags non-blink mode binary bit.
+type ANSIFlagB struct {
+        Flag BBit   `json:"flag" xml:"flag"`                          // flag the non-blink "iCE Color" toggle
+        Info string `json:"interpretation" xml:"interpretation,attr"` // info description of the toggle
+}
+
+func (f Flags) Parse() ANSIFlags <span class="cov8" title="1">{
+        const binary5Bits, minLen = "%05b", 5
+        bin := fmt.Sprintf(binary5Bits, f)
+        r := []rune(bin)
+        if len(r) &lt; minLen </span><span class="cov0" title="0">{
+                return ANSIFlags{
+                        Decimal: f,
+                        Binary:  bin,
+                }
+        }</span>
+        <span class="cov8" title="1">b, ls, ar := string(r[0]), string(r[1:3]), string(r[3:5])
+        return ANSIFlags{
+                Decimal: f,
+                Binary:  bin,
+                B:       ANSIFlagB{Flag: BBit(b), Info: BBit(b).String()},
+                LS:      ANSIFlagLS{Flag: LsBit(ls), Info: LsBit(ls).String()},
+                AR:      ANSIFlagAR{Flag: ArBit(ar), Info: ArBit(ar).String()},
+        }</span>
+}
+
+// ANSIFlagLS is the interpretation of the SAUCE Flags letter spacing binary bits.
+type ANSIFlagLS struct {
+        Flag LsBit  `json:"flag" xml:"flag"`                          // lsbit letter-spacing value
+        Info string `json:"interpretation" xml:"interpretation,attr"` // info description of the value
+}
+
+type LsBit string // Letter-spacing two bit value.
+
+func (ls LsBit) String() string <span class="cov8" title="1">{
+        const none, eight, nine = "00", "01", "10"
+        switch ls </span>{
+        case none:<span class="cov8" title="1">
+                return Unsupported</span>
+        case eight:<span class="cov8" title="1">
+                return "select 8 pixel font"</span>
+        case nine:<span class="cov8" title="1">
+                return "select 9 pixel font"</span>
+        default:<span class="cov8" title="1">
+                return ErrInvalid.Error()</span>
+        }
+}
+
+// ANSIFlagAR is the interpretation of the SAUCE Flags aspect ratio binary bits.
+type ANSIFlagAR struct {
+        Flag ArBit  `json:"flag" xml:"flag"`                          // ar aspect ratio value
+        Info string `json:"interpretation" xml:"interpretation,attr"` // info description of the value
+}
+
+// ArBit is the Aspect Ratio two bit value.
+type ArBit string
+
+func (ar ArBit) String() string <span class="cov8" title="1">{
+        const none, strect, square = "00", "01", "10"
+        switch ar </span>{
+        case none:<span class="cov8" title="1">
+                return Unsupported</span>
+        case strect:<span class="cov8" title="1">
+                return "stretch pixels"</span>
+        case square:<span class="cov8" title="1">
+                return "square pixels"</span>
+        default:<span class="cov8" title="1">
+                return ErrInvalid.Error()</span>
+        }
+}
+
+// BBit is the non-blink "iCE Color" bit value.
+type BBit string
+
+func (b BBit) String() string <span class="cov8" title="1">{
+        const blink, non = "0", "1"
+        switch b </span>{
+        case blink:<span class="cov8" title="1">
+                return "blink mode"</span>
+        case non:<span class="cov8" title="1">
+                return "non-blink mode"</span>
+        default:<span class="cov8" title="1">
+                return ErrInvalid.Error()</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package layout
+
+// An archive file data type.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// Archive and compressed files.
+type Archive uint
+
+const (
+        Zip Archive = iota
+        Arj
+        Lzh
+        Arc
+        Tar
+        Zoo
+        Rar
+        Uc2
+        Pak
+        Sqz
+)
+
+func (a Archive) String() string <span class="cov8" title="1">{
+        if (a) &gt; (Sqz) </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "ZIP compressed archive",
+                "ARJ compressed archive",
+                "LHA compressed archive",
+                "ARC compressed archive",
+                "Tarball tape archive",
+                "ZOO compressed archive",
+                "RAR compressed archive",
+                "UltraCompressor II compressed archive",
+                "PAK ARC compressed archive",
+                "Squeeze It compressed archive",
+        }[a]</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package layout
+
+// An audio file data type.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// Audio or music files.
+type Audio uint
+
+const (
+        Mod Audio = iota
+        Composer669
+        Stm
+        S3m
+        Mtm
+        Far
+        Ult
+        Amf
+        Dmf
+        Okt
+        Rol
+        Cmf
+        Midi
+        Sadt
+        Voc
+        Wave
+        Smp8
+        Smp8s
+        Smp16
+        Smp16s
+        Patch8
+        Patch16
+        Xm
+        Hsc
+        It
+)
+
+func (a Audio) String() string <span class="cov8" title="1">{
+        if a &gt; It </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "NoiseTracker module",
+                "Composer 669 module",
+                "ScreamTracker module",
+                "ScreamTracker 3 module",
+                "MultiTracker module",
+                "Farandole Composer module",
+                "Ultra Tracker module",
+                "Dual Module Player module",
+                "X-Tracker module",
+                "Oktalyzer module",
+                "AdLib Visual Composer FM audio",
+                "Creative Music FM audio",
+                "MIDI audio",
+                "SAdT composer FM audio",
+                "Creative Voice File",
+                "Waveform audio",
+                "single channel 8-bit sample",
+                "stereo 8-bit sample",
+                "single channel 16-bit sample",
+                "stereo 16-bit sample",
+                "8-bit patch file",
+                "16-bit patch file",
+                "Extended Module",
+                "Hannes Seifert Composition FM audio",
+                "Impulse Tracker module",
+        }[a]</span>
+}
+
+func (ti *Infos) audio(ft uint8) <span class="cov8" title="1">{
+        switch Audio(ft) </span>{
+        case Smp8, Smp8s, Smp16, Smp16s:<span class="cov8" title="1">
+                ti.Info1.Info = "sample rate"</span>
+        case Mod, Composer669, Stm, S3m, Mtm, Far, Ult, Amf, Dmf, Okt,
+                Rol, Cmf, Midi, Sadt, Voc, Wave, Patch8, Patch16, Xm, Hsc, It:<span class="cov0" title="0">
+                return</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package layout
+
+// This is a raw memory copy of a text mode screen. Also known as a .BIN file.
+// This is essentially a collection of character and attribute pairs.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// BinaryText is a raw memory copy of a text mode screen.
+type BinaryText uint
+
+const (
+        BinaryScreenImage BinaryText = iota
+)
+
+func (b BinaryText) String() string <span class="cov8" title="1">{
+        if b &gt; BinaryScreenImage </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "Binary text or a .BIN file",
+        }[b]</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package layout
+
+// Bitmap graphic and animation files.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// Bitmap graphic and animation files.
+type Bitmap uint
+
+const (
+        Gif Bitmap = iota
+        Pcx
+        Lbm
+        Tga
+        Fli
+        Flc
+        Bmp
+        Gl
+        Dl
+        Wpg
+        Png
+        Jpg
+        Mpg
+        Avi
+)
+
+func (b Bitmap) String() string <span class="cov8" title="1">{
+        if b &gt; Avi </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "GIF image",
+                "ZSoft Paintbrush image",
+                "DeluxePaint image",
+                "Targa true color image",
+                "Autodesk Animator animation",
+                "Autodesk Animator animation",
+                "BMP Windows/OS2 bitmap",
+                "Grasp GL animation",
+                "DL animation",
+                "WordPerfect graphic",
+                "PNG image",
+                "Jpeg photo",
+                "MPEG video",
+                "AVI video",
+        }[b]</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package layout
+
+// A character based file. These files are typically interpreted sequentially.
+// Also known as streams.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// Character files more commonly referred as text files.
+type Character uint
+
+const (
+        ASCII Character = iota
+        Ansi
+        AnsiMation
+        RipScript
+        PCBoard
+        Avatar
+        HTML
+        Source
+        TundraDraw
+)
+
+func (c Character) String() string <span class="cov8" title="1">{
+        if c &gt; TundraDraw </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "ASCII text",
+                "ANSI color text",
+                "ANSIMation",
+                "RIPScript",
+                "PCBoard color text",
+                "Avatar color text",
+                "HTML markup",
+                "Programming source code",
+                "TundraDraw color text",
+        }[c]</span>
+}
+
+// Desc is the character description.
+func (c Character) Desc() string <span class="cov8" title="1">{
+        if c &gt; TundraDraw </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "ASCII text file with no formatting codes or color codes.",
+                "ANSI text file with coloring codes and cursor positioning.",
+                "ANSIMation are ANSI text files that rely on fixed screen sizes.",
+                "RIPScript are Remote Imaging Protocol graphics.",
+                "PCBoard color codes and macros, and ANSI codes.",
+                "Avatar color codes, and ANSi codes.",
+                "HTML markup files.",
+                "Source code for a programming language.",
+                "TundraDraw files, like ANSI, but with a custom palette.",
+        }[c]</span>
+}
+
+func (d *Layout) Description() string <span class="cov8" title="1">{
+        dt := UnsignedBinary1(d.Datatype)
+        ft := UnsignedBinary1(d.Filetype)
+        chr := Character(ft)
+        if TypeOfData(dt) != Characters </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">switch chr </span>{
+        case ASCII,
+                Ansi,
+                AnsiMation,
+                RipScript,
+                PCBoard,
+                Avatar,
+                HTML,
+                Source,
+                TundraDraw:<span class="cov8" title="1">
+                return chr.Desc()</span>
+        }
+        <span class="cov0" title="0">return ""</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package layout
+
+import (
+        "bufio"
+        "bytes"
+        "strings"
+)
+
+// A SAUCE comment block is an optional, variable sized structure that holds up to 255 lines
+// of additional information, each line 64 characters wide. There are as many comment lines
+// as is mentioned in the Comments field of the SAUCE record.
+// If the Comments field is set to 0, there should not be a comment block at all.
+// See http://www.acid.org/info/sauce/sauce.htm
+
+type Comnt struct {
+        Index  int      // index is the calculated starting position of the comment block
+        Length int      // length is the calculated length of the comment block
+        Count  Comments // count are the reported number of lines in the SAUCE comment block
+        Lines  []byte   // lines of text
+}
+
+// Comment contains the optional SAUCE comment block.
+// A SAUCE comment block is an optional, variable sized structure that holds
+// up to 255 lines of additional information, each line 64 characters wide.
+type Comment struct {
+        ID      string   `json:"id" xml:"id,attr"`       // id is the SAUCE comment block identification, this should be "COMNT"
+        Count   int      `json:"count" xml:"count,attr"` // count are the reported number of lines in the SAUCE comment block
+        Index   int      `json:"-" xml:"-"`              // index are the calculated starting position of the comment block
+        Comment []string `json:"lines" xml:"line"`       // comment value, each comment line should be comprised of 64 characters
+}
+
+// CommentBlock parses the optional SAUCE comment block.
+func (d *Layout) CommentBlock() Comment <span class="cov8" title="1">{
+        breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
+        var c Comment
+        c.ID = ComntID
+        c.Count = int(UnsignedBinary1(d.Comnt.Count))
+        c.Index = -1
+        if d.Comnt.Index &gt; 0 </span><span class="cov0" title="0">{
+                c.Index = d.Comnt.Index - len(ComntID)
+        }</span>
+        <span class="cov8" title="1">if breakCount &gt; 0 </span><span class="cov8" title="1">{
+                // comments with line breaks are technically invalid but they exist in the wild.
+                // https://github.com/16colo-rs/16c/issues/67
+                c.Comment = CommentByBreak(d.Comnt.Lines)
+                return c
+        }</span>
+        <span class="cov0" title="0">c.Comment = CommentByLine(d.Comnt.Lines)
+        return c</span>
+}
+
+// CommentByBreak parses the SAUCE comment by line break characters.
+func CommentByBreak(b []byte) []string <span class="cov8" title="1">{
+        if len(b) == 0 </span><span class="cov8" title="1">{
+                return []string{}
+        }</span>
+        <span class="cov8" title="1">r := bytes.NewReader(b)
+        scanner := bufio.NewScanner(r)
+        s := []string{}
+        for scanner.Scan() </span><span class="cov8" title="1">{
+                s = append(s, scanner.Text())
+        }</span>
+        <span class="cov8" title="1">return s</span>
+}
+
+// CommentByLine parses the SAUCE comment by lines of 64 characters.
+func CommentByLine(b []byte) []string <span class="cov8" title="1">{
+        if len(b) == 0 </span><span class="cov8" title="1">{
+                return []string{}
+        }</span>
+        <span class="cov8" title="1">s, l := "", 0
+        resetLine := func() </span><span class="cov8" title="1">{
+                s, l = "", 0
+        }</span>
+        <span class="cov8" title="1">lines := []string{}
+        for _, c := range b </span><span class="cov8" title="1">{
+                l++
+                s += string(c)
+                if l == ComntLineSize </span><span class="cov8" title="1">{
+                        lines = append(lines, s)
+                        resetLine()
+                }</span>
+        }
+        <span class="cov8" title="1">return lines</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package layout
+
+// Type of data. SAUCE supports 8 different types and an undefined value.
+// See http://www.acid.org/info/sauce/sauce.htm
+
+// Datas is the SAUCE DataType value and name.
+type Datas struct {
+        Type TypeOfData `json:"type" xml:"type"` // typeofdata is the unsigned data type
+        Name string     `json:"name" xml:"name"` // name of the data type
+}
+
+// TypeOfData is the SAUCE DataType.
+type TypeOfData uint
+
+const (
+        Nones       TypeOfData = iota // undefined filetype
+        Characters                    // characters and plain text based files
+        Bitmaps                       // bitmap, graphic and animation files
+        Vectors                       // vector graphic files
+        Audios                        // audio and sound files
+        BinaryTexts                   // binary texts that are raw memory copies of a text mode screen, also known as a 'bin' file
+        XBins                         // xbin or extended bin file
+        Archives                      // archived file such as a zip package
+        Executables                   // executable file that is an application or program launcher
+)
+
+func (d TypeOfData) String() string <span class="cov8" title="1">{
+        if d &gt; Executables </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "undefined",
+                "text or character stream",
+                "bitmap graphic or animation",
+                "vector graphic",
+                "audio or music",
+                "binary text",
+                "extended binary text",
+                "archive",
+                "executable",
+        }[d]</span>
+}
+
+func (d *Layout) DataType() Datas <span class="cov8" title="1">{
+        dt := UnsignedBinary1(d.Datatype)
+        return Datas{
+                Type: TypeOfData(dt),
+                Name: TypeOfData(dt).String(),
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package layout
+
+import (
+        "errors"
+        "fmt"
+        "log"
+        "strconv"
+        "time"
+)
+
+// The date the file was created. The format for the date is CCYYMMDD (century, year, month, day).
+// Example: 4 May 2013 would be stored as "20130504".
+// See http://www.acid.org/info/sauce/sauce.htm
+
+var (
+        ErrParseDate = errors.New("parse date to integer conversion")
+        ErrSauceDate = errors.New("sauce date error")
+)
+
+// Dates is the date the file was created, in multiple time formats.
+type Dates struct {
+        Value string    `json:"value" xml:"value"`      // date format using CCYYMMDD (century, year, month, day)
+        Time  time.Time `json:"iso" xml:"date"`         // time as a go time type
+        Epoch int64     `json:"epoch" xml:"epoch,attr"` // epoch unix time, is the number of seconds since 1 Jan 1970
+}
+
+func (d *Layout) Dates() Dates <span class="cov8" title="1">{
+        tt, err := d.date()
+        if err != nil </span><span class="cov8" title="1">{
+                log.Printf("%s: %s\n", ErrSauceDate, err)
+                return Dates{}
+        }</span>
+        <span class="cov8" title="1">epoch := tt.Unix()
+        return Dates{
+                Value: d.Date.String(),
+                Time:  tt,
+                Epoch: epoch,
+        }</span>
+}
+
+func (d *Layout) date() (time.Time, error) <span class="cov8" title="1">{
+        dd := d.Date
+        year, err := strconv.Atoi(string(dd[0:4]))
+        if err != nil </span><span class="cov8" title="1">{
+                return time.Time{},
+                        fmt.Errorf("year failed: %v: %w", year, ErrParseDate)
+        }</span>
+        <span class="cov8" title="1">month, err := strconv.Atoi(string(dd[4:6]))
+        if err != nil </span><span class="cov0" title="0">{
+                return time.Time{},
+                        fmt.Errorf("month failed: %v: %w", month, ErrParseDate)
+        }</span>
+        <span class="cov8" title="1">day, err := strconv.Atoi(string(dd[6:8]))
+        if err != nil </span><span class="cov0" title="0">{
+                return time.Time{},
+                        fmt.Errorf("day failed: %v: %w", day, ErrParseDate)
+        }</span>
+        <span class="cov8" title="1">return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package layout
+
+// A executable file. Any executable file. .exe, .dll, .bat, ...
+// Executable scripts such as .vbs should be tagged as Source.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// Executable program files.
+type Executable uint
+
+const (
+        Exe Executable = iota
+)
+
+func (e Executable) String() string <span class="cov8" title="1">{
+        if e &gt; Exe </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "Executable program file",
+        }[e]</span>
+}
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package layout
+
+import (
+        "bytes"
+        "encoding/binary"
+        "log"
+
+        "github.com/bengarrett/sauce/humanize"
+        "golang.org/x/text/language"
+)
+
+// Sizes is the original file size in multiple formats.
+type Sizes struct {
+        Bytes   uint16 `json:"bytes" xml:"bytes"`          // bytes as an integer
+        Decimal string `json:"decimal" xml:"decimal,attr"` // decimal is a base 10 value
+        Binary  string `json:"binary" xml:"binary,attr"`   // binary is a base 2 value
+}
+
+func (d *Layout) Sizes() Sizes <span class="cov8" title="1">{
+        value := UnsignedBinary4(d.Filesize)
+        en := language.English
+        return Sizes{
+                Bytes:   value,
+                Decimal: humanize.Decimal(int64(value), en),
+                Binary:  humanize.Binary(int64(value), en),
+        }
+}</span>
+
+func UnsignedBinary4(b [4]byte) uint16 <span class="cov8" title="1">{
+        var data uint16
+        buf := bytes.NewReader(b[:])
+        err := binary.Read(buf, binary.LittleEndian, &amp;data)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("unsigned 4 byte, LE binary failed:", err)
+        }</span>
+        <span class="cov8" title="1">return data</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package layout
+
+import "errors"
+
+// Type of file.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+var ErrFileType = errors.New("unknown filetype")
+
+// Files is the SAUCE FileType value and name.
+type Files struct {
+        Type TypeOfFile `json:"type" xml:"type"` // type of file unsigned integer
+        Name string     `json:"name" xml:"name"` // name of the file type
+}
+
+// TypeOfFile is the SAUCE FileType.
+type TypeOfFile uint
+
+func (d *Layout) FileType() Files <span class="cov8" title="1">{
+        data := UnsignedBinary1(d.Datatype)
+        file := UnsignedBinary1(d.Filetype)
+        switch TypeOfData(data) </span>{
+        case Nones:<span class="cov8" title="1">
+                n := None(file)
+                return Files{TypeOfFile(n), n.String()}</span>
+        case Characters:<span class="cov8" title="1">
+                c := Character(file)
+                return Files{TypeOfFile(c), c.String()}</span>
+        case Bitmaps:<span class="cov8" title="1">
+                b := Bitmap(file)
+                return Files{TypeOfFile(b), b.String()}</span>
+        case Vectors:<span class="cov8" title="1">
+                v := Vector(file)
+                return Files{TypeOfFile(v), v.String()}</span>
+        case Audios:<span class="cov8" title="1">
+                a := Audio(file)
+                return Files{TypeOfFile(a), a.String()}</span>
+        case BinaryTexts:<span class="cov8" title="1">
+                b := BinaryText(file)
+                return Files{TypeOfFile(b), b.String()}</span>
+        case XBins:<span class="cov8" title="1">
+                x := XBin(file)
+                return Files{TypeOfFile(x), x.String()}</span>
+        case Archives:<span class="cov8" title="1">
+                a := Archive(file)
+                return Files{TypeOfFile(a), a.String()}</span>
+        case Executables:<span class="cov8" title="1">
+                e := Executable(file)
+                return Files{TypeOfFile(e), e.String()}</span>
+        default:<span class="cov8" title="1">
+                var empty TypeOfFile
+                return Files{empty, ErrFileType.Error()}</span>
+        }
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package layout
+
+import (
+        "bytes"
+        "encoding/binary"
+        "log"
+)
+
+// Infos includes the SAUCE fields dependant on both DataType and FileType.
+type Infos struct {
+        // Info1 dependant numeric information field 1.
+        Info1 Info `json:"1" xml:"type1"`
+        // Info2 dependant numeric information field 2.
+        Info2 Info `json:"2" xml:"type2"`
+        // Info3 dependant numeric information field 3.
+        Info3 Info `json:"3" xml:"type3"`
+        // Flags are file type dependant flags.
+        Flags ANSIFlags `json:"flags" xml:"flags"`
+        // Font field allows an author to provide a clue to the viewer/editor which font to use to render the image.
+        Font string `json:"fontName" xml:"fontname"`
+}
+
+// Info is the type for the SAUCE TInfo1, TInfo2, TInfo3 and TInfo4 fields.
+type Info struct {
+        // Value of the field.
+        Value uint16 `json:"value" xml:"value"`
+        // Info is a description of the value.
+        Info string `json:"info" xml:"type,attr"`
+}
+
+const (
+        chrw = "character width"
+        nol  = "number of lines"
+        pxw  = "pixel width"
+)
+
+func (d *Layout) InfoType() Infos <span class="cov8" title="1">{
+        dt, ft := UnsignedBinary1(d.Datatype),
+                UnsignedBinary1(d.Filetype)
+        t1, t2, t3 := UnsignedBinary2(d.Tinfo1),
+                UnsignedBinary2(d.Tinfo2),
+                UnsignedBinary2(d.Tinfo3)
+        flag := Flags(UnsignedBinary1(d.TFlags))
+        ti := Infos{
+                Info{t1, ""},
+                Info{t2, ""},
+                Info{t3, ""},
+                flag.Parse(),
+                d.TInfoS.String(),
+        }
+        switch TypeOfData(dt) </span>{
+        case Nones:<span class="cov8" title="1">
+                return ti</span> // golangci-lint deadcode placeholder
+        case Characters:<span class="cov8" title="1">
+                ti.character(ft)
+                return ti</span>
+        case Bitmaps:<span class="cov8" title="1">
+                switch Bitmap(ft) </span>{
+                case Gif, Pcx, Lbm, Tga, Fli, Flc, Bmp, Gl, Dl, Wpg, Png, Jpg, Mpg, Avi:<span class="cov8" title="1">
+                        ti.Info1.Info = pxw
+                        ti.Info2.Info = "pixel height"
+                        ti.Info3.Info = "pixel depth"</span>
+                }
+        case Vectors:<span class="cov8" title="1">
+                switch Vector(ft) </span>{
+                case Dxf, Dwg, Wpvg, Kinetix:<span class="cov8" title="1">
+                        return ti</span>
+                }
+        case Audios:<span class="cov8" title="1">
+                ti.audio(ft)
+                return ti</span>
+        case BinaryTexts:<span class="cov8" title="1">
+                return ti</span>
+        case XBins:<span class="cov8" title="1">
+                ti.Info1.Info = chrw
+                ti.Info2.Info = nol</span>
+        case Archives:<span class="cov8" title="1">
+                switch Archive(ft) </span>{
+                case Zip, Arj, Lzh, Arc, Tar, Zoo, Rar, Uc2, Pak, Sqz:<span class="cov8" title="1">
+                        return ti</span>
+                }
+        case Executables:<span class="cov8" title="1">
+                return ti</span>
+        }
+        <span class="cov8" title="1">return ti</span>
+}
+
+func (ti *Infos) character(ft uint8) <span class="cov8" title="1">{
+        switch Character(ft) </span>{
+        case ASCII, Ansi, AnsiMation, PCBoard, Avatar, TundraDraw:<span class="cov8" title="1">
+                ti.Info1.Info = chrw
+                ti.Info2.Info = nol</span>
+        case RipScript:<span class="cov8" title="1">
+                ti.Info1.Info = pxw
+                ti.Info2.Info = "character screen height"
+                ti.Info3.Info = "number of colors"</span>
+        case HTML, Source:<span class="cov8" title="1">
+                return</span>
+        }
+}
+
+func UnsignedBinary2(b [2]byte) uint16 <span class="cov8" title="1">{
+        var data uint16
+        buf := bytes.NewReader(b[:])
+        err := binary.Read(buf, binary.LittleEndian, &amp;data)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("unsigned 2 bytes, LE binary failed:", err)
+        }</span>
+        <span class="cov8" title="1">return data</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package layout
+
+import (
+        "bytes"
+        "encoding/binary"
+        "log"
+)
+
+//nolint:lll
+const (
+        ComntID       string = "COMNT"                // comntid is the comment block identification that must be "COMNT"
+        SauceID       string = "SAUCE"                // sauceid is the SAUCE identification that must be "SAUCE"
+        SauceVersion  string = "00"                   // sauce version number that is always "00"
+        SauceSeek     string = SauceID + SauceVersion // sauceseek is the sauce id and version value to lookup
+        ComntLineSize int    = 64                     // comntlinesize is the fix length in bytes of an individual comment line
+        ComntMaxLines int    = 255                    // comntmaxlines is the maximum permitted number of lines for a block of comments
+)
+
+type (
+        Data     []byte   // data is a copy of the input data
+        ID       [5]byte  // id is the sauce identifier
+        Version  [2]byte  // version number
+        Title    [35]byte // title of the file
+        Author   [20]byte // author is nickname or handle of creator of the file
+        Group    [20]byte // group or company name the author worked for
+        Date     [8]byte  // date the file was created
+        FileSize [4]byte  // file size of original file size without the sauce data
+        DataType [1]byte  // data type is the type of file, such as an raster image
+        FileType [1]byte  // file type is the technical format of the file, such as a GIF
+        TInfo1   [2]byte  // tinfo1 is type dependant numeric information field 1
+        TInfo2   [2]byte  // tinfo2 is type dependant numeric information field 2
+        TInfo3   [2]byte  // tinfo3 is type dependant numeric information field 3
+        TInfo4   [2]byte  // tinfo4 is type dependant numeric information field 4
+        Comments [1]byte  // comments are the number of lines in the extra SAUCE comment block
+        TFlags   [1]byte  // tflags are the type dependant flags
+        TInfoS   [22]byte // tinfos are the type dependant string information field
+)
+
+type Layout struct {
+        ID       ID
+        Version  Version
+        Title    Title
+        Author   Author
+        Group    Group
+        Date     Date
+        Filesize FileSize
+        Datatype DataType
+        Filetype FileType
+        Tinfo1   TInfo1
+        Tinfo2   TInfo2
+        Tinfo3   TInfo3
+        Tinfo4   TInfo4
+        Comments Comments
+        TFlags   TFlags
+        TInfoS   TInfoS
+        Comnt    Comnt
+}
+
+// Index returns the position of the SAUCE00 ID or -1 if no ID exists.
+func Index(b []byte) int <span class="cov8" title="1">{
+        const sauceSize, maximum = 128, 512
+        id, l := []byte(SauceSeek), len(b)
+        backwardsLoop := func(i int) int </span><span class="cov8" title="1">{
+                return l - 1 - i
+        }</span>
+        // search for the id sequence in b
+        <span class="cov8" title="1">const indexEnd = 6
+        for i := range b </span><span class="cov8" title="1">{
+                if i &gt; maximum </span><span class="cov0" title="0">{
+                        break</span>
+                }
+                <span class="cov8" title="1">i = backwardsLoop(i)
+                if len(b) &lt; sauceSize </span><span class="cov8" title="1">{
+                        break</span>
+                }
+                <span class="cov8" title="1">if i &lt; indexEnd </span><span class="cov0" title="0">{
+                        break</span>
+                }
+                // do matching in reverse
+                <span class="cov8" title="1">if b[i] != id[indexEnd] </span><span class="cov8" title="1">{
+                        continue</span> // 0
+                }
+                <span class="cov8" title="1">if b[i-1] != id[5] </span><span class="cov8" title="1">{
+                        continue</span> // 0
+                }
+                <span class="cov8" title="1">if b[i-2] != id[4] </span><span class="cov0" title="0">{
+                        continue</span> // E
+                }
+                <span class="cov8" title="1">if b[i-3] != id[3] </span><span class="cov0" title="0">{
+                        continue</span> // C
+                }
+                <span class="cov8" title="1">if b[i-4] != id[2] </span><span class="cov0" title="0">{
+                        continue</span> // U
+                }
+                <span class="cov8" title="1">if b[i-5] != id[1] </span><span class="cov0" title="0">{
+                        continue</span> // A
+                }
+                <span class="cov8" title="1">if b[i-indexEnd] != id[0] </span><span class="cov0" title="0">{
+                        continue</span> // S
+                }
+                <span class="cov8" title="1">return i - indexEnd</span>
+        }
+        <span class="cov8" title="1">return -1</span>
+}
+
+func (b ID) String() string <span class="cov8" title="1">{
+        return string(b[:])
+}</span>
+
+func (b Version) String() string <span class="cov8" title="1">{
+        return string(b[:])
+}</span>
+
+func (b Title) String() string <span class="cov8" title="1">{
+        return string(b[:])
+}</span>
+
+func (b Author) String() string <span class="cov8" title="1">{
+        return string(b[:])
+}</span>
+
+func (b Group) String() string <span class="cov8" title="1">{
+        return string(b[:])
+}</span>
+
+func (b Date) String() string <span class="cov8" title="1">{
+        return string(b[:])
+}</span>
+
+func (t TInfoS) String() string <span class="cov8" title="1">{
+        const nul = 0
+        s := ""
+        for _, b := range t </span><span class="cov8" title="1">{
+                if b == nul </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">s += string(b)</span>
+        }
+        <span class="cov8" title="1">return s</span>
+}
+
+func (d Data) Extract() Layout <span class="cov8" title="1">{
+        i := Index(d)
+        if i == -1 </span><span class="cov0" title="0">{
+                return Layout{
+                        Comnt: Comnt{
+                                Index:  -1,
+                                Length: 0,
+                                Count:  [1]byte{0},
+                                Lines:  []byte{},
+                        },
+                }
+        }</span>
+        <span class="cov8" title="1">l := Layout{
+                ID:       d.id(i),
+                Version:  d.version(i),
+                Title:    d.title(i),
+                Author:   d.author(i),
+                Group:    d.group(i),
+                Date:     d.date(i),
+                Filesize: d.fileSize(i),
+                Datatype: d.dataType(i),
+                Filetype: d.fileType(i),
+                Tinfo1:   d.TInfo1(i),
+                Tinfo2:   d.TInfo2(i),
+                Tinfo3:   d.TInfo3(i),
+                Tinfo4:   d.TInfo4(i),
+                TFlags:   d.tFlags(i),
+                TInfoS:   d.TInfoS(i),
+        }
+        l.Comments = d.comments(i)
+        l.Comnt = d.Comnt(l.Comments, i)
+        return l</span>
+}
+
+func (d Data) Comnt(count Comments, sauceIndex int) Comnt <span class="cov8" title="1">{
+        block := Comnt{
+                Count: count,
+                Lines: []byte{},
+        }
+        if int(UnsignedBinary1(count)) == 0 </span><span class="cov8" title="1">{
+                return block
+        }</span>
+        <span class="cov8" title="1">id, l := []byte(ComntID), len(d)
+        backwardsLoop := func(i int) int </span><span class="cov8" title="1">{
+                return l - 1 - i
+        }</span>
+        // search for the id sequence in b
+        <span class="cov8" title="1">const maximum = ComntLineSize * ComntMaxLines
+        const comntIDLen = 5
+        for i := range d </span><span class="cov8" title="1">{
+                if i &gt; maximum </span><span class="cov0" title="0">{
+                        break</span>
+                }
+                <span class="cov8" title="1">i = backwardsLoop(i)
+                if i &lt; ComntLineSize </span><span class="cov0" title="0">{
+                        break</span>
+                }
+                <span class="cov8" title="1">if i &lt; comntIDLen </span><span class="cov0" title="0">{
+                        break</span>
+                }
+                <span class="cov8" title="1">if i &gt;= sauceIndex </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                // do matching in reverse
+                <span class="cov8" title="1">if d[i-1] != id[4] </span><span class="cov8" title="1">{
+                        continue</span> // T
+                }
+                <span class="cov8" title="1">if d[i-2] != id[3] </span><span class="cov0" title="0">{
+                        continue</span> // N
+                }
+                <span class="cov8" title="1">if d[i-3] != id[2] </span><span class="cov0" title="0">{
+                        continue</span> // M
+                }
+                <span class="cov8" title="1">if d[i-4] != id[1] </span><span class="cov0" title="0">{
+                        continue</span> // O
+                }
+                <span class="cov8" title="1">if d[i-5] != id[0] </span><span class="cov0" title="0">{
+                        continue</span> // C
+                }
+                <span class="cov8" title="1">block.Index = i
+                block.Length = sauceIndex - block.Index
+                block.Lines = d[i : i+block.Length]
+                return block</span>
+        }
+        <span class="cov0" title="0">return block</span>
+}
+
+func (d Data) TInfo1(i int) TInfo1 <span class="cov8" title="1">{
+        if len(d) &lt;= i+97 </span><span class="cov8" title="1">{
+                return TInfo1{}
+        }</span>
+        <span class="cov8" title="1">return TInfo1{
+                d[i+96],
+                d[i+97],
+        }</span>
+}
+
+func (d Data) TInfo2(i int) TInfo2 <span class="cov8" title="1">{
+        if len(d) &lt;= i+99 </span><span class="cov8" title="1">{
+                return TInfo2{}
+        }</span>
+        <span class="cov8" title="1">return TInfo2{
+                d[i+98],
+                d[i+99],
+        }</span>
+}
+
+func (d Data) TInfo3(i int) TInfo3 <span class="cov8" title="1">{
+        if len(d) &lt;= i+101 </span><span class="cov8" title="1">{
+                return TInfo3{}
+        }</span>
+        <span class="cov8" title="1">return TInfo3{
+                d[i+100],
+                d[i+101],
+        }</span>
+}
+
+func (d Data) TInfo4(i int) TInfo4 <span class="cov8" title="1">{
+        if len(d) &lt;= i+103 </span><span class="cov8" title="1">{
+                return TInfo4{}
+        }</span>
+        <span class="cov8" title="1">return TInfo4{
+                d[i+102],
+                d[i+103],
+        }</span>
+}
+
+func (d Data) TInfoS(i int) TInfoS <span class="cov8" title="1">{
+        if len(d) &lt;= i+106 </span><span class="cov8" title="1">{
+                return TInfoS{}
+        }</span>
+        <span class="cov8" title="1">var s TInfoS
+        const (
+                start = 106
+                end   = start + len(s)
+        )
+        if len(d) &lt; end+i </span><span class="cov0" title="0">{
+                return TInfoS{}
+        }</span>
+        <span class="cov8" title="1">for j, c := range d[start+i : end+i] </span><span class="cov8" title="1">{
+                if c == 0 </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">s[j] = c</span>
+        }
+        <span class="cov8" title="1">return s</span>
+}
+
+// UnsignedBinary1 returns the unsigned 1 byte integer from b
+// using little-endian byte order.
+func UnsignedBinary1(b [1]byte) uint8 <span class="cov8" title="1">{
+        var data uint8
+        buf := bytes.NewReader(b[:])
+        err := binary.Read(buf, binary.LittleEndian, &amp;data)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("unsigned 1 byte, LE binary failed:", err)
+        }</span>
+        <span class="cov8" title="1">return data</span>
+}
+
+func (d Data) author(i int) Author <span class="cov8" title="1">{
+        if len(d) &lt;= i+61 </span><span class="cov8" title="1">{
+                return Author{}
+        }</span>
+        <span class="cov8" title="1">const start = 42
+        var a Author
+        // source answer:
+        // https://stackoverflow.com/questions/30285680/how-to-convert-slice-to-fixed-size-array
+        copy(a[:], d[start+i:])
+        return a</span>
+}
+
+func (d Data) comments(i int) Comments <span class="cov8" title="1">{
+        if len(d) &lt;= i+104 </span><span class="cov8" title="1">{
+                return Comments{}
+        }</span>
+        <span class="cov8" title="1">return Comments{d[i+104]}</span>
+}
+
+func (d Data) dataType(i int) DataType <span class="cov8" title="1">{
+        if len(d) &lt;= i+94 </span><span class="cov8" title="1">{
+                return DataType{}
+        }</span>
+        <span class="cov8" title="1">return DataType{d[i+94]}</span>
+}
+
+func (d Data) date(i int) Date <span class="cov8" title="1">{
+        if len(d) &lt;= i+82 </span><span class="cov8" title="1">{
+                return Date{}
+        }</span>
+        <span class="cov8" title="1">const start = 82
+        var dt Date
+        copy(dt[:], d[start+i:])
+        return dt</span>
+}
+
+func (d Data) fileSize(i int) FileSize <span class="cov8" title="1">{
+        if len(d) &lt;= i+93 </span><span class="cov8" title="1">{
+                return FileSize{}
+        }</span>
+        <span class="cov8" title="1">b0 := d[i+90]
+        b1 := d[i+91]
+        b2 := d[i+92]
+        b3 := d[i+93]
+        return FileSize{b0, b1, b2, b3}</span>
+}
+
+func (d Data) fileType(i int) FileType <span class="cov8" title="1">{
+        if len(d) &lt;= i+95 </span><span class="cov8" title="1">{
+                return FileType{}
+        }</span>
+        <span class="cov8" title="1">return FileType{d[i+95]}</span>
+}
+
+func (d Data) group(i int) Group <span class="cov8" title="1">{
+        if len(d) &lt;= i+62 </span><span class="cov8" title="1">{
+                return Group{}
+        }</span>
+        <span class="cov8" title="1">const start = 62
+        var g Group
+        copy(g[:], d[start+i:])
+        return g</span>
+}
+
+func (d Data) id(i int) ID <span class="cov8" title="1">{
+        return ID{d[i+0], d[i+1], d[i+2], d[i+3], d[i+4]}
+}</span>
+
+func (d Data) tFlags(i int) TFlags <span class="cov8" title="1">{
+        if len(d) &lt;= i+105 </span><span class="cov8" title="1">{
+                return TFlags{}
+        }</span>
+        <span class="cov8" title="1">return TFlags{d[i+105]}</span>
+}
+
+func (d Data) title(i int) Title <span class="cov8" title="1">{
+        const start = 7
+        const titleLen = 35
+        if len(d) &lt;= start+i+titleLen-1 </span><span class="cov8" title="1">{
+                return [35]byte{}
+        }</span>
+        <span class="cov8" title="1">var t Title
+        copy(t[:], d[start+i:])
+        return t</span>
+}
+
+func (d Data) version(i int) Version <span class="cov8" title="1">{
+        if len(d) &lt;= i+6 </span><span class="cov0" title="0">{
+                return Version{}
+        }</span>
+        <span class="cov8" title="1">return Version{d[i+5], d[i+6]}</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package layout
+
+// Undefined filetype.
+// You could use this to add SAUCE to a custom or proprietary file,
+// without giving it any particular meaning or interpretation.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+type None uint
+
+const (
+        Undefined None = iota
+)
+
+func (n None) String() string <span class="cov8" title="1">{
+        if n &gt; Undefined </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "Undefined filetype",
+        }[n]</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package layout
+
+// A vector graphic file.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// Vector graphic files.
+type Vector uint
+
+const (
+        Dxf Vector = iota
+        Dwg
+        Wpvg
+        Kinetix
+)
+
+func (v Vector) String() string <span class="cov8" title="1">{
+        if v &gt; Kinetix </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "AutoDesk CAD vector graphic",
+                "AutoDesk CAD vector graphic",
+                "WordPerfect vector graphic",
+                "3D Studio vector graphic",
+        }[v]</span>
+}
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package layout
+
+// An XBin or eXtended BIN file.
+// See http://www.acid.org/info/sauce/sauce.htm#FileType
+
+// XBin or extended binary text files.
+type XBin uint
+
+const (
+        ExtendedBin XBin = iota
+)
+
+func (x XBin) String() string <span class="cov8" title="1">{
+        if x &gt; ExtendedBin </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return [...]string{
+                "Extended binary text or a XBin file",
+        }[x]</span>
+}
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">// Package sauce is a Go module that parses [SAUCE] metadata.
+//
+// # What is SAUCE?
+//
+// The Standard Architecture for Universal Comment Extensions is an architecture
+// and protocol for attaching meta data and comments to files. While intended
+// for [ANSI art files], SAUCE has always had provisions for many different file types.
+//
+// # Why SAUCE?
+//
+// From the original [SAUCE] specification:
+//
+// In the early 1990s there was a growing popularity in ANSI artwork. The ANSI art groups
+// regularly released the works of their members over a certain period. Some of the bigger
+// groups also included specialised viewers in each ‘artpack’. One of the problems with
+// these artpacks was a lack of standardized way to provide meta data to the art, such as
+// the title of the artwork, the author, the group, ... Some of the specialised viewers
+// provided such information for a specific artpack either by encoding it as part of the
+// executable, or by having some sort of database or list. However every viewer did it
+// their own way. This meant you either had to use the viewer included with the artpack,
+// or had to make do without the extra info. SAUCE was created to address that need.
+// So if you wanted to, you could use your preferred viewer to view the art in a certain
+// artpack, or even store the art files you liked in a separate folder while retaining
+// the meta data.
+//
+// The goal was simple, but the way to get there certainly was not. Logistically, we
+// wanted as many art groups as possible to support it. Technically, we wanted a system
+// that was easy to implement and – if at all possible – manage to provide this meta
+// data while still being compatible with all the existing software such as ANSI viewers,
+// and Bulletin Board Software.
+//
+// [SAUCE]: http://www.acid.org/info/sauce/sauce.htm
+// [ANSI art files]: https://16colo.rs
+package sauce
+
+import (
+        "encoding/json"
+        "encoding/xml"
+        "fmt"
+        "io"
+        "strings"
+        "time"
+
+        "github.com/bengarrett/sauce/internal/layout"
+)
+
+// SAUCE identifier and version.
+const (
+        ID      = "SAUCE"
+        Version = "00" // the version is always 00
+)
+
+// Date format layout.
+const Date = "20060102"
+
+// EOF is the end-of-file marker, otherwise known as SUB, the substitute character.
+const EOF byte = 26
+
+// Contains reports whether a valid SAUCE record is within b.
+func Contains(b []byte) bool <span class="cov8" title="1">{
+        const missing int = -1
+        return layout.Index(b) != missing
+}</span>
+
+// Index returns the index of the instance of the SAUCE ID in b,
+// or -1 if it is not present in b.
+func Index(b []byte) int <span class="cov8" title="1">{
+        return layout.Index(b)
+}</span>
+
+// Trim returns b without any SAUCE metadata and the optional end-of-file marker.
+func Trim(b []byte) []byte <span class="cov8" title="1">{
+        const none = -1
+        pos := Index(b)
+        if pos == none </span><span class="cov8" title="1">{
+                return b
+        }</span>
+        // the optional comnt index always prefixes the sauce index
+        <span class="cov8" title="1">rec := Decode(b)
+        if ci := rec.Comnt.Index; ci &gt; none </span><span class="cov8" title="1">{
+                if ci &gt; len(b) </span><span class="cov0" title="0">{
+                        return b
+                }</span>
+                // trim the eof marker
+                <span class="cov8" title="1">if ci &gt; 0 &amp;&amp; b[ci-1] == EOF &amp;&amp; ci &gt; 2 </span><span class="cov8" title="1">{
+                        return b[:ci-2]
+                }</span>
+                <span class="cov0" title="0">return b[:ci]</span>
+        }
+        <span class="cov8" title="1">if pos &gt; len(b) </span><span class="cov0" title="0">{
+                return b
+        }</span>
+        // trim the eof marker
+        <span class="cov8" title="1">if b[pos-1] == EOF &amp;&amp; pos &gt; 2 </span><span class="cov8" title="1">{
+                return b[:pos-2]
+        }</span>
+        <span class="cov8" title="1">return b[:pos]</span>
+}
+
+// Record is the SAUCE data structure that corresponds with the SAUCE Layout fields.
+type Record struct {
+        ID       string         `json:"id" xml:"id,attr"`           // SAUCE identification
+        Version  string         `json:"version" xml:"version,attr"` // version must equal "00"
+        Title    string         `json:"title" xml:"title"`          // title of the file
+        Author   string         `json:"author" xml:"author"`        // author of the file
+        Group    string         `json:"group" xml:"group"`          // author employer or membership
+        Date     layout.Dates   `json:"date" xml:"date"`            // date of creation or release
+        FileSize layout.Sizes   `json:"filesize" xml:"filesize"`    // size of file in bytes without SAUCE
+        Data     layout.Datas   `json:"dataType" xml:"data_type"`   // data type of file
+        File     layout.Files   `json:"fileType" xml:"file_type"`   // file type of file
+        Info     layout.Infos   `json:"typeInfo" xml:"type_info"`   // file type dependant information
+        Desc     string         `json:"-" xml:"-"`                  // description of the file
+        Comnt    layout.Comment `json:"comments" xml:"comments"`    // comment block or notes
+}
+
+// Decode the SAUCE data contained within b.
+func Decode(b []byte) Record <span class="cov8" title="1">{
+        const empty = "\x00\x00"
+        d := layout.Data(b).Extract()
+        if string(d.Version[:]) == empty </span><span class="cov8" title="1">{
+                return Record{
+                        ID:      "",
+                        Version: "",
+                        Title:   "",
+                        Author:  "",
+                        Group:   "",
+                        Date: layout.Dates{
+                                Value: "",
+                                Time:  time.Time{},
+                                Epoch: 0,
+                        },
+                        FileSize: layout.Sizes{
+                                Bytes:   0,
+                                Binary:  "",
+                                Decimal: "",
+                        },
+                        Data: layout.Datas{
+                                Type: d.DataType().Type,
+                                Name: "",
+                        },
+                        File: layout.Files{
+                                Type: d.FileType().Type,
+                                Name: "",
+                        },
+                        Info: layout.Infos{
+                                Info1: layout.Info{},
+                                Info2: layout.Info{},
+                                Info3: layout.Info{},
+                                Flags: layout.ANSIFlags{},
+                        },
+                        Desc: "",
+                        Comnt: layout.Comment{
+                                ID:      "",
+                                Count:   0,
+                                Index:   -1,
+                                Comment: []string{},
+                        },
+                }
+        }</span>
+        <span class="cov8" title="1">return Record{
+                ID:       d.ID.String(),
+                Version:  d.Version.String(),
+                Title:    strings.TrimSpace(d.Title.String()),
+                Author:   strings.TrimSpace(d.Author.String()),
+                Group:    strings.TrimSpace(d.Group.String()),
+                Date:     d.Dates(),
+                FileSize: d.Sizes(),
+                Data:     d.DataType(),
+                File:     d.FileType(),
+                Info:     d.InfoType(),
+                Desc:     d.Description(),
+                Comnt:    d.CommentBlock(),
+        }</span>
+}
+
+// Read and return the SAUCE record in r.
+func Read(r io.Reader) (*Record, error) <span class="cov8" title="1">{
+        b, err := io.ReadAll(r)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("read sauce record: %w", err)
+        }</span>
+        <span class="cov8" title="1">d := Decode(b)
+        return &amp;d, nil</span>
+}
+
+// NewRecord is deprecated, use [Read].
+func NewRecord(r io.Reader) (*Record, error) <span class="cov0" title="0">{
+        return Read(r)
+}</span>
+
+// JSON returns the JSON encoding of the r SAUCE record.
+func (r *Record) JSON() ([]byte, error) <span class="cov8" title="1">{
+        b, err := json.Marshal(r)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("record as json: %w", err)
+        }</span>
+        <span class="cov8" title="1">return b, nil</span>
+}
+
+// JSONIndent is like JSON but applies Indent to format the output.
+// Each JSON element in the output will begin on a new line beginning with one
+// or more copies of indent according to the indentation nesting.
+func (r *Record) JSONIndent(indent string) ([]byte, error) <span class="cov8" title="1">{
+        b, err := json.MarshalIndent(r, "", indent)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("record as json indent: %w", err)
+        }</span>
+        <span class="cov8" title="1">return b, nil</span>
+}
+
+// Valid reports the completeness of the r SAUCE record.
+func (r *Record) Valid() bool <span class="cov8" title="1">{
+        return r.ID == ID &amp;&amp; r.Version == Version
+}</span>
+
+// XML returns the XML encoding of the r SAUCE record.
+func (r *Record) XML() ([]byte, error) <span class="cov8" title="1">{
+        b, err := xml.Marshal(r)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("record as xml: %w", err)
+        }</span>
+        <span class="cov8" title="1">return b, nil</span>
+}
+
+// XMLIndent is like XML but applies Indent to format the output.
+// Each XML element in the output will begin on a new line beginning with one
+// or more copies of indent according to the indentation nesting.
+func (r *Record) XMLIndent(indent string) ([]byte, error) <span class="cov8" title="1">{
+        b, err := xml.MarshalIndent(r, "", indent)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, fmt.Errorf("record as xml indent: %w", err)
+        }</span>
+        <span class="cov8" title="1">return b, nil</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

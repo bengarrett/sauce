@@ -1,9 +1,7 @@
 package layout
 
 import (
-	"bytes"
-	"encoding/binary"
-	"log"
+	"strings"
 )
 
 //nolint:lll
@@ -59,20 +57,14 @@ type Layout struct {
 // Index returns the position of the SAUCE00 ID or -1 if no ID exists.
 func Index(b []byte) int {
 	const sauceSize, maximum = 128, 512
-	id, l := []byte(SauceSeek), len(b)
-	backwardsLoop := func(i int) int {
-		return l - 1 - i
+	id := []byte(SauceSeek)
+	if len(b) < sauceSize {
+		return -1
 	}
-	// search for the id sequence in b
 	const indexEnd = 6
-	for i := range b {
-		if i > maximum {
-			break
-		}
-		i = backwardsLoop(i)
-		if len(b) < sauceSize {
-			break
-		}
+	// search backwards from the end, but not beyond maximum distance
+	searchLimit := max(0, len(b)-maximum)
+	for i := len(b) - 1; i >= searchLimit && i >= indexEnd; i-- {
 		// do matching in reverse
 		if b[i] != id[indexEnd] {
 			continue // 0
@@ -126,14 +118,14 @@ func (b Date) String() string {
 
 func (t TInfoS) String() string {
 	const nul = 0
-	s := ""
+	var sb strings.Builder
 	for _, b := range t {
 		if b == nul {
 			continue
 		}
-		s += string(b)
+		sb.WriteByte(b)
 	}
-	return s
+	return sb.String()
 }
 
 func (d Data) Extract() Layout {
@@ -178,23 +170,12 @@ func (d Data) Comnt(count Comments, sauceIndex int) Comnt {
 	if int(UnsignedBinary1(count)) == 0 {
 		return block
 	}
-	id, l := []byte(ComntID), len(d)
-	backwardsLoop := func(i int) int {
-		return l - 1 - i
-	}
-	// search for the id sequence in b
+	id := []byte(ComntID)
 	const maximum = ComntLineSize * ComntMaxLines
-	for i := range d {
-		if i > maximum {
-			break
-		}
-		i = backwardsLoop(i)
-		if i < ComntLineSize {
-			break
-		}
-		if i >= sauceIndex {
-			continue
-		}
+	const comntIDLen = 5
+	// search backwards from before the sauce index
+	searchLimit := max(0, sauceIndex-maximum)
+	for i := sauceIndex - 1; i >= searchLimit && i >= ComntLineSize && i >= comntIDLen; i-- {
 		// do matching in reverse
 		if d[i-1] != id[4] {
 			continue // T
@@ -268,6 +249,9 @@ func (d Data) TInfoS(i int) TInfoS {
 		start = 106
 		end   = start + len(s)
 	)
+	if len(d) < end+i {
+		return TInfoS{}
+	}
 	for j, c := range d[start+i : end+i] {
 		if c == 0 {
 			continue
@@ -280,17 +264,11 @@ func (d Data) TInfoS(i int) TInfoS {
 // UnsignedBinary1 returns the unsigned 1 byte integer from b
 // using little-endian byte order.
 func UnsignedBinary1(b [1]byte) uint8 {
-	var data uint8
-	buf := bytes.NewReader(b[:])
-	err := binary.Read(buf, binary.LittleEndian, &data)
-	if err != nil {
-		log.Println("unsigned 1 byte, LE binary failed:", err)
-	}
-	return data
+	return b[0]
 }
 
 func (d Data) author(i int) Author {
-	if len(d) <= i+42 {
+	if len(d) <= i+61 {
 		return Author{}
 	}
 	const start = 42
@@ -366,7 +344,8 @@ func (d Data) tFlags(i int) TFlags {
 
 func (d Data) title(i int) Title {
 	const start = 7
-	if len(d) <= start {
+	const titleLen = 35
+	if len(d) <= start+i+titleLen-1 {
 		return [35]byte{}
 	}
 	var t Title

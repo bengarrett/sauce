@@ -31,7 +31,7 @@ type Comment struct {
 
 // CommentBlock parses the optional SAUCE comment block.
 func (d *Layout) CommentBlock() Comment {
-	breakCount := len(strings.Split(string(d.Comnt.Lines), "\n"))
+	hasLineBreak := bytes.ContainsAny(d.Comnt.Lines, "\n\r")
 	var c Comment
 	c.ID = ComntID
 	c.Count = int(UnsignedBinary1(d.Comnt.Count))
@@ -39,7 +39,7 @@ func (d *Layout) CommentBlock() Comment {
 	if d.Comnt.Index > 0 {
 		c.Index = d.Comnt.Index - len(ComntID)
 	}
-	if breakCount > 0 {
+	if hasLineBreak {
 		// comments with line breaks are technically invalid but they exist in the wild.
 		// https://github.com/16colo-rs/16c/issues/67
 		c.Comment = CommentByBreak(d.Comnt.Lines)
@@ -68,18 +68,18 @@ func CommentByLine(b []byte) []string {
 	if len(b) == 0 {
 		return []string{}
 	}
-	s, l := "", 0
-	resetLine := func() {
-		s, l = "", 0
-	}
+	var sb strings.Builder
+	sb.Grow(ComntLineSize)
 	lines := []string{}
-	for _, c := range b {
-		l++
-		s += string(c)
-		if l == ComntLineSize {
-			lines = append(lines, s)
-			resetLine()
+	for i, c := range b {
+		sb.WriteByte(c)
+		if (i+1)%ComntLineSize == 0 {
+			lines = append(lines, sb.String())
+			sb.Reset()
 		}
+	}
+	if sb.Len() > 0 {
+		lines = append(lines, sb.String())
 	}
 	return lines
 }
