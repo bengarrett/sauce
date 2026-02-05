@@ -19,7 +19,7 @@ func BenchmarkIndex(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = sauce.Index(raw)
 	}
 }
@@ -33,12 +33,12 @@ func BenchmarkIndexLargeFile(b *testing.B) {
 
 	// Create a larger file by repeating the content
 	largeFile := make([]byte, 0, len(raw)*10)
-	for j := 0; j < 10; j++ {
+	for range 10 {
 		largeFile = append(largeFile, raw...)
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = sauce.Index(largeFile)
 	}
 }
@@ -51,7 +51,7 @@ func BenchmarkDecode(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = sauce.Decode(raw)
 	}
 }
@@ -64,7 +64,7 @@ func BenchmarkTrim(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = sauce.Trim(raw)
 	}
 }
@@ -77,7 +77,7 @@ func BenchmarkRead(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		reader := bytes.NewReader(raw)
 		_, _ = sauce.Read(reader)
 	}
@@ -90,7 +90,7 @@ func BenchmarkUnsignedBinary1(b *testing.B) {
 	testData := [1]byte{0xFF}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = layout.UnsignedBinary1(testData)
 	}
 }
@@ -100,7 +100,7 @@ func BenchmarkUnsignedBinary2(b *testing.B) {
 	testData := [2]byte{0xFF, 0x00}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = layout.UnsignedBinary2(testData)
 	}
 }
@@ -110,7 +110,7 @@ func BenchmarkUnsignedBinary4(b *testing.B) {
 	testData := [4]byte{0xFF, 0x00, 0x00, 0x00}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = layout.UnsignedBinary4(testData)
 	}
 }
@@ -121,7 +121,7 @@ func BenchmarkCommentByLine(b *testing.B) {
 	commentData := []byte(strings.Repeat("A", 64) + strings.Repeat("B", 64) + strings.Repeat("C", 48))
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = layout.CommentByLine(commentData)
 	}
 }
@@ -135,7 +135,7 @@ func BenchmarkCommentByLineLarge(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = layout.CommentByLine(commentData)
 	}
 }
@@ -146,7 +146,7 @@ func BenchmarkCommentByBreak(b *testing.B) {
 	commentData := []byte("Line 1\nLine 2\nLine 3\nLine 4\nLine 5")
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = layout.CommentByBreak(commentData)
 	}
 }
@@ -162,7 +162,7 @@ func BenchmarkJSON(b *testing.B) {
 	rec := sauce.Decode(raw)
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = rec.JSON()
 	}
 }
@@ -176,7 +176,7 @@ func BenchmarkJSONIndent(b *testing.B) {
 	rec := sauce.Decode(raw)
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = rec.JSONIndent("    ")
 	}
 }
@@ -190,7 +190,7 @@ func BenchmarkXML(b *testing.B) {
 	rec := sauce.Decode(raw)
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = rec.XML()
 	}
 }
@@ -204,7 +204,7 @@ func BenchmarkXMLIndent(b *testing.B) {
 	rec := sauce.Decode(raw)
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = rec.XMLIndent("  ")
 	}
 }
@@ -219,7 +219,7 @@ func BenchmarkContains(b *testing.B) {
 	}
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_ = sauce.Contains(raw)
 	}
 }
