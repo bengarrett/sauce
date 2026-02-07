@@ -44,7 +44,7 @@ func ExampleTrim() {
 	fmt.Printf("The original size of the file is %d bytes and contains sauce? %v\n", len(b), sauce.Contains(b))
 	fmt.Printf("The trimmed size of the file is %d bytes and contains sauce? %v\n", len(t), sauce.Contains(t))
 	// Output: The original size of the file is 1318 bytes and contains sauce? true
-	// The trimmed size of the file is 1119 bytes and contains sauce? false
+	// The trimmed size of the file is 1120 bytes and contains sauce? false
 }
 
 func ExampleTrim_comnt() {

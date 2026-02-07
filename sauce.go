@@ -82,8 +82,8 @@ func Trim(b []byte) []byte {
 			return b
 		}
 		// trim the eof marker
-		if ci > 0 && b[ci-1] == EOF && ci > 2 {
-			return b[:ci-2]
+		if ci > 0 && b[ci-1] == EOF {
+			return b[:ci-1]
 		}
 		return b[:ci]
 	}
@@ -91,8 +91,8 @@ func Trim(b []byte) []byte {
 		return b
 	}
 	// trim the eof marker
-	if b[pos-1] == EOF && pos > 2 {
-		return b[:pos-2]
+	if b[pos-1] == EOF {
+		return b[:pos-1]
 	}
 	return b[:pos]
 }
