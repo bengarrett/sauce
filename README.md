@@ -1,15 +1,25 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/bengarrett/sauce.svg)](https://pkg.go.dev/github.com/bengarrett/sauce) &nbsp; [![Go Report Card](https://goreportcard.com/badge/github.com/bengarrett/sauce)](https://goreportcard.com/report/github.com/bengarrett/sauce)
-![Coverage](https://img.shields.io/badge/Coverage-93.0%25-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-93.0%25-brightgreen) &nbsp; [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 # Package sauce
 
-Package sauce is a [Go module](https://go.dev/) that parses SAUCE (Standard Architecture for
-Universal Comment Extensions) metadata.
+Package sauce is a [Go module](https://go.dev/) that parses SAUCE (Standard Architecture for Universal Comment Extensions) metadata.
 
-> The Standard Architecture for Universal Comment Extensions or SAUCE as it is
-more commonly known, is an architecture or protocol for attaching meta data
-or comments to files. Mainly intended for [ANSI art files](https://en.wikipedia.org/wiki/ANSI_art), SAUCE has always
-had provisions for many different file types.
+## Features
+
+- ✅ Parse SAUCE metadata from files
+- ✅ Extract comprehensive file information (title, author, group, date, etc.)
+- ✅ Support multiple file types and data types
+- ✅ Extract type-specific information
+- ✅ Parse comment blocks
+- ✅ Serialize to JSON format
+- ✅ Format dates and sizes for human readability
+- ✅ Provide comprehensive error handling
+
+> The Standard Architecture for Universal Comment Extensions, or SAUCE as it is
+more commonly known, is an architecture or protocol for attaching metadata
+or comments about files. Primarily designed for [ANSI art files](https://en.wikipedia.org/wiki/ANSI_art), SAUCE supports
+many different file types.
 
 For the complete specification see:<br>
 http://www.acid.org/info/sauce/sauce.htm<br>
@@ -21,14 +31,14 @@ https://github.com/radman1/sauce<br>
 [Go Package with docs and examples.](https://pkg.go.dev/github.com/bengarrett/sauce)
 
 ```go
-// open a file
+// Open a file
 file, err := os.Open("artwork.ans")
 if err != nil {
     log.Fatal(err)
 }
 defer file.Close()
 
-// read the file and create a SAUCE record
+// Read the file and create a SAUCE record
 sr, err := sauce.Read(file)
 if err != nil {
     log.Println(err)
@@ -85,35 +95,35 @@ The name of the group or company the creator is employed by.
 - - `type` - `FileType` value.
 - - `name` - `FileType` name.
 
-- `typeInfo` - Type dependant information, see http://www.acid.org/info/sauce/sauce.htm#FileType.
-- - `1`
-- - - `value` - Value of `TInfo1`.
-- - - `info` - Human readable description of the value.
-- - `2`
-- - - `value` - Value of `TInfo2`.
-- - - `info` - Human readable description of the value.
-- - `3`
-- - - `value` - Value of `TInfo3`.
-- - - `info` - Human readable description of the value.
+- `typeInfo` - Type-dependent information, see http://www.acid.org/info/sauce/sauce.htm#FileType
+  - `1`
+    - `value` - Value of `TInfo1`
+    - `info` - Human-readable description of the value
+  - `2`
+    - `value` - Value of `TInfo2`
+    - `info` - Human-readable description of the value
+  - `3`
+    - `value` - Value of `TInfo3`
+    - `info` - Human-readable description of the value
 
-* - `flags` - Type dependant flags.
-* - - `decimal` - Value as an unsigned integer.
-* - - `binary` - Value in binary notation.
-- - - `nonBlinkMode` - Request ANSi non-blink mode (iCE Color).
-- - - - `flag` - Value as binary bit boolean ("0" or "1").
-- - - - `interpretation` - Human readable description of the value.
-* - - `letterSpacing` - ANSi letter-spacing to request 8 or 9 pixel font selection.
-* - - - `flag` - Value as a 2-bit binary string ("00", "01", "10").
-* - - - `interpretation` - Human readable description of the value.
-- - - `aspectRatio` - ANSi aspect ratio to request LCD square or CRT monitor style pixels.
-- - - - `flag` - Value as a 2-bit binary string ("00", "01", "10").
-- - - - `interpretation` - Human readable description of the value.
-* - `fontName` - The creator's preferred font to view the ANSi artwork, see http://www.acid.org/info/sauce/sauce.htm#FontName.
+- `flags` - Type-dependent flags
+  - `decimal` - Value as an unsigned integer
+  - `binary` - Value in binary notation
+  - `nonBlinkMode` - Request ANSI non-blink mode (iCE Color)
+    - `flag` - Value as binary bit boolean ("0" or "1")
+    - `interpretation` - Human-readable description of the value
+  - `letterSpacing` - ANSI letter-spacing to request 8 or 9 pixel font selection
+    - `flag` - Value as a 2-bit binary string ("00", "01", "10")
+    - `interpretation` - Human-readable description of the value
+  - `aspectRatio` - ANSI aspect ratio to request LCD square or CRT monitor style pixels
+    - `flag` - Value as a 2-bit binary string ("00", "01", "10")
+    - `interpretation` - Human-readable description of the value
+- `fontName` - The creator's preferred font to view the ANSI artwork, see http://www.acid.org/info/sauce/sauce.htm#FontName
 
-- `comments` - Comments or notes from the creator.
-- - `id` - SAUCE comment block identification, this should be "COMNT"
-- - `count`- The reported number of lines in the SAUCE comment block.
-- - `lines` - Lines of text, each line should comprise of 64 characters.
+- `comments` - Comments or notes from the creator
+  - `id` - SAUCE comment block identification, this should be "COMNT"
+  - `count` - The reported number of lines in the SAUCE comment block
+  - `lines` - Lines of text, each line should comprise 64 characters
 
 ---
 

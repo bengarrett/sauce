@@ -8,26 +8,22 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        go: [1.25]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version: ${{ matrix.go }}
+          go-version: '1.25.7'
+          cache: true
       - name: Build
         run: go install
       - name: Test
         run: |
           go test -v -cover ./... -coverprofile coverage.out -coverpkg ./...
-          go tool cover -func coverage.out -o coverage.out  # Replaces coverage.out with the analysis of coverage.out
+          go tool cover -func coverage.out -o coverage.out
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v2
-        if: ${{ runner.os == 'Linux' && matrix.go == '1.17' }} # Runs this on only one of the ci builds.
         with:
           green: 80
           filename: coverage.out

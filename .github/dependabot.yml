@@ -7,13 +7,33 @@ updates:
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
     groups:
-      updates:
+      security-updates:
+        applies-to: security-updates
+        update-types:
+          - "patch"
+      minor-updates:
         update-types:
           - "minor"
+      patch-updates:
+        update-types:
           - "patch"
+    ignore:
+      - dependency-name: "golang.org/x/*"
+        versions: [">= 2.0.0"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: monthly
+      interval: weekly
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
