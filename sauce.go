@@ -135,11 +135,11 @@ func Decode(b []byte) Record {
 				Decimal: "",
 			},
 			Data: layout.Datas{
-				Type: d.DataType().Type,
+				Type: 0,
 				Name: "",
 			},
 			File: layout.Files{
-				Type: d.FileType().Type,
+				Type: 0,
 				Name: "",
 			},
 			Info: layout.Infos{
