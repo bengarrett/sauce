@@ -7,14 +7,14 @@ Package sauce is a [Go module](https://go.dev/) that parses SAUCE (Standard Arch
 
 ## Features
 
-- ✅ Parse SAUCE metadata from files
-- ✅ Extract comprehensive file information (title, author, group, date, etc.)
-- ✅ Support multiple file types and data types
-- ✅ Extract type-specific information
-- ✅ Parse comment blocks
-- ✅ Serialize to JSON format
-- ✅ Format dates and sizes for human readability
-- ✅ Provide comprehensive error handling
+- Parse SAUCE metadata from files
+- Extract comprehensive file information (title, author, group, date, etc.)
+- Support multiple file types and data types
+- Extract type-specific information
+- Parse comment blocks
+- Serialize to JSON format
+- Format dates and sizes for human readability
+- Provide comprehensive error handling
 
 > The Standard Architecture for Universal Comment Extensions, or SAUCE as it is
 more commonly known, is an architecture or protocol for attaching metadata
