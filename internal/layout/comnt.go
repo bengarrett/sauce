@@ -1,9 +1,12 @@
 package layout
 
 import (
-	"bufio"
 	"bytes"
-	"strings"
+)
+
+const (
+	// cmtCapacity is the initial capacity for comment line slices.
+	cmtCapacity = 16
 )
 
 // A SAUCE comment block is an optional, variable sized structure that holds up to 255 lines
@@ -54,13 +57,30 @@ func CommentByBreak(b []byte) []string {
 	if len(b) == 0 {
 		return []string{}
 	}
-	r := bytes.NewReader(b)
-	scanner := bufio.NewScanner(r)
-	s := []string{}
-	for scanner.Scan() {
-		s = append(s, scanner.Text())
+
+	lines := make([]string, 0, cmtCapacity)
+	start := 0
+
+	for i := 0; i < len(b); i++ {
+		if b[i] == '\n' || b[i] == '\r' {
+			// Handle line ending
+			if i > start {
+				lines = append(lines, string(b[start:i]))
+			}
+			start = i + 1
+
+			// Handle \r\n sequences
+			if i+1 < len(b) && b[i] == '\r' && b[i+1] == '\n' {
+				i++
+				start = i + 1
+			}
+		}
 	}
-	return s
+	if start < len(b) {
+		lines = append(lines, string(b[start:]))
+	}
+
+	return lines
 }
 
 // CommentByLine parses the SAUCE comment by lines of 64 characters.
@@ -68,18 +88,14 @@ func CommentByLine(b []byte) []string {
 	if len(b) == 0 {
 		return []string{}
 	}
-	var sb strings.Builder
-	sb.Grow(ComntLineSize)
-	lines := []string{}
-	for i, c := range b {
-		sb.WriteByte(c)
-		if (i+1)%ComntLineSize == 0 {
-			lines = append(lines, sb.String())
-			sb.Reset()
-		}
+	expectedLines := len(b) / ComntLineSize
+	if len(b)%ComntLineSize != 0 {
+		expectedLines++
 	}
-	if sb.Len() > 0 {
-		lines = append(lines, sb.String())
+	lines := make([]string, 0, expectedLines)
+	for i := 0; i < len(b); i += ComntLineSize {
+		end := min(i+ComntLineSize, len(b))
+		lines = append(lines, string(b[i:end]))
 	}
 	return lines
 }

@@ -225,7 +225,7 @@ func BenchmarkContains(b *testing.B) {
 	}
 }
 
-// BenchmarkFileSizePerformance measures parsing performance with different file sizes
+// BenchmarkFileSizePerformance measures parsing performance with different file sizes.
 func BenchmarkFileSizePerformance(b *testing.B) {
 	baseFile, err := static.ReadFile("static/sauce.txt")
 	if err != nil {
@@ -253,7 +253,7 @@ func BenchmarkFileSizePerformance(b *testing.B) {
 	}
 }
 
-// BenchmarkMemoryAllocation measures memory allocation patterns
+// BenchmarkMemoryAllocation measures memory allocation patterns.
 func BenchmarkMemoryAllocation(b *testing.B) {
 	raw, err := static.ReadFile("static/sauce.txt")
 	if err != nil {
@@ -267,7 +267,7 @@ func BenchmarkMemoryAllocation(b *testing.B) {
 	}
 }
 
-// BenchmarkJSONSerializationSize measures JSON serialization with different record sizes
+// BenchmarkJSONSerializationSize measures JSON serialization with different record sizes.
 func BenchmarkJSONSerializationSize(b *testing.B) {
 	baseFile, err := static.ReadFile("static/sauce.txt")
 	if err != nil {
@@ -296,7 +296,7 @@ func BenchmarkJSONSerializationSize(b *testing.B) {
 	}
 }
 
-// BenchmarkConcurrentParsing measures performance under concurrent access
+// BenchmarkConcurrentParsing measures performance under concurrent access.
 func BenchmarkConcurrentParsing(b *testing.B) {
 	raw, err := static.ReadFile("static/sauce.txt")
 	if err != nil {
@@ -310,7 +310,7 @@ func BenchmarkConcurrentParsing(b *testing.B) {
 	})
 }
 
-// BenchmarkInvalidRecords measures performance with invalid/malformed records
+// BenchmarkInvalidRecords measures performance with invalid/malformed records.
 func BenchmarkInvalidRecords(b *testing.B) {
 	// Test with empty data
 	b.Run("Empty", func(b *testing.B) {
