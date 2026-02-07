@@ -2,6 +2,7 @@ package sauce_test
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -222,4 +223,119 @@ func BenchmarkContains(b *testing.B) {
 	for b.Loop() {
 		_ = sauce.Contains(raw)
 	}
+}
+
+// BenchmarkFileSizePerformance measures parsing performance with different file sizes
+func BenchmarkFileSizePerformance(b *testing.B) {
+	baseFile, err := static.ReadFile("static/sauce.txt")
+	if err != nil {
+		b.Fatalf("failed to load test file: %v", err)
+	}
+
+	sizes := []int{1, 10, 100, 1000}
+	for _, size := range sizes {
+		b.Run(fmt.Sprintf("Size_%dkB", size), func(b *testing.B) {
+			// Create a file of the target size by repeating the base file
+			largeFile := make([]byte, 0, size*1024)
+			for len(largeFile) < size*1024 {
+				largeFile = append(largeFile, baseFile...)
+			}
+			// Add SAUCE record at the end
+			largeFile = append(largeFile, []byte("SAUCE00")...)
+			// Add some dummy SAUCE data
+			largeFile = append(largeFile, bytes.Repeat([]byte{0}, 128)...)
+
+			b.ResetTimer()
+			for b.Loop() {
+				_ = sauce.Decode(largeFile)
+			}
+		})
+	}
+}
+
+// BenchmarkMemoryAllocation measures memory allocation patterns
+func BenchmarkMemoryAllocation(b *testing.B) {
+	raw, err := static.ReadFile("static/sauce.txt")
+	if err != nil {
+		b.Fatalf("failed to load test file: %v", err)
+	}
+
+	b.ReportAllocs()
+	b.ResetTimer()
+	for b.Loop() {
+		_ = sauce.Decode(raw)
+	}
+}
+
+// BenchmarkJSONSerializationSize measures JSON serialization with different record sizes
+func BenchmarkJSONSerializationSize(b *testing.B) {
+	baseFile, err := static.ReadFile("static/sauce.txt")
+	if err != nil {
+		b.Fatalf("failed to load test file: %v", err)
+	}
+
+	// Test with different comment sizes
+	commentSizes := []int{0, 1, 10, 100}
+	for _, size := range commentSizes {
+		b.Run(fmt.Sprintf("Comments_%d", size), func(b *testing.B) {
+			// Create a record with varying comment sizes
+			rec := sauce.Decode(baseFile)
+
+			// Create a new record with modified comment count
+			originalRec := rec
+			rec.Comnt.Count = size % 256 // Modify count for this test
+
+			b.ResetTimer()
+			for b.Loop() {
+				_, _ = rec.JSON()
+			}
+
+			// Restore original record
+			rec = originalRec
+		})
+	}
+}
+
+// BenchmarkConcurrentParsing measures performance under concurrent access
+func BenchmarkConcurrentParsing(b *testing.B) {
+	raw, err := static.ReadFile("static/sauce.txt")
+	if err != nil {
+		b.Fatalf("failed to load test file: %v", err)
+	}
+
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			_ = sauce.Decode(raw)
+		}
+	})
+}
+
+// BenchmarkInvalidRecords measures performance with invalid/malformed records
+func BenchmarkInvalidRecords(b *testing.B) {
+	// Test with empty data
+	b.Run("Empty", func(b *testing.B) {
+		emptyData := []byte{}
+		b.ResetTimer()
+		for b.Loop() {
+			_ = sauce.Decode(emptyData)
+		}
+	})
+
+	// Test with incomplete SAUCE record
+	b.Run("Incomplete", func(b *testing.B) {
+		incompleteData := []byte("This is some dataSAUCE00")
+		b.ResetTimer()
+		for b.Loop() {
+			_ = sauce.Decode(incompleteData)
+		}
+	})
+
+	// Test with corrupted SAUCE record
+	b.Run("Corrupted", func(b *testing.B) {
+		corruptedData := []byte("This is some dataCORRUPT00")
+		b.ResetTimer()
+		for b.Loop() {
+			_ = sauce.Decode(corruptedData)
+		}
+	})
 }

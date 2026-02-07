@@ -16,7 +16,7 @@ tasks:
   doc:
     desc: "Generate and browse the application module documentation."
     cmds:
-      - cmd: pkgsite -http localhost:8090
+      - pkgsite -http localhost:8090
     silent: true
   lint:
     silent: false
@@ -25,8 +25,8 @@ tasks:
     cmds:
       - cmd: clear
         platforms: [linux, darwin, freebsd]
-      - cmd: gofumpt -l -w .
-      - cmd: golangci-lint run -c .golangci.yml
+      - gofumpt -w .
+      - golangci-lint run -c .golangci.yml
   nil:
     desc: "Run the static analysis techniques to catch Nil dereferences."
     cmds:
@@ -35,20 +35,20 @@ tasks:
     aliases:
       - "patch"
     silent: false
-    desc: Update and apply patches to the web server dependencies.
+    desc: Update and apply patches to the package dependencies.
     cmds:
-      - cmd: go get -u=patch -x
-      - cmd: go mod verify
-      - cmd: go mod tidy
+      - go get -u=patch -x
+      - go mod verify
+      - go mod tidy
   pkg-update:
     aliases:
       - "update"
     silent: false
-    desc: Update the web server dependencies.
+    desc: Update the package dependencies.
     cmds:
-      - cmd: go get -u -x
-      - cmd: go mod verify
-      - cmd: go mod tidy
+      - go get -u -x
+      - go mod verify
+      - go mod tidy
   test:
     desc: "Run the test suite."
     cmds:
@@ -57,3 +57,7 @@ tasks:
     desc: "Run the test suite with the slower race detection."
     cmds:
       - go test -count 1 -race ./...
+  benchmark:
+    desc: "Run the benchmarks."
+    cmds:
+      - go test -bench=. -benchmem -run=^$
