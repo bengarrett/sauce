@@ -6,15 +6,15 @@
 # To see all available tasks:
 # $ task --list
 #
-version: "3"
+version: '3'
 tasks:
   default:
-    desc: "Task runner for the sauce package."
+    desc: 'Task runner for the sauce package.'
     cmds:
       - task --list-all
     silent: true
   doc:
-    desc: "Generate and browse the application module documentation."
+    desc: 'Generate and browse the application module documentation.'
     cmds:
       - pkgsite -http localhost:8090
     silent: true
@@ -25,15 +25,17 @@ tasks:
     cmds:
       - cmd: clear
         platforms: [linux, darwin, freebsd]
+      - gci write ./..
+      - go fix ./...
       - gofumpt -w .
       - golangci-lint run -c .golangci.yml
   nil:
-    desc: "Run the static analysis techniques to catch Nil dereferences."
+    desc: 'Run the static analysis techniques to catch Nil dereferences.'
     cmds:
       - go tool nilaway -test=false ./...
   pkg-patch:
     aliases:
-      - "patch"
+      - 'patch'
     silent: false
     desc: Update and apply patches to the package dependencies.
     cmds:
@@ -42,7 +44,7 @@ tasks:
       - go mod tidy
   pkg-update:
     aliases:
-      - "update"
+      - 'update'
     silent: false
     desc: Update the package dependencies.
     cmds:
@@ -50,14 +52,14 @@ tasks:
       - go mod verify
       - go mod tidy
   test:
-    desc: "Run the test suite."
+    desc: 'Run the test suite.'
     cmds:
       - go test -count 1 ./...
   testr:
-    desc: "Run the test suite with the slower race detection."
+    desc: 'Run the test suite with the slower race detection.'
     cmds:
       - go test -count 1 -race ./...
   benchmark:
-    desc: "Run the benchmarks."
+    desc: 'Run the benchmarks.'
     cmds:
       - go test -bench=. -benchmem -run=^$
