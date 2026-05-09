@@ -103,7 +103,6 @@ func ExampleTrim_nocomnt() {
 	// Cras sit amet purus urna. Phasellus in dapibus ex. Proin pretium eget leo ut gravida. Praesent egestas urna at tincidunt mollis. Vivamus nec urna lorem. Vestibulum molestie accumsan lectus, in egestas metus facilisis eget. Nam consectetur, metus et sodales aliquam, mi dui dapibus metus, non cursus libero felis ac nunc. Nulla euismod, turpis sed mollis faucibus, orci elit dapibus leo, vitae placerat diam eros sed velit. Fusce convallis, lorem ut vulputate suscipit, tortor risus rhoncus mauris, a mattis metus magna at lorem. Sed molestie velit ipsum, in vulputate metus consequat eget. Fusce quis dui lacinia, laoreet lectus et, luctus velit. Pellentesque ut nisi quis orci pulvinar placerat vel ac lorem. Maecenas finibus fermentum erat, a pulvinar augue dictum mattis. Aenean vulputate consectetur velit at dictum. Donec vehicula ante quis ante venenatis, eu ultrices lectus egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
 }
 
-//nolint:lll
 func ExampleDecode() {
 	b, err := static.ReadFile("static/sauce.txt")
 	if err != nil {
@@ -115,7 +114,6 @@ func ExampleDecode() {
 	// Output: {ID:SAUCE Version:00 Title:Sauce title Author:Sauce author Group:Sauce group Date:{Value:20161126 Time:2016-11-26 00:00:00 +0000 UTC Epoch:1480118400} FileSize:{Bytes:3741 Decimal:3.7 kB Binary:3.7 KiB} Data:{Type:text or character stream Name:text or character stream} File:{Type:0 Name:ASCII text} Info:{Info1:{Value:977 Info:character width} Info2:{Value:9 Info:number of lines} Info3:{Value:0 Info:} Flags:{Decimal:19 Binary:10011 B:{Flag:non-blink mode Info:non-blink mode} LS:{Flag:no preference Info:no preference} AR:{Flag:invalid value Info:invalid value} Interpretations:} Font:IBM VGA} Desc:ASCII text file with no formatting codes or color codes. Comnt:{ID:COMNT Count:1 Index:1121 Comment:[Any comments go here.                                           ]}}
 }
 
-//nolint:lll
 func ExampleDecode_none() {
 	b := []byte("This string of text does not contain any SAUCE.")
 
@@ -124,7 +122,6 @@ func ExampleDecode_none() {
 	// Output: {ID: Version: Title: Author: Group: Date:{Value: Time:0001-01-01 00:00:00 +0000 UTC Epoch:0} FileSize:{Bytes:0 Decimal: Binary:} Data:{Type:undefined Name:} File:{Type:0 Name:} Info:{Info1:{Value:0 Info:} Info2:{Value:0 Info:} Info3:{Value:0 Info:} Flags:{Decimal:0 Binary: B:{Flag:invalid value Info:} LS:{Flag:invalid value Info:} AR:{Flag:invalid value Info:} Interpretations:} Font:} Desc: Comnt:{ID: Count:0 Index:-1 Comment:[]}}
 }
 
-//nolint:lll
 func ExampleRead() {
 	// open file
 	file, err := static.Open("static/sauce.txt")
@@ -171,7 +168,6 @@ func ExampleRead_none() {
 	// Output: {"id":"","version":"","title":"","author":"","group":"","date":{"value":"","iso":"0001-01-01T00:00:00Z","epoch":0},"filesize":{"bytes":0,"decimal":"","binary":""},"dataType":{"type":0,"name":""},"fileType":{"type":0,"name":""},"typeInfo":{"1":{"value":0,"info":""},"2":{"value":0,"info":""},"3":{"value":0,"info":""},"flags":{"decimal":0,"binary":"","nonBlinkMode":{"flag":"","interpretation":""},"letterSpacing":{"flag":"","interpretation":""},"aspectRatio":{"flag":"","interpretation":""}},"fontName":""},"comments":{"id":"","count":0,"lines":[]}}
 }
 
-//nolint:lll
 func ExampleRecord_JSON() {
 	b, err := static.ReadFile("static/sauce.txt")
 	if err != nil {
@@ -285,7 +281,6 @@ func ExampleRecord_Valid_invalid() {
 	// Output: false
 }
 
-//nolint:lll
 func ExampleRecord_XML() {
 	b, err := static.ReadFile("static/sauce.txt")
 	if err != nil {

@@ -9,9 +9,9 @@ import (
 
 // Sizes is the original file size in multiple formats.
 type Sizes struct {
-	Bytes   uint16 `json:"bytes" xml:"bytes"`          // bytes as an integer
+	Bytes   uint16 `json:"bytes"   xml:"bytes"`        // bytes as an integer
 	Decimal string `json:"decimal" xml:"decimal,attr"` // decimal is a base 10 value
-	Binary  string `json:"binary" xml:"binary,attr"`   // binary is a base 2 value
+	Binary  string `json:"binary"  xml:"binary,attr"`  // binary is a base 2 value
 }
 
 func (d *Layout) Sizes() Sizes {

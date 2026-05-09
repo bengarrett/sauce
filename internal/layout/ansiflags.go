@@ -25,12 +25,12 @@ type Flags uint8
 
 // ANSIFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image.
 type ANSIFlags struct {
-	Decimal         Flags      `json:"decimal" xml:"decimal,attr"`         // decimal, unsigned integer flags value
-	Binary          string     `json:"binary" xml:"binary,attr"`           // binary notation flags value
-	B               ANSIFlagB  `json:"nonBlinkMode" xml:"non_blink_mode"`  // b is the non-blink "iCE Color" toggle
+	Decimal         Flags      `json:"decimal"       xml:"decimal,attr"`   // decimal, unsigned integer flags value
+	Binary          string     `json:"binary"        xml:"binary,attr"`    // binary notation flags value
+	B               ANSIFlagB  `json:"nonBlinkMode"  xml:"non_blink_mode"` // b is the non-blink "iCE Color" toggle
 	LS              ANSIFlagLS `json:"letterSpacing" xml:"letter_spacing"` // ls is the letter-spacing value
-	AR              ANSIFlagAR `json:"aspectRatio" xml:"aspect_ratio"`     // ar is the aspect ratio value
-	Interpretations string     `json:"-" xml:"-"`                          // interpretations are humanized descriptions of the bits
+	AR              ANSIFlagAR `json:"aspectRatio"   xml:"aspect_ratio"`   // ar is the aspect ratio value
+	Interpretations string     `json:"-"             xml:"-"`              // interpretations are humanized descriptions of the bits
 }
 
 func (a *ANSIFlags) String() string {
@@ -57,7 +57,7 @@ func (a *ANSIFlags) String() string {
 
 // ANSIFlagB is the interpretation of the SAUCE Flags non-blink mode binary bit.
 type ANSIFlagB struct {
-	Flag BBit   `json:"flag" xml:"flag"`                          // flag the non-blink "iCE Color" toggle
+	Flag BBit   `json:"flag"           xml:"flag"`                // flag the non-blink "iCE Color" toggle
 	Info string `json:"interpretation" xml:"interpretation,attr"` // info description of the toggle
 }
 
@@ -83,7 +83,7 @@ func (f Flags) Parse() ANSIFlags {
 
 // ANSIFlagLS is the interpretation of the SAUCE Flags letter spacing binary bits.
 type ANSIFlagLS struct {
-	Flag LsBit  `json:"flag" xml:"flag"`                          // lsbit letter-spacing value
+	Flag LsBit  `json:"flag"           xml:"flag"`                // lsbit letter-spacing value
 	Info string `json:"interpretation" xml:"interpretation,attr"` // info description of the value
 }
 
@@ -105,7 +105,7 @@ func (ls LsBit) String() string {
 
 // ANSIFlagAR is the interpretation of the SAUCE Flags aspect ratio binary bits.
 type ANSIFlagAR struct {
-	Flag ArBit  `json:"flag" xml:"flag"`                          // ar aspect ratio value
+	Flag ArBit  `json:"flag"           xml:"flag"`                // ar aspect ratio value
 	Info string `json:"interpretation" xml:"interpretation,attr"` // info description of the value
 }
 

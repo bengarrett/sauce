@@ -5,11 +5,8 @@ linters:
     - depguard
     - exhaustruct
     - gomodguard
-    - lll
     - noinlineerr
     - nlreturn
-    #- paralleltest
-    - tagalign
     - varnamelen
     - wsl
     - wsl_v5
@@ -27,6 +24,20 @@ linters:
       - third_party$
       - builtin$
       - examples$
+    rules:
+      - linters:
+          - goconst
+          - lll
+        path: _test\.go$
+      - linters:
+          - lll
+        path: internal/layout/ansiflags\.go
+      - linters:
+          - lll
+        path: internal/layout/comnt\.go
+      - linters:
+          - lll
+        path: internal/layout/datatype\.go
 formatters:
   enable:
     - gci

@@ -26,9 +26,9 @@ type Comnt struct {
 // A SAUCE comment block is an optional, variable sized structure that holds
 // up to 255 lines of additional information, each line 64 characters wide.
 type Comment struct {
-	ID      string   `json:"id" xml:"id,attr"`       // id is the SAUCE comment block identification, this should be "COMNT"
+	ID      string   `json:"id"    xml:"id,attr"`    // id is the SAUCE comment block identification, this should be "COMNT"
 	Count   int      `json:"count" xml:"count,attr"` // count are the reported number of lines in the SAUCE comment block
-	Index   int      `json:"-" xml:"-"`              // index are the calculated starting position of the comment block
+	Index   int      `json:"-"     xml:"-"`          // index are the calculated starting position of the comment block
 	Comment []string `json:"lines" xml:"line"`       // comment value, each comment line should be comprised of 64 characters
 }
 
