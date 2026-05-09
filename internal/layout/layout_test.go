@@ -31,6 +31,7 @@ func exampleData() layout.Layout {
 }
 
 func TestIndex(t *testing.T) {
+	t.Parallel()
 	const hi = "Hello world!"
 	fake := make([]byte, 0, len(hi)+len(layout.SauceSeek))
 	fake = append(fake, []byte(hi)...)
@@ -49,6 +50,7 @@ func TestIndex(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if gotIndex := layout.Index(tt.b); gotIndex != tt.wantIndex {
 				t.Errorf("Index() = %v, want %v", gotIndex, tt.wantIndex)
 			}
@@ -57,6 +59,7 @@ func TestIndex(t *testing.T) {
 }
 
 func TestId_String(t *testing.T) {
+	t.Parallel()
 	const s = "SAUCE"
 	if got := exampleData().ID.String(); got != s {
 		t.Errorf("Id.String() = %q, want %q", got, s)
@@ -84,6 +87,7 @@ func TestId_String(t *testing.T) {
 }
 
 func Test_Incomplete(t *testing.T) {
+	t.Parallel()
 	b, err := static.ReadFile("static/error.txt")
 	if err != nil {
 		t.Error(err)
@@ -99,6 +103,7 @@ func Test_Incomplete(t *testing.T) {
 }
 
 func Test_Empty(t *testing.T) {
+	t.Parallel()
 	b, err := static.ReadFile("static/empty.txt")
 	if err != nil {
 		t.Error(err)

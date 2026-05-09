@@ -1,13 +1,14 @@
-version: "2"
+version: '2'
 linters:
   default: all
   disable:
     - depguard
     - exhaustruct
+    - gomodguard
     - lll
     - noinlineerr
     - nlreturn
-    - paralleltest
+    #- paralleltest
     - tagalign
     - varnamelen
     - wsl

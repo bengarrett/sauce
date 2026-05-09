@@ -7,6 +7,7 @@ import (
 )
 
 func TestArchive_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		a    layout.Archive
@@ -18,6 +19,7 @@ func TestArchive_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.a.String(); got != tt.want {
 				t.Errorf("Archive.String() = %v, want %v", got, tt.want)
 			}

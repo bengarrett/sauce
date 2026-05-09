@@ -9,6 +9,7 @@ import (
 )
 
 func Test_binary_decimal(t *testing.T) {
+	t.Parallel()
 	us := language.AmericanEnglish
 	type args struct {
 		b int64
@@ -37,6 +38,7 @@ func Test_binary_decimal(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := humanize.Decimal(tt.args.b, tt.args.t); got != tt.wantDec {
 				t.Errorf("decimal() = %v, want %v", got, tt.wantDec)
 			}

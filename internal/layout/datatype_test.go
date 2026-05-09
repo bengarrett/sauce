@@ -7,6 +7,7 @@ import (
 )
 
 func TestDataType_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		d    layout.TypeOfData
@@ -18,6 +19,7 @@ func TestDataType_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.d.String(); got != tt.want {
 				t.Errorf("DataType.String() = %v, want %v", got, tt.want)
 			}

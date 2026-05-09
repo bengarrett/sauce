@@ -8,6 +8,7 @@ import (
 )
 
 func Test_Data_Sizes(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		filesize layout.FileSize
@@ -18,6 +19,7 @@ func Test_Data_Sizes(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			d := &layout.Layout{
 				Filesize: tt.filesize,
 			}

@@ -20,7 +20,7 @@ const (
 )
 
 func (a Archive) String() string {
-	if (a) > (Sqz) {
+	if a > Sqz {
 		return ""
 	}
 	return [...]string{

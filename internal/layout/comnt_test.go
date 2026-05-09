@@ -12,6 +12,7 @@ func sauceIndex() int {
 }
 
 func Test_record_Comnt(t *testing.T) {
+	t.Parallel()
 	type args struct {
 		count      layout.Comments
 		sauceIndex int
@@ -30,6 +31,7 @@ func Test_record_Comnt(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if gotBlock := tt.r.Comnt(tt.args.count, tt.args.sauceIndex); !reflect.DeepEqual(gotBlock.Length, tt.wantLength) {
 				t.Errorf("layout.Comnt() = %v, want %v", gotBlock.Length, tt.wantLength)
 			}
@@ -38,6 +40,7 @@ func Test_record_Comnt(t *testing.T) {
 }
 
 func Test_data_CommentBlock(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		data layout.Layout
@@ -48,6 +51,7 @@ func Test_data_CommentBlock(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			c := &layout.Comnt{
 				Lines: tt.data.Comnt.Lines,
 			}
@@ -63,6 +67,7 @@ func Test_data_CommentBlock(t *testing.T) {
 }
 
 func Test_CommentByBreak(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name      string
 		b         []byte
@@ -73,6 +78,7 @@ func Test_CommentByBreak(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if gotLines := layout.CommentByBreak(tt.b); !reflect.DeepEqual(gotLines, tt.wantLines) {
 				t.Errorf("CommentByBreak() = %v, want %v", gotLines, tt.wantLines)
 			}
@@ -81,6 +87,7 @@ func Test_CommentByBreak(t *testing.T) {
 }
 
 func Test_CommentByLine(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name      string
 		b         []byte
@@ -91,6 +98,7 @@ func Test_CommentByLine(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if gotLines := layout.CommentByLine(tt.b); !reflect.DeepEqual(gotLines, tt.wantLines) {
 				t.Errorf("CommentByLine() = %v, want %v", gotLines, tt.wantLines)
 			}

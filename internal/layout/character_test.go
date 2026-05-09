@@ -7,6 +7,7 @@ import (
 )
 
 func TestCharacter_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		c    layout.Character
@@ -18,6 +19,7 @@ func TestCharacter_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.c.String(); got != tt.want {
 				t.Errorf("Character.String() = %v, want %v", got, tt.want)
 			}
@@ -26,6 +28,7 @@ func TestCharacter_String(t *testing.T) {
 }
 
 func TestCharacter_Desc(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		c    layout.Character
@@ -43,6 +46,7 @@ func TestCharacter_Desc(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.c.Desc(); got != tt.want {
 				t.Errorf("Character.Desc() = %q", got)
 			}
@@ -51,6 +55,7 @@ func TestCharacter_Desc(t *testing.T) {
 }
 
 func Test_data_description(t *testing.T) {
+	t.Parallel()
 	type fields struct {
 		datatype layout.DataType
 		filetype layout.FileType
@@ -66,6 +71,7 @@ func Test_data_description(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			d := &layout.Layout{
 				Datatype: tt.fields.datatype,
 				Filetype: tt.fields.filetype,

@@ -17,6 +17,7 @@ func newYear2020() time.Time {
 }
 
 func TestFormat(t *testing.T) {
+	t.Parallel()
 	midnight, nyd := midnight2020(), newYear2020()
 	type args struct {
 		format humanize.Layout
@@ -50,6 +51,7 @@ func TestFormat(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.args.format.Format(tt.args.t); got != tt.want {
 				t.Errorf("Format() = %v, want %v", got, tt.want)
 			}

@@ -9,6 +9,7 @@ import (
 
 //nolint:funlen
 func Test_data_FileType(t *testing.T) {
+	t.Parallel()
 	type fields struct {
 		datatype layout.DataType
 		filetype layout.FileType
@@ -64,6 +65,7 @@ func Test_data_FileType(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			d := &layout.Layout{
 				Datatype: tt.fields.datatype,
 				Filetype: tt.fields.filetype,

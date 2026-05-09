@@ -7,6 +7,7 @@ import (
 )
 
 func TestNone_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		n    layout.None
@@ -17,6 +18,7 @@ func TestNone_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.n.String(); got != tt.want {
 				t.Errorf("None.String() = %v, want %v", got, tt.want)
 			}

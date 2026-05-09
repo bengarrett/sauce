@@ -7,6 +7,7 @@ import (
 )
 
 func TestXBin_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		x    layout.XBin
@@ -17,6 +18,7 @@ func TestXBin_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.x.String(); got != tt.want {
 				t.Errorf("XBin.String() = %v, want %v", got, tt.want)
 			}

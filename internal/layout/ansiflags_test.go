@@ -16,6 +16,7 @@ const (
 )
 
 func TestFlags_parse(t *testing.T) {
+	t.Parallel()
 	var (
 		invalid = layout.ErrInvalid.Error()
 		blink   = layout.BBit("0").String()
@@ -45,6 +46,7 @@ func TestFlags_parse(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := layout.Flags(tt.f).Parse(); !reflect.DeepEqual(got.B.Info, tt.wantB) {
 				t.Errorf("Flags.parse() = %v, want %v", got.B.Info, tt.wantB)
 			}
@@ -62,6 +64,7 @@ func TestFlags_parse(t *testing.T) {
 }
 
 func Test_LsBit_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		ls   layout.LsBit
@@ -75,6 +78,7 @@ func Test_LsBit_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.ls.String(); got != tt.want {
 				t.Errorf("LsBit.String() = %v, want %v", got, tt.want)
 			}
@@ -83,6 +87,7 @@ func Test_LsBit_String(t *testing.T) {
 }
 
 func Test_ArBit_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		ar   layout.ArBit
@@ -96,6 +101,7 @@ func Test_ArBit_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.ar.String(); got != tt.want {
 				t.Errorf("arBit.String() = %v, want %v", got, tt.want)
 			}
@@ -104,6 +110,7 @@ func Test_ArBit_String(t *testing.T) {
 }
 
 func TestBBit_String(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		b    layout.BBit
@@ -115,6 +122,7 @@ func TestBBit_String(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			if got := tt.b.String(); got != tt.want {
 				t.Errorf("BBit.String() = %v, want %v", got, tt.want)
 			}

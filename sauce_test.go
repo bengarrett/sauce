@@ -17,6 +17,7 @@ import (
 const example = "static/sauce.txt"
 
 func TestTrim(t *testing.T) {
+	t.Parallel()
 	none := []byte("This is a string without any SAUCE.")
 	if got := sauce.Trim(none); !reflect.DeepEqual(got, none) {
 		t.Errorf("Trim() = %q, want %q", got, none)
@@ -41,6 +42,7 @@ func TestTrim(t *testing.T) {
 }
 
 func TestDecode(t *testing.T) {
+	t.Parallel()
 	raw, err := static.ReadFile(example)
 	if err != nil {
 		t.Errorf("Decode() %v error: %v", example, err)
@@ -57,6 +59,7 @@ func TestDecode(t *testing.T) {
 }
 
 func TestJSON(t *testing.T) {
+	t.Parallel()
 	const id, ver = "SAUCE", "00"
 	raw, err := static.ReadFile(example)
 	if err != nil {
@@ -99,6 +102,7 @@ func TestJSON(t *testing.T) {
 }
 
 func TestXML(t *testing.T) {
+	t.Parallel()
 	const id, ver = "SAUCE", "00"
 	raw, err := static.ReadFile(example)
 	if err != nil {

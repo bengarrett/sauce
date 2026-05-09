@@ -9,6 +9,7 @@ import (
 )
 
 func Test_data_dates(t *testing.T) {
+	t.Parallel()
 	var (
 		empty   layout.Date
 		empties layout.Dates
@@ -27,6 +28,7 @@ func Test_data_dates(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			d := &layout.Layout{
 				Date: tt.date,
 			}
@@ -38,6 +40,7 @@ func Test_data_dates(t *testing.T) {
 }
 
 func Test_data_DataType(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name     string
 		datatype layout.DataType
@@ -62,6 +65,7 @@ func Test_data_DataType(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			d := &layout.Layout{
 				Datatype: tt.datatype,
 			}
