@@ -83,6 +83,14 @@ func TestJSON(t *testing.T) {
 	if res.Version != ver {
 		t.Errorf("Unmarshal Version got: %v, want %v", res.Version, ver)
 	}
+	const want = "character width"
+	if s := res.Info.Info1.Info; s != want {
+		t.Errorf("Unmarshal Info Info1 got: %v, want %v", s, want)
+	}
+	const value = 977
+	if v := res.Info.Info1.Value; v != value {
+		t.Errorf("Unmarshal Value Info1 got: %v, want %v", v, value)
+	}
 	// test json tab indent
 	gotData, err = rec.JSONIndent("\t")
 	if err != nil {
