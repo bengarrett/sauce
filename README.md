@@ -1,5 +1,5 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/bengarrett/sauce.svg)](https://pkg.go.dev/github.com/bengarrett/sauce) &nbsp; [![Go Report Card](https://goreportcard.com/badge/github.com/bengarrett/sauce)](https://goreportcard.com/report/github.com/bengarrett/sauce)
-![Coverage](https://img.shields.io/badge/Coverage-91.6%25-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-91.8%25-brightgreen)
 
 # Package sauce
 
