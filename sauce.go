@@ -175,9 +175,10 @@ func Decode(b []byte) Record {
 
 // Read and return the SAUCE record in r.
 func Read(r io.Reader) (*Record, error) {
+	const format = "read sauce record: %w"
 	b, err := io.ReadAll(r)
 	if err != nil {
-		return nil, fmt.Errorf("read sauce record: %w", err)
+		return nil, fmt.Errorf(format, err)
 	}
 	d := Decode(b)
 	return &d, nil
@@ -190,9 +191,10 @@ func NewRecord(r io.Reader) (*Record, error) {
 
 // JSON returns the JSON encoding of the r SAUCE record.
 func (r *Record) JSON() ([]byte, error) {
+	const format = "record as json: %w"
 	b, err := json.Marshal(r)
 	if err != nil {
-		return nil, fmt.Errorf("record as json: %w", err)
+		return nil, fmt.Errorf(format, err)
 	}
 	return b, nil
 }
@@ -201,9 +203,10 @@ func (r *Record) JSON() ([]byte, error) {
 // Each JSON element in the output will begin on a new line beginning with one
 // or more copies of indent according to the indentation nesting.
 func (r *Record) JSONIndent(indent string) ([]byte, error) {
+	const format = "record as json indent: %w"
 	b, err := json.MarshalIndent(r, "", indent)
 	if err != nil {
-		return nil, fmt.Errorf("record as json indent: %w", err)
+		return nil, fmt.Errorf(format, err)
 	}
 	return b, nil
 }
@@ -215,9 +218,10 @@ func (r *Record) Valid() bool {
 
 // XML returns the XML encoding of the r SAUCE record.
 func (r *Record) XML() ([]byte, error) {
+	const format = "record as xml: %w"
 	b, err := xml.Marshal(r)
 	if err != nil {
-		return nil, fmt.Errorf("record as xml: %w", err)
+		return nil, fmt.Errorf(format, err)
 	}
 	return b, nil
 }
@@ -226,9 +230,10 @@ func (r *Record) XML() ([]byte, error) {
 // Each XML element in the output will begin on a new line beginning with one
 // or more copies of indent according to the indentation nesting.
 func (r *Record) XMLIndent(indent string) ([]byte, error) {
+	const format = "record as xml indent: %w"
 	b, err := xml.MarshalIndent(r, "", indent)
 	if err != nil {
-		return nil, fmt.Errorf("record as xml indent: %w", err)
+		return nil, fmt.Errorf(format, err)
 	}
 	return b, nil
 }

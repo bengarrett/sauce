@@ -39,21 +39,22 @@ func (d *Layout) Dates() Dates {
 }
 
 func (d *Layout) date() (time.Time, error) {
+	const format = "%s failed: %v: %w"
 	dd := d.Date
 	year, err := strconv.Atoi(string(dd[0:4]))
 	if err != nil {
 		return time.Time{},
-			fmt.Errorf("year failed: %v: %w", year, ErrParseDate)
+			fmt.Errorf(format, "year", year, ErrParseDate)
 	}
 	month, err := strconv.Atoi(string(dd[4:6]))
 	if err != nil {
 		return time.Time{},
-			fmt.Errorf("month failed: %v: %w", month, ErrParseDate)
+			fmt.Errorf(format, "month", month, ErrParseDate)
 	}
 	day, err := strconv.Atoi(string(dd[6:8]))
 	if err != nil {
 		return time.Time{},
-			fmt.Errorf("day failed: %v: %w", day, ErrParseDate)
+			fmt.Errorf(format, "day", day, ErrParseDate)
 	}
 	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC), nil
 }
