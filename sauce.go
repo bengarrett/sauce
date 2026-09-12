@@ -75,25 +75,30 @@ func Trim(b []byte) []byte {
 	if pos == none {
 		return b
 	}
+
 	// the optional comnt index always prefixes the sauce index
 	rec := Decode(b)
 	if ci := rec.Comnt.Index; ci > none {
 		if ci > len(b) {
 			return b
 		}
+
 		// trim the eof marker
 		if ci > 0 && b[ci-1] == EOF {
 			return b[:ci-1]
 		}
+
 		return b[:ci]
 	}
 	if pos > len(b) {
 		return b
 	}
+
 	// trim the eof marker
 	if b[pos-1] == EOF {
 		return b[:pos-1]
 	}
+
 	return b[:pos]
 }
 
@@ -175,12 +180,14 @@ func Decode(b []byte) Record {
 
 // Read and return the SAUCE record in r.
 func Read(r io.Reader) (*Record, error) {
-	const format = "read sauce record: %w"
 	b, err := io.ReadAll(r)
 	if err != nil {
+		const format = "read sauce record: %w"
 		return nil, fmt.Errorf(format, err)
 	}
+
 	d := Decode(b)
+
 	return &d, nil
 }
 
@@ -191,11 +198,12 @@ func NewRecord(r io.Reader) (*Record, error) {
 
 // JSON returns the JSON encoding of the r SAUCE record.
 func (r *Record) JSON() ([]byte, error) {
-	const format = "record as json: %w"
 	b, err := json.Marshal(r)
 	if err != nil {
+		const format = "record as json: %w"
 		return nil, fmt.Errorf(format, err)
 	}
+
 	return b, nil
 }
 
@@ -203,11 +211,12 @@ func (r *Record) JSON() ([]byte, error) {
 // Each JSON element in the output will begin on a new line beginning with one
 // or more copies of indent according to the indentation nesting.
 func (r *Record) JSONIndent(indent string) ([]byte, error) {
-	const format = "record as json indent: %w"
 	b, err := json.MarshalIndent(r, "", indent)
 	if err != nil {
+		const format = "record as json indent: %w"
 		return nil, fmt.Errorf(format, err)
 	}
+
 	return b, nil
 }
 
@@ -218,9 +227,10 @@ func (r *Record) Valid() bool {
 
 // XML returns the XML encoding of the r SAUCE record.
 func (r *Record) XML() ([]byte, error) {
-	const format = "record as xml: %w"
 	b, err := xml.Marshal(r)
 	if err != nil {
+		const format = "record as xml: %w"
+
 		return nil, fmt.Errorf(format, err)
 	}
 	return b, nil
@@ -230,10 +240,11 @@ func (r *Record) XML() ([]byte, error) {
 // Each XML element in the output will begin on a new line beginning with one
 // or more copies of indent according to the indentation nesting.
 func (r *Record) XMLIndent(indent string) ([]byte, error) {
-	const format = "record as xml indent: %w"
 	b, err := xml.MarshalIndent(r, "", indent)
 	if err != nil {
+		const format = "record as xml indent: %w"
 		return nil, fmt.Errorf(format, err)
 	}
+
 	return b, nil
 }
