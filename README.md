@@ -1,5 +1,4 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/bengarrett/sauce.svg)](https://pkg.go.dev/github.com/bengarrett/sauce) &nbsp; [![Go Report Card](https://goreportcard.com/badge/github.com/bengarrett/sauce)](https://goreportcard.com/report/github.com/bengarrett/sauce)
-![Coverage](https://img.shields.io/badge/Coverage-91.8%25-brightgreen)
+[![Go Reference](https://pkg.go.dev/badge/github.com/bengarrett/sauce.svg)](https://pkg.go.dev/github.com/bengarrett/sauce)
 
 # Package sauce
 
@@ -17,16 +16,15 @@ Package sauce is a [Go module](https://go.dev/) that parses SAUCE (Standard Arch
 - Provide comprehensive error handling
 
 > The Standard Architecture for Universal Comment Extensions, or SAUCE as it is
-more commonly known, is an architecture or protocol for attaching metadata
-or comments about files. Primarily designed for [ANSI art files](https://en.wikipedia.org/wiki/ANSI_art), SAUCE supports
-many different file types.
+> more commonly known, is an architecture or protocol for attaching metadata
+> or comments about files. Primarily designed for [ANSI art files](https://en.wikipedia.org/wiki/ANSI_art), SAUCE supports
+> many different file types.
 
 For the complete specification see:<br>
 http://www.acid.org/info/sauce/sauce.htm<br>
 https://github.com/radman1/sauce<br>
 
 ## Quick usage
-
 
 [Go Package with docs and examples.](https://pkg.go.dev/github.com/bengarrett/sauce)
 
@@ -63,23 +61,23 @@ fmt.Printf("%s", js)
 ## SAUCE as an API reference
 
 - `id`<br>
-SAUCE identification. This should be equal to `SAUCE`.
+  SAUCE identification. This should be equal to `SAUCE`.
 
 - `version`<br>
-SAUCE version number, should be `00`.
+  SAUCE version number, should be `00`.
 
 - `title`<br>
-Title of the file.
+  Title of the file.
 
 - `author`<br>
-The nick, name or handle of the creator of the file.
+  The nick, name or handle of the creator of the file.
 
 - `group`<br>
-The name of the group or company the creator is employed by.
+  The name of the group or company the creator is employed by.
 
 - `date` - The date the file was created.
 - - `value` - SAUCE date format, CCYYMMDD (century, year, month, day).
-- - `iso` -  `value` as an ISO 8601 date.
+- - `iso` - `value` as an ISO 8601 date.
 - - `epoch`- `value` as Unix time, the number of seconds since 1 Jan 1970.
 
 - `fileSize`
