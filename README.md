@@ -1,4 +1,5 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/bengarrett/sauce.svg)](https://pkg.go.dev/github.com/bengarrett/sauce)
+![Coverage](https://img.shields.io/badge/Coverage-90.6%25-brightgreen)
 
 # Package sauce
 
