@@ -1,7 +1,7 @@
 module github.com/bengarrett/sauce
 
 // When updating go version, also update .github/workflows/go.yml
-go 1.27.2
+go 1.27.3
 
 require golang.org/x/text v0.43.0
 

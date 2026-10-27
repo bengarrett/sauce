@@ -180,15 +180,52 @@ func Decode(b []byte) Record {
 
 // Read and return the SAUCE record in r.
 func Read(r io.Reader) (*Record, error) {
-	b, err := io.ReadAll(r)
+	var b []byte
+	var err error
+	if rs, ok := r.(io.ReadSeeker); ok {
+		b, err = recordSeek(rs)
+	} else {
+		b, err = io.ReadAll(r)
+	}
 	if err != nil {
 		const format = "read sauce record: %w"
 		return nil, fmt.Errorf(format, err)
 	}
 
 	d := Decode(b)
-
 	return &d, nil
+}
+
+func recordSeek(r io.ReadSeeker) ([]byte, error) {
+	const format = "seek sauce record: %w"
+	size, err := r.Seek(0, io.SeekEnd)
+	if err != nil {
+		return nil, fmt.Errorf(format, err)
+	}
+
+	const maxChunk int64 = 64 * 1024
+	if size < maxChunk {
+		if _, err := r.Seek(0, io.SeekStart); err != nil {
+			return nil, fmt.Errorf(format, err)
+		}
+		b, err := io.ReadAll(r)
+		if err != nil {
+			return nil, fmt.Errorf(format, err)
+		}
+		return b, nil
+	}
+
+	offset := min(size, maxChunk)
+	if _, err := r.Seek(-offset, io.SeekEnd); err != nil {
+		return nil, fmt.Errorf(format, err)
+	}
+
+	b := make([]byte, offset)
+	if _, err := io.ReadFull(r, b); err != nil {
+		return nil, fmt.Errorf(format, err)
+	}
+
+	return b, nil
 }
 
 // NewRecord is deprecated, use [Read].
