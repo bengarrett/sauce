@@ -58,6 +58,7 @@ tasks:
     desc: Update the package dependencies.
     cmds:
       - go get -u -x
+      - go get go.uber.org/nilaway/cmd/nilaway@latest
       - go mod verify
       - go mod tidy
   test:
