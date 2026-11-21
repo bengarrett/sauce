@@ -116,3 +116,25 @@ func Test_Empty(t *testing.T) {
 		t.Errorf("Font = %q, want %q", r.Info.Font, "")
 	}
 }
+
+func TestDecodeTextCP437AndNUL(t *testing.T) {
+	t.Parallel()
+
+	var title layout.Title
+	copy(title[:], []byte{'T', 'e', 's', 't', ' ', 0xB0, 0xB1, 0xB2, 0x00, 0x00})
+	if got, want := title.String(), "Test ░▒▓"; got != want {
+		t.Errorf("Title.String() = %q, want %q", got, want)
+	}
+
+	var group layout.Group
+	copy(group[:], "ACiD\x00   ")
+	if got, want := strings.TrimSpace(group.String()), "ACiD"; got != want {
+		t.Errorf("Group.String() trimmed = %q, want %q", got, want)
+	}
+
+	var author layout.Author
+	copy(author[:], "© 1995")
+	if got, want := strings.TrimSpace(author.String()), "© 1995"; got != want {
+		t.Errorf("Author.String() UTF-8 = %q, want %q", got, want)
+	}
+}

@@ -65,7 +65,7 @@ func CommentByBreak(b []byte) []string {
 		if b[i] == '\n' || b[i] == '\r' {
 			// Handle line ending
 			if i > start {
-				lines = append(lines, string(b[start:i]))
+				lines = append(lines, decodeText(b[start:i]))
 			}
 			start = i + 1
 
@@ -77,7 +77,7 @@ func CommentByBreak(b []byte) []string {
 		}
 	}
 	if start < len(b) {
-		lines = append(lines, string(b[start:]))
+		lines = append(lines, decodeText(b[start:]))
 	}
 
 	return lines
@@ -95,7 +95,7 @@ func CommentByLine(b []byte) []string {
 	lines := make([]string, 0, expectedLines)
 	for i := 0; i < len(b); i += ComntLineSize {
 		end := min(i+ComntLineSize, len(b))
-		lines = append(lines, string(b[i:end]))
+		lines = append(lines, decodeText(b[i:end]))
 	}
 	return lines
 }

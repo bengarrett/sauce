@@ -2,6 +2,9 @@ package layout
 
 import (
 	"strings"
+	"unicode/utf8"
+
+	"golang.org/x/text/encoding/charmap"
 )
 
 //nolint:lll
@@ -101,15 +104,15 @@ func (b Version) String() string {
 }
 
 func (b Title) String() string {
-	return string(b[:])
+	return decodeText(b[:])
 }
 
 func (b Author) String() string {
-	return string(b[:])
+	return decodeText(b[:])
 }
 
 func (b Group) String() string {
-	return string(b[:])
+	return decodeText(b[:])
 }
 
 func (b Date) String() string {
@@ -117,13 +120,26 @@ func (b Date) String() string {
 }
 
 func (t TInfoS) String() string {
-	const nul = 0
-	var sb strings.Builder
-	for _, b := range t {
-		if b == nul {
+	return decodeText(t[:])
+}
+
+// decodeText strips NUL bytes and decodes CP437 byte fields into valid UTF-8,
+// preserving inputs that are already valid UTF-8.
+func decodeText(b []byte) string {
+	clean := make([]byte, 0, len(b))
+	for _, c := range b {
+		if c == 0 {
 			continue
 		}
-		sb.WriteByte(b)
+		clean = append(clean, c)
+	}
+	if utf8.Valid(clean) {
+		return string(clean)
+	}
+	var sb strings.Builder
+	sb.Grow(len(clean))
+	for _, c := range clean {
+		sb.WriteRune(charmap.CodePage437.DecodeByte(c))
 	}
 	return sb.String()
 }
@@ -294,7 +310,7 @@ func (d Data) dataType(i int) DataType {
 }
 
 func (d Data) date(i int) Date {
-	if len(d) <= i+82 {
+	if len(d) <= i+89 {
 		return Date{}
 	}
 	const start = 82
@@ -322,7 +338,7 @@ func (d Data) fileType(i int) FileType {
 }
 
 func (d Data) group(i int) Group {
-	if len(d) <= i+62 {
+	if len(d) <= i+81 {
 		return Group{}
 	}
 	const start = 62
